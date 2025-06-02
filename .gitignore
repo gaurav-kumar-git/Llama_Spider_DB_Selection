@@ -1,0 +1,36 @@
+experiments_70b_llama/.hf_model_cache_70b/
+experiments_70b_llama/Llama-2-70b-chat-hf-local/experiments_70b_llama/.hf_model_cache_70b/
+experiments_70b_llama/Llama-2-70b-chat-hf-local/
+
+# Conda / Python environments
+
+miniconda3/
+llama_spider_env/
+env/
+venv/
+__pycache__/
+*.pyc
+
+# Installers / Large binaries
+Miniconda3-latest-Linux-x86_64.sh
+*.zip
+*.tar.gz
+
+# Jupyter Notebook Checkpoints (can be project-wide or specific)
+.ipynb_checkpoints/
+experiments_70b_llama/.ipynb_checkpoints/ # More specific
+
+# Data - BE VERY CAREFUL NOT TO COMMIT LARGE DATA
+data/
+# *.json # If your dev.json/tables.json are small, you might commit them
+          # But definitely ignore large results.json
+
+# Caches
+.hf_cache/
+.hf_cache_70b/
+
+# VS Code
+.vscode/
+
+# OS files
+.DS_Store
