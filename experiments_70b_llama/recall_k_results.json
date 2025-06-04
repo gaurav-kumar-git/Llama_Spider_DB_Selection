@@ -1,5 +1,5 @@
 {
-  "num_queries_evaluated": 100,//not full 84 queries, experimented with 100 queries but failed in b/w
+  "num_queries_evaluated": 100, //not full (84 queries), experimented with 100 queries but failed in b/w
   "recall_scores": {
     "1": 28.000000000000004,
     "3": 47.0,
