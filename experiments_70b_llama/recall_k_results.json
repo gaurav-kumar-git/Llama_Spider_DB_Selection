@@ -1,11 +1,9 @@
 {
-  "num_queries_evaluated": 100,
+  "num_queries_evaluated": 100,//not full 84 queries, experimented with 100 queries but failed in b/w
   "recall_scores": {
-    "1": 2.0,
-    "3": 6.0,
-    "5": 11.0,
-    "10": 32.0,
-    "15": 48.0,
-    "20": 56.00000000000001
+    "1": 28.000000000000004,
+    "3": 47.0,
+    "5": 56.00000000000001,
+    "10": 66.0
   }
 }
