@@ -1,0 +1,26 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table city, columns = [ city.City_ID ( integer | primary key | values: 1, 2 ), city.Official_Name ( text | values: Grand Falls/Grand-Sault, Perth-Andover ), city.Status ( text | values: Town, Village ), city.Area_km_2 ( real | values: 18.06, 8.89 ), city.Population ( real | values: 5706.0, 1778.0 ), city.Census_Ranking ( text | values: 636 of 5008, 1442 of 5,008 ) ]
+table farm, columns = [ farm.Farm_ID ( integer | primary key | values: 1, 2 ), farm.Year ( real | values: 1927, 1928 ), farm.Total_Horses ( real | values: 5056.5, 5486.9 ), farm.Working_Horses ( real | values: 3900.1, 4090.5 ), farm.Total_Cattle ( real | values: 8374.5, 8604.8 ), farm.Oxen ( real | values: 805.5, 895.3 ), farm.Bulls ( real | values: 31.6, 32.8 ), farm.Cows ( real | values: 3852.1, 3987.0 ), farm.Pigs ( real | values: 4412.4, 6962.9 ), farm.Sheep_and_Goats ( real | values: 7956.3, 8112.2 ) ]
+table farm_competition, columns = [ farm_competition.Competition_ID ( integer | primary key | values: 1, 2 ), farm_competition.Year ( real | values: 2013, 2006 ), farm_competition.Theme ( text | values: Carnival M is back!, Codehunters ), farm_competition.Host_city_ID ( integer | values: 1, 2 ), farm_competition.Hosts ( text | values: Miley Cyrus Jared Leto and Karen Mok, Leehom Wang and Kelly Rowland ) ]
+table competition_record, columns = [ competition_record.Competition_ID ( integer | primary key | values: 1, 2 ), competition_record.Farm_ID ( integer | values: 2, 3 ), competition_record.Rank ( real | values: 1, 2 ) ]
+foreign keys:
+farm_competition.Host_city_ID = city.City_ID
+competition_record.Farm_ID = farm.Farm_ID
+competition_record.Competition_ID = farm_competition.Competition_ID
+]
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: Which dogs have not cost their owner more than 1000 for treatment ? List the dog names .
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

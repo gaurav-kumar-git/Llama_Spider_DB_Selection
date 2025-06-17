@@ -1,0 +1,37 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table venue, columns = [ venue.venueId ( integer | primary key | values: N/A ), venue.venueName ( text | values: N/A ) ]
+table author, columns = [ author.authorId ( integer | primary key | values: N/A ), author.authorName ( text | values: N/A ) ]
+table dataset, columns = [ dataset.datasetId ( integer | primary key | values: N/A ), dataset.datasetName ( text | values: N/A ) ]
+table journal, columns = [ journal.journalId ( integer | primary key | values: N/A ), journal.journalName ( text | values: N/A ) ]
+table keyphrase, columns = [ keyphrase.keyphraseId ( integer | primary key | values: N/A ), keyphrase.keyphraseName ( text | values: N/A ) ]
+table paper, columns = [ paper.paperId ( integer | primary key | values: N/A ), paper.title ( text | values: N/A ), paper.venueId ( integer | values: N/A ), paper.year ( real | values: N/A ), paper.numCiting ( real | values: N/A ), paper.numCitedBy ( real | values: N/A ), paper.journalId ( integer | values: N/A ) ]
+table cite, columns = [ cite.citingPaperId ( integer | primary key | values: N/A ), cite.citedPaperId ( integer | values: N/A ) ]
+table paperDataset, columns = [ paperDataset.paperId ( real | values: N/A ), paperDataset.datasetId ( integer | primary key | values: N/A ) ]
+table paperKeyphrase, columns = [ paperKeyphrase.paperId ( integer | values: N/A ), paperKeyphrase.keyphraseId ( integer | primary key | values: N/A ) ]
+table writes, columns = [ writes.paperId ( integer | primary key | values: N/A ), writes.authorId ( integer | values: N/A ) ]
+foreign keys:
+paper.venueId = venue.venueId
+paper.journalId = journal.journalId
+cite.citingPaperId = paper.paperId
+cite.citedPaperId = paper.paperId
+paperKeyphrase.keyphraseId = keyphrase.keyphraseId
+paperKeyphrase.paperId = paper.paperId
+writes.authorId = author.authorId
+writes.paperId = paper.paperId
+]
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What is the total number of unique official languages spoken in the countries that are founded before 1930?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

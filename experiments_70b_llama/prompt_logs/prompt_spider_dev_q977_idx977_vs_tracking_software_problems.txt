@@ -1,0 +1,32 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Problem_Category_Codes, columns = [ Problem_Category_Codes.problem_category_code ( text | primary key | values: Datatabase, GUI ), Problem_Category_Codes.problem_category_description ( text | values: Database design or contents., User Interface. ) ]
+table Problem_Log, columns = [ Problem_Log.problem_log_id ( integer | primary key | values: 1, 2 ), Problem_Log.assigned_to_staff_id ( integer | values: 11, 12 ), Problem_Log.problem_id ( integer | values: 11, 8 ), Problem_Log.problem_category_code ( text | values: Middleware, GUI ), Problem_Log.problem_status_code ( text | values: Solved, Reported ), Problem_Log.log_entry_date ( datetime | values: 2011-03-13 13:11:57, 1976-03-31 14:03:02 ), Problem_Log.log_entry_description ( text | values: t, a ), Problem_Log.log_entry_fix ( text | values: k, j ), Problem_Log.other_log_details ( text | values: p, s ) ]
+table Problem_Status_Codes, columns = [ Problem_Status_Codes.problem_status_code ( text | primary key | values: Reported, Solved ), Problem_Status_Codes.problem_status_description ( text | values: Reported, Solved ) ]
+table Product, columns = [ Product.product_id ( integer | primary key | values: 1, 2 ), Product.product_name ( text | values: rose, yellow ), Product.product_details ( text | values: k, q ) ]
+table Staff, columns = [ Staff.staff_id ( integer | primary key | values: 1, 2 ), Staff.staff_first_name ( text | values: Lacey, Dameon ), Staff.staff_last_name ( text | values: Bosco, Frami ), Staff.other_staff_details ( text | values: m, x ) ]
+table Problems, columns = [ Problems.problem_id ( integer | primary key | values: 1, 2 ), Problems.product_id ( integer | values: 4, 8 ), Problems.closure_authorised_by_staff_id ( integer | values: 4, 3 ), Problems.reported_by_staff_id ( integer | values: 2, 10 ), Problems.date_problem_reported ( datetime | values: 1978-06-26 19:10:17, 1988-11-07 16:09:31 ), Problems.date_problem_closed ( datetime | values: 2012-07-22 19:24:26, 1973-06-07 04:13:51 ), Problems.problem_description ( text | values: x, w ), Problems.other_problem_details ( text | values: p, i ) ]
+foreign keys:
+Problem_Log.problem_status_code = Problem_Status_Codes.problem_status_code
+Problem_Log.problem_id = Problems.problem_id
+Problem_Log.assigned_to_staff_id = Staff.staff_id
+Problem_Log.problem_category_code = Problem_Category_Codes.problem_category_code
+Problems.reported_by_staff_id = Staff.staff_id
+Problems.product_id = Product.product_id
+Problems.closure_authorised_by_staff_id = Staff.staff_id
+]
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What are all the song names by singers who are older than average?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

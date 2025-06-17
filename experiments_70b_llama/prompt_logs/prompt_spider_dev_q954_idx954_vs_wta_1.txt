@@ -1,0 +1,32 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table players, columns = [ players.player_id ( integer | primary key | values: 200001, 200002 ), players.first_name ( text | values: Martina, Mirjana ), players.last_name ( text | values: Hingis, Lucic ), players.hand ( text | values: R, L ), players.birth_date ( datetime | values: 19800930, 19820309 ), players.country_code ( text | values: SUI, CRO ) ]
+table matches, columns = [ matches.best_of ( real | values: 3 ), matches.draw_size ( real | values: 4, 32 ), matches.loser_age ( real | values: 24.626967830300003, 23.6221765914 ), matches.loser_entry ( text | values:  ), matches.loser_hand ( text | values: R, L ), matches.loser_ht ( real | values: 170, 183 ), matches.loser_id ( integer | values: 201474, 201520 ), matches.loser_ioc ( text | values: POL, CZE ), matches.loser_name ( text | values: Agnieszka Radwanska, Petra Kvitova ), matches.loser_rank ( real | values: 4, 6 ), matches.loser_rank_points ( real | values: 5890, 4370 ), matches.loser_seed ( real | values: 3, 5 ), matches.match_num ( real | values: 297, 296 ), matches.minutes ( real | values: 82, 72 ), matches.round ( text | values: RR, SF ), matches.score ( text | values: 6-2 6-4, 6-2 6-3 ), matches.surface ( text | values: Hard, Clay ), matches.tourney_date ( datetime | values: 20131021, 20160104 ), matches.tourney_id ( text | values: 2013-W-WT-TUR-01A-2013, 2016-1049 ), matches.tourney_level ( text | values: W, I ), matches.tourney_name ( text | values: WTA Championships, Auckland ), matches.winner_age ( real | values: 32.0684462697, 23.6221765914 ), matches.winner_entry ( text | values:  ), matches.winner_hand ( text | values: R, L ), matches.winner_ht ( real | values: 175, 183 ), matches.winner_id ( integer | values: 200033, 201520 ), matches.winner_ioc ( text | values: USA, CZE ), matches.winner_name ( text | values: Serena Williams, Petra Kvitova ), matches.winner_rank ( real | values: 1, 6 ), matches.winner_rank_points ( real | values: 12040, 4370 ), matches.winner_seed ( real | values: 1, 5 ), matches.year ( real | values: 2013, 2016 ) ]
+table rankings, columns = [ rankings.ranking_date ( datetime | values: 20000101, 20000103 ), rankings.ranking ( real | values: 3, 4 ), rankings.player_id ( integer | values: 200748, 200033 ), rankings.ranking_points ( real | values: 4378, 3021 ), rankings.tours ( real | values: 13, 15 ) ]
+foreign keys:
+matches.winner_id = players.player_id
+matches.loser_id = players.player_id
+rankings.player_id = players.player_id
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--Which year had the most matches?
+--What are the names of players who won in both 2013 and 2016?
+--How many matches were played in each year?
+--How many matches were played in 2013 or 2016?
+--Find the year that has the most number of matches.
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: Find all airlines that have fewer than 200 flights.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
