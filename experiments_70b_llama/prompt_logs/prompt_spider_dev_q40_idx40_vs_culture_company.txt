@@ -1,0 +1,24 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table book_club, columns = [ book_club.book_club_id ( integer | primary key | values: 1, 2 ), book_club.Year ( real | values: 1989, 1990 ), book_club.Author_or_Editor ( text | values: Michael Nava, Donald Ward ), book_club.Book_Title ( text | values: Goldenboy, Death Takes the Stage ), book_club.Publisher ( text | values: Alyson, St. Martin's Press ), book_club.Category ( text | values: Gay M/SF, Lesb. M/SF ), book_club.Result ( text | values: Won [A ], Nom ) ]
+table movie, columns = [ movie.movie_id ( integer | primary key | values: 1, 2 ), movie.Title ( text | values: The Boondock Saints, The Big Kahuna ), movie.Year ( real | values: 1999, 2000 ), movie.Director ( text | values: Troy Duffy, John Swanbeck ), movie.Budget_million ( real | values: 6.0, 7.0 ), movie.Gross_worldwide ( real | values: 30471, 3728888 ) ]
+table culture_company, columns = [ culture_company.Company_name ( text | primary key | values: Cathay Pacific Culture, Cathay Pacific Culture Services (HK) Limited ), culture_company.Type ( text | values: Corporate, Joint Venture ), culture_company.Incorporated_in ( text | values: China, Hong Kong ), culture_company.Group_Equity_Shareholding ( real | values: 18.77, 49.0 ), culture_company.book_club_id ( text | values: 1, 2 ), culture_company.movie_id ( text | values: 2, 3 ) ]
+foreign keys:
+culture_company.movie_id = movie.movie_id
+culture_company.book_club_id = book_club.book_club_id
+]
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: find the names of museums which have more staff than the minimum staff number of all museums opened after 2010.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

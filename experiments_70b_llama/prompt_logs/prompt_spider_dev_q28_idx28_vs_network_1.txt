@@ -1,0 +1,33 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Highschooler, columns = [ Highschooler.ID ( integer | primary key | values: 1025, 1101 ), Highschooler.name ( text | values: Jordan, Gabriel ), Highschooler.grade ( real | values: 9, 10 ) ]
+table Friend, columns = [ Friend.student_id ( integer | primary key | values: 1101, 1247 ), Friend.friend_id ( integer | values: 1381, 1689 ) ]
+table Likes, columns = [ Likes.student_id ( integer | primary key | values: 1025, 1247 ), Likes.liked_id ( integer | values: 1709, 1689 ) ]
+foreign keys:
+Friend.friend_id = Highschooler.ID
+Friend.student_id = Highschooler.ID
+Likes.student_id = Highschooler.ID
+Likes.liked_id = Highschooler.ID
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--Count the number of high schoolers.
+--Show the names of students who have a grade higher than 5 and have at least 2 friends.
+--Count the number of friends Kyle has.
+--How many high schoolers are there?
+--What is the average grade of students who have friends?
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What is the program id and the summary of the degree that has the most students enrolled?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

@@ -1,0 +1,28 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Attribute_Definitions, columns = [ Attribute_Definitions.attribute_id ( integer | primary key | values: 1, 2 ), Attribute_Definitions.attribute_name ( text | values: Green, Black ), Attribute_Definitions.attribute_data_type ( text | values: Bool ) ]
+table Catalogs, columns = [ Catalogs.catalog_id ( integer | primary key | values: 1, 2 ), Catalogs.catalog_name ( text | values: Chocolate, Coffee Bean ), Catalogs.catalog_publisher ( text | values: Koepp-Rutherford handmade chocolate store, Murray Coffee shop ), Catalogs.date_of_publication ( datetime | values: 2013-03-15 05:09:17, 2012-04-13 06:37:09 ), Catalogs.date_of_latest_revision ( datetime | values: 2017-09-26 12:10:36, 2017-10-26 01:16:51 ) ]
+table Catalog_Structure, columns = [ Catalog_Structure.catalog_level_number ( integer | primary key | values: 1, 8 ), Catalog_Structure.catalog_id ( integer | values: 1, 2 ), Catalog_Structure.catalog_level_name ( text | values: Category, Sub-Category ) ]
+table Catalog_Contents, columns = [ Catalog_Contents.catalog_entry_id ( integer | primary key | values: 1, 2 ), Catalog_Contents.catalog_level_number ( integer | values: 1, 8 ), Catalog_Contents.parent_entry_id ( real | values: 5, 6 ), Catalog_Contents.previous_entry_id ( real | values: 9, 6 ), Catalog_Contents.next_entry_id ( real | values: 7, 8 ), Catalog_Contents.catalog_entry_name ( text | values: Cola, Root beer ), Catalog_Contents.product_stock_number ( text | values: 89 cp, 37 hq ), Catalog_Contents.price_in_dollars ( real | values: 200.78, 687.59 ), Catalog_Contents.price_in_euros ( real | values: 159.84, 590.11 ), Catalog_Contents.price_in_pounds ( real | values: 172.17, 471.78 ), Catalog_Contents.capacity ( text | values: 1, 8 ), Catalog_Contents.length ( text | values: 3, 6 ), Catalog_Contents.height ( text | values: 9, 5 ), Catalog_Contents.width ( text | values: 5, 6 ) ]
+table Catalog_Contents_Additional_Attributes, columns = [ Catalog_Contents_Additional_Attributes.catalog_entry_id ( integer | values: 5, 15 ), Catalog_Contents_Additional_Attributes.catalog_level_number ( integer | values: 8, 9 ), Catalog_Contents_Additional_Attributes.attribute_id ( real | values: 4, 3 ), Catalog_Contents_Additional_Attributes.attribute_value ( text | values: 1, 0 ) ]
+foreign keys:
+Catalog_Structure.catalog_id = Catalogs.catalog_id
+Catalog_Contents.catalog_level_number = Catalog_Structure.catalog_level_number
+Catalog_Contents_Additional_Attributes.catalog_level_number = Catalog_Structure.catalog_level_number
+Catalog_Contents_Additional_Attributes.catalog_entry_id = Catalog_Contents.catalog_entry_id
+]
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What are the different template type codes?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

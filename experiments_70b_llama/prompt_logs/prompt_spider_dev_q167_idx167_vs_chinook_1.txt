@@ -1,0 +1,41 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Album, columns = [ Album.AlbumId ( integer | primary key | values: 1, 4 ), Album.Title ( text | values: For Those About To Rock We Salute You, Balls to the Wall ), Album.ArtistId ( integer | values: 1, 2 ) ]
+table Artist, columns = [ Artist.ArtistId ( integer | primary key | values: 1, 2 ), Artist.Name ( text | values: AC/DC, Accept ) ]
+table Customer, columns = [ Customer.CustomerId ( integer | primary key | values: 1, 3 ), Customer.FirstName ( text | values: Luís, Leonie ), Customer.LastName ( text | values: Gonçalves, Köhler ), Customer.Company ( text | values: Embraer - Empresa Brasileira de Aeronáutica S.A., JetBrains s.r.o. ), Customer.Address ( text | values: Av. Brigadeiro Faria Lima, 2170, Theodor-Heuss-Straße 34 ), Customer.City ( text | values: São José dos Campos, Stuttgart ), Customer.State ( text | values: SP, QC ), Customer.Country ( text | values: Brazil, Germany ), Customer.PostalCode ( text | values: 12227-000, 70174 ), Customer.Phone ( text | values: +55 (12) 3923-5555, +49 0711 2842222 ), Customer.Fax ( text | values: +55 (12) 3923-5566, +420 2 4172 5555 ), Customer.Email ( text | values: luisg@embraer.com.br, leonekohler@surfeu.de ), Customer.SupportRepId ( integer | values: 3, 4 ) ]
+table Employee, columns = [ Employee.EmployeeId ( integer | primary key | values: 1, 2 ), Employee.LastName ( text | values: Adams, Edwards ), Employee.FirstName ( text | values: Andrew, Nancy ), Employee.Title ( text | values: General Manager, Sales Manager ), Employee.ReportsTo ( integer | values: 1, 2 ), Employee.BirthDate ( datetime | values: 1962-02-18 00:00:00, 1958-12-08 00:00:00 ), Employee.HireDate ( datetime | values: 2002-08-14 00:00:00, 2002-05-01 00:00:00 ), Employee.Address ( text | values: 11120 Jasper Ave NW, 825 8 Ave SW ), Employee.City ( text | values: Edmonton, Calgary ), Employee.State ( text | values: AB ), Employee.Country ( text | values: Canada ), Employee.PostalCode ( text | values: T5K 2N1, T2P 2T3 ), Employee.Phone ( text | values: +1 (780) 428-9482, +1 (403) 262-3443 ), Employee.Fax ( text | values: +1 (780) 428-3457, +1 (403) 262-3322 ), Employee.Email ( text | values: andrew@chinookcorp.com, nancy@chinookcorp.com ) ]
+table Genre, columns = [ Genre.GenreId ( integer | primary key | values: 1, 2 ), Genre.Name ( text | values: Rock, Jazz ) ]
+table Invoice, columns = [ Invoice.InvoiceId ( integer | primary key | values: 98, 121 ), Invoice.CustomerId ( integer | values: 1, 2 ), Invoice.InvoiceDate ( datetime | values: 2009-01-01 00:00:00, 2009-01-02 00:00:00 ), Invoice.BillingAddress ( text | values: Theodor-Heuss-Straße 34, Ullevålsveien 14 ), Invoice.BillingCity ( text | values: Stuttgart, Oslo ), Invoice.BillingState ( text | values: AB, MA ), Invoice.BillingCountry ( text | values: Germany, Norway ), Invoice.BillingPostalCode ( text | values: 70174, 0171 ), Invoice.Total ( real | values: 1.98, 3.96 ) ]
+table InvoiceLine, columns = [ InvoiceLine.InvoiceLineId ( integer | primary key | values: 579, 1 ), InvoiceLine.InvoiceId ( integer | values: 1, 2 ), InvoiceLine.TrackId ( integer | values: 1, 2 ), InvoiceLine.UnitPrice ( real | values: 0.99, 1.99 ), InvoiceLine.Quantity ( real | values: 1 ) ]
+table MediaType, columns = [ MediaType.MediaTypeId ( integer | primary key | values: 1, 2 ), MediaType.Name ( text | values: MPEG audio file, Protected AAC audio file ) ]
+table Playlist, columns = [ Playlist.PlaylistId ( integer | primary key | values: 1, 2 ), Playlist.Name ( text | values: Music, Movies ) ]
+table PlaylistTrack, columns = [ PlaylistTrack.PlaylistId ( integer | primary key | values: 1, 3 ), PlaylistTrack.TrackId ( integer | values: 1, 2 ) ]
+table Track, columns = [ Track.TrackId ( integer | primary key | values: 1, 6 ), Track.Name ( text | values: For Those About To Rock (We Salute You), Balls to the Wall ), Track.AlbumId ( integer | values: 1, 2 ), Track.MediaTypeId ( integer | values: 1, 2 ), Track.GenreId ( integer | values: 1, 2 ), Track.Composer ( text | values: Angus Young, Malcolm Young, Brian Johnson, F. Baltes, S. Kaufman, U. Dirkscneider & W. Hoffman ), Track.Milliseconds ( real | values: 343719, 342562 ), Track.Bytes ( real | values: 11170334, 5510424 ), Track.UnitPrice ( real | values: 0.99, 1.99 ) ]
+foreign keys:
+Album.ArtistId = Artist.ArtistId
+Customer.SupportRepId = Employee.EmployeeId
+Employee.ReportsTo = Employee.EmployeeId
+Invoice.CustomerId = Customer.CustomerId
+InvoiceLine.TrackId = Track.TrackId
+InvoiceLine.InvoiceId = Invoice.InvoiceId
+PlaylistTrack.TrackId = Track.TrackId
+PlaylistTrack.PlaylistId = Playlist.PlaylistId
+Track.MediaTypeId = MediaType.MediaTypeId
+Track.GenreId = Genre.GenreId
+Track.AlbumId = Album.AlbumId
+]
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What is the number of carsw ith over 6 cylinders?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

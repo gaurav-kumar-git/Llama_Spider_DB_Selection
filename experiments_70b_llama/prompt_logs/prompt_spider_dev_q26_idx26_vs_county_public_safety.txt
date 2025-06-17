@@ -1,0 +1,22 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table county_public_safety, columns = [ county_public_safety.County_ID ( integer | primary key | values: 1, 2 ), county_public_safety.Name ( text | values: Abbotsford, Burnaby ), county_public_safety.Population ( real | values: 128165, 204320 ), county_public_safety.Police_officers ( real | values: 187, 253 ), county_public_safety.Residents_per_officer ( real | values: 685, 808 ), county_public_safety.Case_burden ( real | values: 81, 100 ), county_public_safety.Crime_rate ( real | values: 118.0, 123.0 ), county_public_safety.Police_force ( text | values: Abbotsford Police Department, RCMP ), county_public_safety.Location ( text | values: East, West ) ]
+table city, columns = [ city.City_ID ( integer | primary key | values: 1, 2 ), city.County_ID ( integer | values: 1, 2 ), city.Name ( text | values: Adjuntas, Aguada ), city.White ( real | values: 93.1, 86.6 ), city.Black ( real | values: 3.1, 5.3 ), city.Amerindian ( real | values: 0.3, 0.6 ), city.Asian ( real | values: 0.0, 0.1 ), city.Multiracial ( real | values: 3.4, 7.7 ), city.Hispanic ( real | values: 99.6, 99.4 ) ]
+foreign keys:
+city.County_ID = county_public_safety.County_ID
+]
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What is the document id with least number of paragraphs?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

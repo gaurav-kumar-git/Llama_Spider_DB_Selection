@@ -1,0 +1,49 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table circuits, columns = [ circuits.circuitId ( integer | primary key | values: 1, 2 ), circuits.circuitRef ( text | values: albert_park, sepang ), circuits.name ( text | values: Albert Park Grand Prix Circuit, Sepang International Circuit ), circuits.location ( text | values: Melbourne, Kuala Lumpur ), circuits.country ( text | values: Australia, Malaysia ), circuits.lat ( real | values: -37.8497, 2.76083 ), circuits.lng ( real | values: 144.968, 101.738 ), circuits.alt ( real | values: 10,  ), circuits.url ( text | values: http://en.wikipedia.org/wiki/Melbourne_Grand_Prix_Circuit, http://en.wikipedia.org/wiki/Sepang_International_Circuit ) ]
+table races, columns = [ races.raceId ( integer | primary key | values: 1, 2 ), races.year ( real | values: 2009, 2008 ), races.round ( real | values: 1, 2 ), races.circuitId ( integer | values: 1, 2 ), races.name ( text | values: Australian Grand Prix, Malaysian Grand Prix ), races.date ( text | values: 2009-03-29, 2009-04-05 ), races.time ( text | values: 06:00:00, 09:00:00 ), races.url ( text | values: http://en.wikipedia.org/wiki/2009_Australian_Grand_Prix, http://en.wikipedia.org/wiki/2009_Malaysian_Grand_Prix ) ]
+table drivers, columns = [ drivers.driverId ( integer | primary key | values: 1, 2 ), drivers.driverRef ( text | values: hamilton, heidfeld ), drivers.number ( real | values: 44,  ), drivers.code ( text | values: HAM, HEI ), drivers.forename ( text | values: Lewis, Nick ), drivers.surname ( text | values: Hamilton, Heidfeld ), drivers.dob ( text | values: 07/01/1985, 10/05/1977 ), drivers.nationality ( text | values: British, German ), drivers.url ( text | values: http://en.wikipedia.org/wiki/Lewis_Hamilton, http://en.wikipedia.org/wiki/Nick_Heidfeld ) ]
+table status, columns = [ status.statusId ( integer | primary key | values: 1, 2 ), status.status ( text | values: Finished, Disqualified ) ]
+table seasons, columns = [ seasons.year ( integer | primary key | values: 1950, 1951 ), seasons.url ( text | values: http://en.wikipedia.org/wiki/1950_Formula_One_season, http://en.wikipedia.org/wiki/1951_Formula_One_season ) ]
+table constructors, columns = [ constructors.constructorId ( integer | primary key | values: 1, 2 ), constructors.constructorRef ( text | values: mclaren, bmw_sauber ), constructors.name ( text | values: McLaren, BMW Sauber ), constructors.nationality ( text | values: British, German ), constructors.url ( text | values: http://en.wikipedia.org/wiki/McLaren, http://en.wikipedia.org/wiki/BMW_Sauber ) ]
+table constructorStandings, columns = [ constructorStandings.constructorStandingsId ( integer | primary key | values: 1, 2 ), constructorStandings.raceId ( integer | values: 18, 19 ), constructorStandings.constructorId ( integer | values: 1, 2 ), constructorStandings.points ( real | values: 14.0, 8.0 ), constructorStandings.position ( real | values: 1, 3 ), constructorStandings.positionText ( text | values: 1, 3 ), constructorStandings.wins ( real | values: 1, 0 ) ]
+table results, columns = [ results.resultId ( integer | primary key | values: 1, 2 ), results.raceId ( integer | values: 18, 19 ), results.driverId ( integer | values: 1, 2 ), results.constructorId ( integer | values: 1, 2 ), results.number ( real | values: 22, 3 ), results.grid ( real | values: 1, 5 ), results.position ( real | values: 1, 2 ), results.positionText ( text | values: 1, 2 ), results.positionOrder ( real | values: 1, 2 ), results.points ( real | values: 10.0, 8.0 ), results.laps ( real | values: 58, 57 ), results.time ( text | values: 34:50.6, 5.478 ), results.milliseconds ( real | values: 5690616, 5696094 ), results.fastestLap ( real | values: 39, 41 ), results.rank ( real | values: 2, 3 ), results.fastestLapTime ( text | values: 01:27.5, 01:27.7 ), results.fastestLapSpeed ( text | values: 218.3, 217.586 ), results.statusId ( real | values: 1, 11 ) ]
+table driverStandings, columns = [ driverStandings.driverStandingsId ( integer | primary key | values: 1, 2 ), driverStandings.raceId ( integer | values: 18, 19 ), driverStandings.driverId ( integer | values: 1, 2 ), driverStandings.points ( real | values: 10.0, 8.0 ), driverStandings.position ( real | values: 1, 2 ), driverStandings.positionText ( text | values: 1, 2 ), driverStandings.wins ( real | values: 1, 0 ) ]
+table constructorResults, columns = [ constructorResults.constructorResultsId ( integer | primary key | values: 1, 2 ), constructorResults.raceId ( integer | values: 18, 19 ), constructorResults.constructorId ( integer | values: 1, 2 ), constructorResults.points ( real | values: 14.0, 8.0 ), constructorResults.status ( real | values: NULL, D ) ]
+table qualifying, columns = [ qualifying.qualifyId ( integer | primary key | values: 1, 2 ), qualifying.raceId ( integer | values: 18, 19 ), qualifying.driverId ( integer | values: 1, 9 ), qualifying.constructorId ( integer | values: 1, 2 ), qualifying.number ( real | values: 22, 4 ), qualifying.position ( real | values: 1, 2 ), qualifying.q1 ( text | values: 1:26.572, 1:26.103 ), qualifying.q2 ( text | values: 1:25.187, 1:25.315 ), qualifying.q3 ( text | values: 1:26.714, 1:26.869 ) ]
+table pitStops, columns = [ pitStops.raceId ( integer | primary key | values: N/A ), pitStops.driverId ( integer | values: N/A ), pitStops.stop ( real | values: N/A ), pitStops.lap ( real | values: N/A ), pitStops.time ( text | values: N/A ), pitStops.duration ( text | values: N/A ), pitStops.milliseconds ( real | values: N/A ) ]
+table lapTimes, columns = [ lapTimes.raceId ( integer | primary key | values: N/A ), lapTimes.driverId ( integer | values: N/A ), lapTimes.lap ( real | values: N/A ), lapTimes.position ( real | values: N/A ), lapTimes.time ( text | values: N/A ), lapTimes.milliseconds ( real | values: N/A ) ]
+foreign keys:
+races.circuitId = circuits.circuitId
+constructorStandings.raceId = races.raceId
+constructorStandings.constructorId = constructors.constructorId
+results.driverId = drivers.driverId
+results.raceId = races.raceId
+results.constructorId = constructors.constructorId
+driverStandings.driverId = drivers.driverId
+driverStandings.raceId = races.raceId
+constructorResults.raceId = races.raceId
+constructorResults.constructorId = constructors.constructorId
+qualifying.driverId = drivers.driverId
+qualifying.raceId = races.raceId
+qualifying.constructorId = constructors.constructorId
+pitStops.driverId = drivers.driverId
+pitStops.raceId = races.raceId
+lapTimes.driverId = drivers.driverId
+lapTimes.raceId = races.raceId
+]
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: For model volvo, how many cylinders does the car with the least accelerate have?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

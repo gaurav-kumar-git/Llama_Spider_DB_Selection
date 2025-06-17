@@ -1,0 +1,33 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Customers, columns = [ Customers.Customer_ID ( integer | primary key | values: 194, 214 ), Customers.Customer_name ( text | values: America Jaskolski, Ellsworth Paucek ) ]
+table Services, columns = [ Services.Service_ID ( integer | primary key | values: 1, 4 ), Services.Service_name ( text | values: New policy application, Close a policy ) ]
+table Available_Policies, columns = [ Available_Policies.Policy_ID ( integer | primary key | values: 246, 257 ), Available_Policies.policy_type_code ( text | values: Life Insurance, Property Insurance ), Available_Policies.Customer_Phone ( text | values: +16(2)5838999222, 242.763.9214 ) ]
+table Customers_Policies, columns = [ Customers_Policies.Customer_ID ( integer | primary key | values: 214, 256 ), Customers_Policies.Policy_ID ( integer | values: 257, 301 ), Customers_Policies.Date_Opened ( datetime | values: 2016-11-19, 2016-04-12 ), Customers_Policies.Date_Closed ( datetime | values: 2018-03-04, 2018-02-07 ) ]
+table First_Notification_of_Loss, columns = [ First_Notification_of_Loss.FNOL_ID ( integer | primary key | values: 532, 1611 ), First_Notification_of_Loss.Customer_ID ( integer | values: 214, 996 ), First_Notification_of_Loss.Policy_ID ( integer | values: 257, 993 ), First_Notification_of_Loss.Service_ID ( integer | values: 6, 9 ) ]
+table Claims, columns = [ Claims.Claim_ID ( integer | primary key | values: 134, 145 ), Claims.FNOL_ID ( integer | values: 1722, 1611 ), Claims.Effective_Date ( datetime | values: 1973-08-18, 2014-10-19 ) ]
+table Settlements, columns = [ Settlements.Settlement_ID ( integer | primary key | values: 161, 176 ), Settlements.Claim_ID ( integer | values: 717, 641 ), Settlements.Effective_Date ( datetime | values: 2009-11-20, 1971-06-29 ), Settlements.Settlement_Amount ( real | values: 6451.65, 1588.45 ) ]
+foreign keys:
+Customers_Policies.Policy_ID = Available_Policies.Policy_ID
+Customers_Policies.Customer_ID = Customers.Customer_ID
+First_Notification_of_Loss.Customer_ID = Customers_Policies.Customer_ID
+First_Notification_of_Loss.Policy_ID = Customers_Policies.Policy_ID
+First_Notification_of_Loss.Service_ID = Services.Service_ID
+Claims.FNOL_ID = First_Notification_of_Loss.FNOL_ID
+Settlements.Claim_ID = Claims.Claim_ID
+]
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: Which year has most number of concerts?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

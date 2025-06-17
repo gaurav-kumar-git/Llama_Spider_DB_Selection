@@ -1,0 +1,24 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table station, columns = [ station.id ( integer | primary key | values: 2, 3 ), station.name ( text | values: San Jose Diridon Caltrain Station, San Jose Civic Center ), station.lat ( real | values: 37.329732, 37.330698 ), station.long ( real | values: -121.90178200000001, -121.888979 ), station.dock_count ( real | values: 27, 15 ), station.city ( text | values: San Jose, Redwood City ), station.installation_date ( text | values: 8/6/2013, 8/5/2013 ) ]
+table status, columns = [ status.station_id ( integer | values: 3, 4 ), status.bikes_available ( real | values: 12, 6 ), status.docks_available ( real | values: 3, 5 ), status.time ( text | values: 2015-06-02 12:46:02, 2015-06-02 12:47:02 ) ]
+table trip, columns = [ trip.id ( integer | primary key | values: 900504, 900505 ), trip.duration ( real | values: 384, 588 ), trip.start_date ( text | values: 8/21/2015 17:03, 8/21/2015 17:04 ), trip.start_station_name ( text | values: Howard at 2nd, South Van Ness at Market ), trip.start_station_id ( real | values: 63, 66 ), trip.end_date ( text | values: 8/21/2015 17:10, 8/21/2015 17:13 ), trip.end_station_name ( text | values: San Francisco Caltrain 2 (330 Townsend), Harry Bridges Plaza (Ferry Building) ), trip.end_station_id ( real | values: 69, 50 ), trip.bike_id ( real | values: 454, 574 ), trip.subscription_type ( text | values: Subscriber, Customer ), trip.zip_code ( real | values: 94041, 95119 ) ]
+table weather, columns = [ weather.date ( text | values: 8/29/2013, 8/30/2013 ), weather.max_temperature_f ( real | values: 74, 78 ), weather.mean_temperature_f ( real | values: 68, 69 ), weather.min_temperature_f ( real | values: 61, 60 ), weather.max_dew_point_f ( real | values: 61, 57 ), weather.mean_dew_point_f ( real | values: 58, 56 ), weather.min_dew_point_f ( real | values: 56, 54 ), weather.max_humidity ( real | values: 93, 90 ), weather.mean_humidity ( real | values: 75, 70 ), weather.min_humidity ( real | values: 57, 50 ), weather.max_sea_level_pressure_inches ( real | values: 30.07, 30.05 ), weather.mean_sea_level_pressure_inches ( real | values: 30.02, 30 ), weather.min_sea_level_pressure_inches ( real | values: 29.97, 29.93 ), weather.max_visibility_miles ( real | values: 10, 9 ), weather.mean_visibility_miles ( real | values: 10, 9 ), weather.min_visibility_miles ( real | values: 10, 7 ), weather.max_wind_Speed_mph ( real | values: 23, 29 ), weather.mean_wind_speed_mph ( real | values: 11, 13 ), weather.max_gust_speed_mph ( real | values: 28, 35 ), weather.precipitation_inches ( real | values: 0, 0.23 ), weather.cloud_cover ( real | values: 4, 2 ), weather.events ( text | values: , Fog ), weather.wind_dir_degrees ( real | values: 286, 291 ), weather.zip_code ( real | values: 94107, 94063 ) ]
+foreign keys:
+status.station_id = station.id
+]
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: List the title of all cartoon directed by "Ben Jones" or "Brandon Vietti".
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

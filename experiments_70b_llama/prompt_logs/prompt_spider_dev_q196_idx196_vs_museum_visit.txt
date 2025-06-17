@@ -1,0 +1,31 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table museum, columns = [ museum.Museum_ID ( integer | primary key | values: 1, 2 ), museum.Name ( text | values: Plaza Museum, Capital Plaza Museum ), museum.Num_of_Staff ( real | values: 62, 25 ), museum.Open_Year ( text | values: 2000, 2012 ) ]
+table visitor, columns = [ visitor.ID ( integer | primary key | values: 1, 2 ), visitor.Name ( text | values: Gonzalo Higuaín , Guti Midfielder ), visitor.Level_of_membership ( real | values: 8, 5 ), visitor.Age ( real | values: 35, 28 ) ]
+table visit, columns = [ visit.Museum_ID ( integer | primary key | values: 1, 2 ), visit.visitor_ID ( text | values: 5, 3 ), visit.Num_of_Ticket ( real | values: 20, 4 ), visit.Total_spent ( real | values: 320.14, 89.98 ) ]
+foreign keys:
+visit.visitor_ID = visitor.ID
+visit.Museum_ID = museum.Museum_ID
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--Find the id and name of the museum that has the most staff members?
+--find the names of museums which have more staff than the minimum staff number of all museums opened after 2010.
+--find the id, name and age for visitors who visited some museums more than once.
+--How many museums were opened after 2013 or before 2008?
+--What is the name of the visitor who visited both a museum opened before 2009 and a museum opened after 2011?
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: Show all template type codes and number of templates for each.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
