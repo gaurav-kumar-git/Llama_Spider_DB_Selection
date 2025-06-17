@@ -1,0 +1,24 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table stadium, columns = [ stadium.id ( integer | primary key | values: 1, 2 ), stadium.name ( text | values: Cowboys Stadium, FedExField ), stadium.Home_Games ( real | values: 8 ), stadium.Average_Attendance ( real | values: 87047.0, 83172.0 ), stadium.Total_Attendance ( real | values: 696377.0, 665380.0 ), stadium.Capacity_Percentage ( real | values: 108.8, 90.7 ) ]
+table game, columns = [ game.stadium_id ( integer | values: 1, 2 ), game.id ( integer | primary key | values: 1, 2 ), game.Season ( real | values: 2007, 2008 ), game.Date ( text | values: 18 May 2007, 22 September 2007 ), game.Home_team ( text | values: Quruvchi, Pakhtakor ), game.Away_team ( text | values: Pakhtakor, Quruvchi ), game.Score ( text | values: 1–1, 0–0 ), game.Competition ( text | values: League, Cup ) ]
+table injury_accident, columns = [ injury_accident.game_id ( integer | values: 1, 2 ), injury_accident.id ( integer | primary key | values: 1, 2 ), injury_accident.Player ( text | values: Davide Santon, Maicon ), injury_accident.Injury ( text | values: Clean-up surgery on his right knee, Knee problem ), injury_accident.Number_of_matches ( text | values: 12, 2 ), injury_accident.Source ( text | values: inter.it ) ]
+foreign keys:
+game.stadium_id = stadium.id
+injury_accident.game_id = game.id
+]
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: List the name, date and result of each battle.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

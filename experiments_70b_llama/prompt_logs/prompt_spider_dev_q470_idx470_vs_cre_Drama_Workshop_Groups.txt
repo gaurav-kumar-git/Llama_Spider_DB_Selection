@@ -1,0 +1,62 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Ref_Payment_Methods, columns = [ Ref_Payment_Methods.payment_method_code ( text | primary key | values: American E, MasterCard ), Ref_Payment_Methods.payment_method_description ( text | values: credit, debit ) ]
+table Ref_Service_Types, columns = [ Ref_Service_Types.Service_Type_Code ( text | primary key | values: 1, 2 ), Ref_Service_Types.Parent_Service_Type_Code ( text | values: 1 ), Ref_Service_Types.Service_Type_Description ( text | values: provide photo service, provide dinning service ) ]
+table Addresses, columns = [ Addresses.Address_ID ( text | primary key | values: 110, 124 ), Addresses.Line_1 ( text | values: 4753 Dach Highway, 391 Vandervort Fall Apt. 446 ), Addresses.Line_2 ( text | values: Suite 846, Apt. 107 ), Addresses.City_Town ( text | values: Feliciaberg, West Sherwoodstad ), Addresses.State_County ( text | values: Florida, Indiana ), Addresses.Other_Details ( text | values: N/A ) ]
+table Products, columns = [ Products.Product_ID ( text | primary key | values: 11, 154 ), Products.Product_Name ( text | values: photo, film ), Products.Product_Price ( real | values: 4448536, 2302 ), Products.Product_Description ( text | values: N/A ), Products.Other_Product_Service_Details ( text | values: N/A ) ]
+table Marketing_Regions, columns = [ Marketing_Regions.Marketing_Region_Code ( text | primary key | values: CA, CN ), Marketing_Regions.Marketing_Region_Name ( text | values: Canada, China ), Marketing_Regions.Marketing_Region_Descriptrion ( text | values: Our target market, Our largest market ), Marketing_Regions.Other_Details ( text | values: N/A ) ]
+table Clients, columns = [ Clients.Client_ID ( integer | primary key | values: 423, 426 ), Clients.Address_ID ( integer | values: 201, 383 ), Clients.Customer_Email_Address ( text | values: branson94@example.net, alba04@example.com ), Clients.Customer_Name ( text | values: Clifford, Bettye ), Clients.Customer_Phone ( text | values: (042)912-3404x5135, (604)849-0214 ), Clients.Other_Details ( text | values: VIP, Super VIP ) ]
+table Drama_Workshop_Groups, columns = [ Drama_Workshop_Groups.Workshop_Group_ID ( integer | primary key | values: 136, 140 ), Drama_Workshop_Groups.Address_ID ( integer | values: 383, 180 ), Drama_Workshop_Groups.Currency_Code ( text | values: EU, USD ), Drama_Workshop_Groups.Marketing_Region_Code ( text | values: FR, DE ), Drama_Workshop_Groups.Store_Name ( text | values: Amely Cafe, Veda Film ), Drama_Workshop_Groups.Store_Phone ( text | values: 122-084-8029, 793-966-9311x5303 ), Drama_Workshop_Groups.Store_Email_Address ( text | values: amely.ruecker@example.com, breitenberg.veda@example.com ), Drama_Workshop_Groups.Other_Details ( text | values: Good, Bad ) ]
+table Performers, columns = [ Performers.Performer_ID ( integer | primary key | values: 153, 211 ), Performers.Address_ID ( integer | values: 124, 39 ), Performers.Customer_Name ( text | values: Shawna, Ashley ), Performers.Customer_Phone ( text | values: 664.495.1939, 893-536-8857 ), Performers.Customer_Email_Address ( text | values: krogahn@example.com, preston45@example.net ), Performers.Other_Details ( text | values: Did not pay, Pay good tips ) ]
+table Customers, columns = [ Customers.Customer_ID ( text | primary key | values: 240, 267 ), Customers.Address_ID ( integer | values: 286, 98 ), Customers.Customer_Name ( text | values: Harold, Federico ), Customers.Customer_Phone ( text | values: 624-096-7791, 914-915-7483 ), Customers.Customer_Email_Address ( text | values: jerde.harmon@example.com, johnson27@example.com ), Customers.Other_Details ( text | values: VIP ) ]
+table Stores, columns = [ Stores.Store_ID ( text | primary key | values: 150, 229 ), Stores.Address_ID ( integer | values: 286, 266 ), Stores.Marketing_Region_Code ( text | values: IN, CA ), Stores.Store_Name ( text | values: FJA Filming, Rob Dinning ), Stores.Store_Phone ( text | values: +65(1)3590790358, 1-327-185-9368 ), Stores.Store_Email_Address ( text | values: fjacobson@example.com, rborer@example.org ), Stores.Other_Details ( text | values: 5 stars, 4 stars ) ]
+table Bookings, columns = [ Bookings.Booking_ID ( integer | primary key | values: 1, 2 ), Bookings.Customer_ID ( integer | values: 938, 868 ), Bookings.Workshop_Group_ID ( text | values: 140, 838 ), Bookings.Status_Code ( text | values: good, stop ), Bookings.Store_ID ( real | values: 8, 7 ), Bookings.Order_Date ( datetime | values: 2016-12-12 10:43:01, 1976-08-20 00:33:08 ), Bookings.Planned_Delivery_Date ( datetime | values: 2013-03-10 18:47:05, 2009-07-09 09:18:38 ), Bookings.Actual_Delivery_Date ( datetime | values: 1997-11-21 10:07:40, 1976-01-08 07:19:23 ), Bookings.Other_Order_Details ( text | values: N/A ) ]
+table Performers_in_Bookings, columns = [ Performers_in_Bookings.Order_ID ( integer | primary key | values: 1, 2 ), Performers_in_Bookings.Performer_ID ( integer | values: 153, 341 ) ]
+table Customer_Orders, columns = [ Customer_Orders.Order_ID ( integer | primary key | values: 1, 2 ), Customer_Orders.Customer_ID ( integer | values: 516, 418 ), Customer_Orders.Store_ID ( integer | values: 231, 229 ), Customer_Orders.Order_Date ( datetime | values: 1994-08-03 12:34:58, 2014-07-10 10:56:01 ), Customer_Orders.Planned_Delivery_Date ( datetime | values: 1977-03-11 03:58:19, 1996-08-26 19:19:59 ), Customer_Orders.Actual_Delivery_Date ( datetime | values: 1992-07-21 22:11:11, 1998-08-22 17:57:32 ), Customer_Orders.Other_Order_Details ( text | values: N/A ) ]
+table Order_Items, columns = [ Order_Items.Order_Item_ID ( integer | primary key | values: 1, 2 ), Order_Items.Order_ID ( integer | values: 3, 15 ), Order_Items.Product_ID ( integer | values: 233, 300 ), Order_Items.Order_Quantity ( text | values: 1, 2 ), Order_Items.Other_Item_Details ( text | values: N/A ) ]
+table Invoices, columns = [ Invoices.Invoice_ID ( integer | primary key | values: 128, 162 ), Invoices.Order_ID ( integer | values: 14, 13 ), Invoices.payment_method_code ( text | values: MasterCard, Visa ), Invoices.Product_ID ( real | values: 4, 9 ), Invoices.Order_Quantity ( text | values: 2, 1 ), Invoices.Other_Item_Details ( text | values: N/A ), Invoices.Order_Item_ID ( real | values: 1, 9 ) ]
+table Services, columns = [ Services.Service_ID ( integer | primary key | values: 191, 219 ), Services.Service_Type_Code ( text | values: 1, 2 ), Services.Workshop_Group_ID ( integer | values: 415, 838 ), Services.Product_Description ( text | values: N/A ), Services.Product_Name ( text | values: film, dinning ), Services.Product_Price ( real | values: 58932775.8822, 2704.4719 ), Services.Other_Product_Service_Details ( text | values: N/A ) ]
+table Bookings_Services, columns = [ Bookings_Services.Order_ID ( integer | primary key | values: 1, 4 ), Bookings_Services.Product_ID ( integer | values: 396, 779 ) ]
+table Invoice_Items, columns = [ Invoice_Items.Invoice_Item_ID ( integer | primary key | values: 1, 2 ), Invoice_Items.Invoice_ID ( integer | values: 128, 162 ), Invoice_Items.Order_ID ( integer | values: 1, 4 ), Invoice_Items.Order_Item_ID ( integer | values: 5, 6 ), Invoice_Items.Product_ID ( integer | values: 396, 191 ), Invoice_Items.Order_Quantity ( real | values: 2, 6 ), Invoice_Items.Other_Item_Details ( text | values: Good quality ) ]
+foreign keys:
+Clients.Address_ID = Addresses.Address_ID
+Drama_Workshop_Groups.Address_ID = Addresses.Address_ID
+Performers.Address_ID = Addresses.Address_ID
+Customers.Address_ID = Addresses.Address_ID
+Stores.Marketing_Region_Code = Marketing_Regions.Marketing_Region_Code
+Stores.Address_ID = Addresses.Address_ID
+Bookings.Workshop_Group_ID = Drama_Workshop_Groups.Workshop_Group_ID
+Bookings.Customer_ID = Clients.Client_ID
+Performers_in_Bookings.Order_ID = Bookings.Booking_ID
+Performers_in_Bookings.Performer_ID = Performers.Performer_ID
+Customer_Orders.Store_ID = Stores.Store_ID
+Customer_Orders.Customer_ID = Customers.Customer_ID
+Order_Items.Product_ID = Products.Product_ID
+Order_Items.Order_ID = Customer_Orders.Order_ID
+Invoices.payment_method_code = Ref_Payment_Methods.payment_method_code
+Invoices.Order_ID = Bookings.Booking_ID
+Invoices.Order_ID = Customer_Orders.Order_ID
+Services.Service_Type_Code = Ref_Service_Types.Service_Type_Code
+Services.Workshop_Group_ID = Drama_Workshop_Groups.Workshop_Group_ID
+Bookings_Services.Product_ID = Services.Service_ID
+Bookings_Services.Order_ID = Bookings.Booking_ID
+Invoice_Items.Order_ID = Bookings_Services.Order_ID
+Invoice_Items.Product_ID = Bookings_Services.Product_ID
+Invoice_Items.Invoice_ID = Invoices.Invoice_ID
+Invoice_Items.Order_Item_ID = Order_Items.Order_Item_ID
+]
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: Count the number of paragraphs.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

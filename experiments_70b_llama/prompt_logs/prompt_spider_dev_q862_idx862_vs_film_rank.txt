@@ -1,0 +1,24 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table film, columns = [ film.Film_ID ( integer | primary key | values: 1, 2 ), film.Title ( text | values: ET the Extra-Terrestrial, Tootsie ), film.Studio ( text | values: Universal, Columbia ), film.Director ( text | values: Steven Spielberg, Sydney Pollack ), film.Gross_in_dollar ( real | values: 435110554, 177200000 ) ]
+table market, columns = [ market.Market_ID ( integer | primary key | values: 1, 2 ), market.Country ( text | values: Japan, China ), market.Number_cities ( real | values: 209, 540 ) ]
+table film_market_estimation, columns = [ film_market_estimation.Estimation_ID ( integer | primary key | values: 1, 2 ), film_market_estimation.Low_Estimate ( real | values: 80000.0, 8000.0 ), film_market_estimation.High_Estimate ( real | values: 80400.0, 8000.0 ), film_market_estimation.Film_ID ( integer | values: 1, 2 ), film_market_estimation.Type ( text | values: Mass suicide murder, Mass suicide ), film_market_estimation.Market_ID ( integer | values: 1, 2 ), film_market_estimation.Year ( real | values: 1945, 1944 ) ]
+foreign keys:
+film_market_estimation.Market_ID = market.Market_ID
+film_market_estimation.Film_ID = film.Film_ID
+]
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: How much does the most recent treatment cost?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

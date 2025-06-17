@@ -1,0 +1,26 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table repair, columns = [ repair.repair_ID ( integer | primary key | values: 1, 2 ), repair.name ( text | values: Discoverer, Discoverer 1 ), repair.Launch_Date ( text | values: 21 Jan 2009, 28 Feb 2009 ), repair.Notes ( text | values: repair Failed. Failed to achieve orbit, First object in polar orbit ) ]
+table machine, columns = [ machine.Machine_ID ( integer | primary key | values: 1, 2 ), machine.Making_Year ( real | values: 1991, 1992 ), machine.Class ( text | values: 125cc ), machine.Team ( text | values: Hero Sports TS- Honda, Marlboro Pileri - Honda ), machine.Machine_series ( text | values: RS125 ), machine.value_points ( real | values: 105.0, 57.0 ), machine.quality_rank ( real | values: 2, 1 ) ]
+table technician, columns = [ technician.technician_id ( integer | primary key | values: 1.0, 2.0 ), technician.Name ( text | values: Joe Sewell, John Brown ), technician.Team ( text | values: NYY, CLE ), technician.Starting_Year ( real | values: 2012.0, 2013.0 ), technician.Age ( real | values: 37, 36 ) ]
+table repair_assignment, columns = [ repair_assignment.technician_id ( integer | primary key | values: 1, 2 ), repair_assignment.repair_ID ( integer | values: 1, 2 ), repair_assignment.Machine_ID ( integer | values: 1, 2 ) ]
+foreign keys:
+repair_assignment.Machine_ID = machine.Machine_ID
+repair_assignment.repair_ID = repair.repair_ID
+repair_assignment.technician_id = technician.technician_id
+]
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What is the official language used in the country the name of whose head of state is Beatrix.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

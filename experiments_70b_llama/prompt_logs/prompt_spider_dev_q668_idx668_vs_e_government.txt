@@ -1,0 +1,38 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Addresses, columns = [ Addresses.address_id ( integer | primary key | values: 1, 2 ), Addresses.line_1_number_building ( text | values: 25518 Ortiz Centers, 033 Stracke Parkways ), Addresses.town_city ( text | values: West Stacy, Lake Meaghan ), Addresses.zip_postcode ( text | values: 193, 227 ), Addresses.state_province_county ( text | values: NorthCarolina, Colorado ), Addresses.country ( text | values: USA ) ]
+table Services, columns = [ Services.service_id ( integer | primary key | values: 1, 2 ), Services.service_type_code ( text | values: Education, Welfare ), Services.service_name ( text | values: Education, Health ), Services.service_descriptio ( text | values: Education, Welfare ) ]
+table Forms, columns = [ Forms.form_id ( integer | primary key | values: 1, 2 ), Forms.form_type_code ( text | values: Basic, Complex ), Forms.service_id ( integer | values: 13, 9 ), Forms.form_number ( text | values: 8069, 2675 ), Forms.form_name ( text | values: SSN Application, Marriage Certificate ), Forms.form_description ( text | values: Form for SSN Application, Marriage Certificate ) ]
+table Individuals, columns = [ Individuals.individual_id ( integer | primary key | values: 1, 2 ), Individuals.individual_first_name ( text | values: Oscar, Geovanny ), Individuals.individual_middle_name ( text | values: Hosea, Antonia ), Individuals.inidividual_phone ( text | values: 1-925-696-5232, 075.012.6775x409 ), Individuals.individual_email ( text | values: amie.okuneva@example.org, jamey.effertz@example.net ), Individuals.individual_address ( text | values: 6956 Lia Plaza, 69578 Baylee Prairie ), Individuals.individual_last_name ( text | values: Maggio, Kerluke ) ]
+table Organizations, columns = [ Organizations.organization_id ( integer | primary key | values: 1, 2 ), Organizations.date_formed ( datetime | values: 2016-08-24 23:52:48, 2016-10-01 12:42:01 ), Organizations.organization_name ( text | values: Labour Party, Plaid Cymru ), Organizations.uk_vat_number ( text | values: 2157, 7459 ) ]
+table Parties, columns = [ Parties.party_id ( integer | primary key | values: 1, 2 ), Parties.payment_method_code ( text | values: Cheque, Credit Card ), Parties.party_phone ( text | values: 05374656172, 1-525-947-7867x51521 ), Parties.party_email ( text | values: enrico09@example.com, brakus.aliya@example.com ) ]
+table Organization_Contact_Individuals, columns = [ Organization_Contact_Individuals.individual_id ( integer | primary key | values: 5, 6 ), Organization_Contact_Individuals.organization_id ( integer | values: 4, 3 ), Organization_Contact_Individuals.date_contact_from ( datetime | values: 2016-08-16 22:09:11, 2017-03-02 00:00:16 ), Organization_Contact_Individuals.date_contact_to ( datetime | values: 2018-03-25 10:27:18, 2018-03-06 05:39:43 ) ]
+table Party_Addresses, columns = [ Party_Addresses.party_id ( integer | primary key | values: 3, 4 ), Party_Addresses.address_id ( integer | values: 2, 4 ), Party_Addresses.date_address_from ( datetime | values: 2016-04-08 22:40:02, 2016-05-20 23:22:06 ), Party_Addresses.address_type_code ( text | values: Residence, Billing ), Party_Addresses.date_address_to ( datetime | values: 2018-02-28 23:14:41, 2018-01-29 16:48:01 ) ]
+table Party_Forms, columns = [ Party_Forms.party_id ( integer | primary key | values: 2, 5 ), Party_Forms.form_id ( integer | values: 4, 5 ), Party_Forms.date_completion_started ( datetime | values: 2017-12-17 11:29:47, 2017-12-16 15:25:48 ), Party_Forms.form_status_code ( text | values: Completed, Partially Completed ), Party_Forms.date_fully_completed ( datetime | values: 2018-02-11 16:46:10, 2018-02-18 16:09:04 ) ]
+table Party_Services, columns = [ Party_Services.booking_id ( real | values: 1, 2 ), Party_Services.customer_id ( integer | values: 10, 14 ), Party_Services.service_id ( integer | values: 12, 11 ), Party_Services.service_datetime ( datetime | values: 2018-03-10 22:43:12, 2018-03-05 15:06:23 ), Party_Services.booking_made_date ( datetime | values: 2018-03-23 23:56:51, 2018-03-25 11:08:29 ) ]
+foreign keys:
+Forms.service_id = Services.service_id
+Organization_Contact_Individuals.individual_id = Individuals.individual_id
+Organization_Contact_Individuals.organization_id = Organizations.organization_id
+Party_Addresses.party_id = Parties.party_id
+Party_Addresses.address_id = Addresses.address_id
+Party_Forms.form_id = Forms.form_id
+Party_Forms.party_id = Parties.party_id
+Party_Services.customer_id = Parties.party_id
+Party_Services.service_id = Services.service_id
+]
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What are the maximum and minimum share of performances whose type is not "Live final".
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

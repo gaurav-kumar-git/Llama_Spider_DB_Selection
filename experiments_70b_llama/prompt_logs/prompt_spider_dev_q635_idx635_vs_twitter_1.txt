@@ -1,0 +1,25 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table follows, columns = [ follows.f1 ( integer | primary key | values: 1, 2 ), follows.f2 ( integer | values: 2, 3 ) ]
+table tweets, columns = [ tweets.id ( integer | primary key | values: 1, 2 ), tweets.uid ( integer | values: 1, 3 ), tweets.text ( text | values: Hello I'm Tony Stark., Today I have went shopping at Laffayette. ), tweets.createdate ( datetime | values: 2018-03-09 20:00:14, 2018-03-09 20:01:02 ) ]
+table user_profiles, columns = [ user_profiles.uid ( integer | primary key | values: 1, 2 ), user_profiles.name ( text | values: Iron Man, Mary ), user_profiles.email ( text | values: ts@richest.com, Mary@yale.edu ), user_profiles.partitionid ( real | values: 1, 2 ), user_profiles.followers ( real | values: 6662425, 890 ) ]
+foreign keys:
+follows.f2 = user_profiles.uid
+follows.f1 = user_profiles.uid
+tweets.uid = user_profiles.uid
+]
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: How many different winners both participated in the WTA Championships and were left handed?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

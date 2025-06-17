@@ -1,0 +1,33 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Apartment_Buildings, columns = [ Apartment_Buildings.building_id ( integer | primary key | values: 133, 153 ), Apartment_Buildings.building_short_name ( text | values: Normandie Court, Mercedes House ), Apartment_Buildings.building_full_name ( text | values: Normandie Court, Mercedes House ), Apartment_Buildings.building_description ( text | values: Studio, Flat ), Apartment_Buildings.building_address ( text | values: 7950 Casper Vista Apt. 176
+Marquiseberg, CA 70496, 354 Otto Villages
+Charliefort, VT 71664 ), Apartment_Buildings.building_manager ( text | values: Emma, Brenden ), Apartment_Buildings.building_phone ( text | values: (948)040-1064x387, 915-617-2408x832 ) ]
+table Apartments, columns = [ Apartments.apt_id ( integer | primary key | values: 1, 2 ), Apartments.building_id ( integer | values: 808, 624 ), Apartments.apt_type_code ( text | values: Flat, Studio ), Apartments.apt_number ( text | values: Suite 645, Apt. 585 ), Apartments.bathroom_count ( real | values: 1, 2 ), Apartments.bedroom_count ( real | values: 3, 4 ), Apartments.room_count ( text | values: 7, 5 ) ]
+table Apartment_Facilities, columns = [ Apartment_Facilities.apt_id ( integer | primary key | values: 1, 2 ), Apartment_Facilities.facility_code ( text | values: Boardband, Gym ) ]
+table Guests, columns = [ Guests.guest_id ( integer | primary key | values: 1, 2 ), Guests.gender_code ( text | values: Male, Unknown ), Guests.guest_first_name ( text | values: Kip, Rebeca ), Guests.guest_last_name ( text | values: DuBuque, Runolfsdottir ), Guests.date_of_birth ( datetime | values: 1995-11-04 07:09:57, 1974-05-12 21:53:58 ) ]
+table Apartment_Bookings, columns = [ Apartment_Bookings.apt_booking_id ( integer | primary key | values: 258, 279 ), Apartment_Bookings.apt_id ( integer | values: 10, 15 ), Apartment_Bookings.guest_id ( integer | values: 2, 15 ), Apartment_Bookings.booking_status_code ( text | values: Provisional, Confirmed ), Apartment_Bookings.booking_start_date ( datetime | values: 2016-09-26 17:13:49, 2016-04-01 06:28:08 ), Apartment_Bookings.booking_end_date ( datetime | values: 2017-10-07 11:38:48, 2017-10-25 11:08:42 ) ]
+table View_Unit_Status, columns = [ View_Unit_Status.apt_id ( integer | values: 11, 15 ), View_Unit_Status.apt_booking_id ( integer | values: 920, 575 ), View_Unit_Status.status_date ( datetime | primary key | values: 1970-09-28 10:24:29, 1972-03-23 22:55:53 ), View_Unit_Status.available_yn ( text | values: 1, 0 ) ]
+foreign keys:
+Apartments.building_id = Apartment_Buildings.building_id
+Apartment_Facilities.apt_id = Apartments.apt_id
+Apartment_Bookings.guest_id = Guests.guest_id
+Apartment_Bookings.apt_id = Apartments.apt_id
+View_Unit_Status.apt_booking_id = Apartment_Bookings.apt_booking_id
+View_Unit_Status.apt_id = Apartments.apt_id
+]
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: For a volvo model, how many cylinders does the version with least accelerate have?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

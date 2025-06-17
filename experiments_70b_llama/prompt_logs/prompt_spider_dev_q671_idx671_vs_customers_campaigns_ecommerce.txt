@@ -1,0 +1,34 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Premises, columns = [ Premises.premise_id ( integer | primary key | values: 1, 2 ), Premises.premises_type ( text | values: Warehouse, Residence ), Premises.premise_details ( text | values: 036 Lueilwitz Harbor, 676 Kelly Spur ) ]
+table Products, columns = [ Products.product_id ( integer | primary key | values: 1, 2 ), Products.product_category ( text | values: Food, Electronics ), Products.product_name ( text | values: Coffee Bean, Keyboard ) ]
+table Customers, columns = [ Customers.customer_id ( integer | primary key | values: 1, 2 ), Customers.payment_method ( text | values: Credit Card, Direct Debit ), Customers.customer_name ( text | values: Wendell, Gage ), Customers.customer_phone ( text | values: (773)971-9411x759, (402)890-2603x6005 ), Customers.customer_email ( text | values: rodriguez.nathanael@example.net, stark.elna@example.net ), Customers.customer_address ( text | values: 618 Webster Stream Apt. 161, 0260 Walker Trace ), Customers.customer_login ( text | values: N/A ), Customers.customer_password ( text | values: b4459ad261, 7905d7f1b1 ) ]
+table Mailshot_Campaigns, columns = [ Mailshot_Campaigns.mailshot_id ( integer | primary key | values: 1, 2 ), Mailshot_Campaigns.product_category ( text | values: food, clothes ), Mailshot_Campaigns.mailshot_name ( text | values: US, FED ), Mailshot_Campaigns.mailshot_start_date ( datetime | values: 2018-02-15 09:52:17, 2017-09-14 12:05:30 ), Mailshot_Campaigns.mailshot_end_date ( datetime | values: 2018-03-08 14:40:20, 2018-03-15 01:06:16 ) ]
+table Customer_Addresses, columns = [ Customer_Addresses.customer_id ( integer | values: 15, 2 ), Customer_Addresses.premise_id ( integer | values: 1, 2 ), Customer_Addresses.date_address_from ( datetime | values: 1992-08-23 21:17:38, 2010-02-23 02:49:50 ), Customer_Addresses.address_type_code ( text | values: Billing, Shipping ), Customer_Addresses.date_address_to ( datetime | values: 2018-02-28 20:54:58, 2018-03-15 18:34:41 ) ]
+table Customer_Orders, columns = [ Customer_Orders.order_id ( integer | primary key | values: 1, 2 ), Customer_Orders.customer_id ( integer | values: 2, 8 ), Customer_Orders.order_status_code ( text | values: Cancelled, Delivered ), Customer_Orders.shipping_method_code ( text | values: Unspecified, FedEx ), Customer_Orders.order_placed_datetime ( datetime | values: 2015-06-15 18:19:26, 2009-07-05 20:02:55 ), Customer_Orders.order_delivered_datetime ( datetime | values: 2018-03-20 12:00:00 ), Customer_Orders.order_shipping_charges ( text | values: 85.79, 98.4 ) ]
+table Mailshot_Customers, columns = [ Mailshot_Customers.mailshot_id ( integer | values: 4, 10 ), Mailshot_Customers.customer_id ( integer | values: 3, 1 ), Mailshot_Customers.outcome_code ( text | values: Order, No Response ), Mailshot_Customers.mailshot_customer_date ( datetime | values: 2018-03-15 15:43:14, 2018-03-04 13:06:55 ) ]
+table Order_Items, columns = [ Order_Items.item_id ( real | values: 1, 2 ), Order_Items.order_item_status_code ( text | values: Delivered, Paid ), Order_Items.order_id ( integer | values: 10, 6 ), Order_Items.product_id ( integer | values: 13, 7 ), Order_Items.item_status_code ( text | values: good ), Order_Items.item_delivered_datetime ( datetime | values: 2018-02-25 18:22:10, 2018-02-27 18:04:55 ), Order_Items.item_order_quantity ( text | values: 6, 7 ) ]
+foreign keys:
+Customer_Addresses.customer_id = Customers.customer_id
+Customer_Addresses.premise_id = Premises.premise_id
+Customer_Orders.customer_id = Customers.customer_id
+Mailshot_Customers.mailshot_id = Mailshot_Campaigns.mailshot_id
+Mailshot_Customers.customer_id = Customers.customer_id
+Order_Items.order_id = Customer_Orders.order_id
+Order_Items.product_id = Products.product_id
+]
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What is the money rank of the poker player with the highest earnings?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

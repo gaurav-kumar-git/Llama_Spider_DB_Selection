@@ -1,0 +1,27 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table member, columns = [ member.Member_ID ( integer | primary key | values: 1, 2 ), member.Card_Number ( text | values: LE99, LT98 ), member.Name ( text | values: Jeremy Jarmon, Myron Pryor ), member.Hometown ( text | values: Collierville, Tennessee, Louisville, Kentucky ), member.Level ( real | values: 6, 4 ) ]
+table branch, columns = [ branch.Branch_ID ( integer | primary key | values: 1, 2 ), branch.Name ( text | values: Alexandre, Popert ), branch.Open_year ( text | values: 2001, 2009 ), branch.Address_road ( text | values: Valleys Place, Oaks Crescent ), branch.City ( text | values: London, Oxford ), branch.membership_amount ( text | values: 112, 11 ) ]
+table membership_register_branch, columns = [ membership_register_branch.Member_ID ( integer | primary key | values: 1, 2 ), membership_register_branch.Branch_ID ( text | values: 1, 4 ), membership_register_branch.Register_Year ( text | values: 2016, 2017 ) ]
+table purchase, columns = [ purchase.Member_ID ( integer | primary key | values: 1, 2 ), purchase.Branch_ID ( text | values: 3, 2 ), purchase.Year ( text | values: 2018, 2017 ), purchase.Total_pounds ( real | values: 2013.32, 321.13 ) ]
+foreign keys:
+membership_register_branch.Branch_ID = branch.Branch_ID
+membership_register_branch.Member_ID = member.Member_ID
+purchase.Branch_ID = branch.Branch_ID
+purchase.Member_ID = member.Member_ID
+]
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What are the names of nations where both English and French are official languages?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

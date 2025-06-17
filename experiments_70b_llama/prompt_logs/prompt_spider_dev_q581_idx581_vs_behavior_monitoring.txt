@@ -1,0 +1,43 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Ref_Address_Types, columns = [ Ref_Address_Types.address_type_code ( text | primary key | values: BILL, HOME ), Ref_Address_Types.address_type_description ( text | values: Billing, Home or Residence ) ]
+table Ref_Detention_Type, columns = [ Ref_Detention_Type.detention_type_code ( text | primary key | values: AFTER, BREAK  ), Ref_Detention_Type.detention_type_description ( text | values: During Break time, After School ) ]
+table Ref_Incident_Type, columns = [ Ref_Incident_Type.incident_type_code ( text | primary key | values: DISTURB, NOISE ), Ref_Incident_Type.incident_type_description ( text | values: Noise, Violence ) ]
+table Addresses, columns = [ Addresses.address_id ( integer | primary key | values: 1, 2 ), Addresses.line_1 ( text | values: 020 Orie Canyon, 1333 Boyle Lane ), Addresses.line_2 ( text | values: N/A ), Addresses.line_3 ( text | values: N/A ), Addresses.city ( text | values: North Loyceville, West Sean ), Addresses.zip_postcode ( text | values: 197, 937 ), Addresses.state_province_county ( text | values: Hawaii, Illinois ), Addresses.country ( text | values: USA ), Addresses.other_address_details ( text | values: N/A ) ]
+table Students, columns = [ Students.student_id ( integer | primary key | values: 1, 2 ), Students.address_id ( integer | values: 19, 9 ), Students.first_name ( text | values: Emma, Louvenia ), Students.middle_name ( text | values: Frederic, Fatima ), Students.last_name ( text | values: Rohan, Hansen ), Students.cell_mobile_number ( text | values: 235.899.9744, 1-247-673-8446 ), Students.email_address ( text | values: derrick.jenkins@example.com, rohan.clarabelle@example.org ), Students.date_first_rental ( datetime | values: 2017-12-05 15:20:04, 2017-08-08 22:30:36 ), Students.date_left_university ( datetime | values: 2018-03-03 03:33:05, 2018-02-24 11:12:11 ), Students.other_student_details ( text | values: first honor ) ]
+table Teachers, columns = [ Teachers.teacher_id ( integer | primary key | values: 1, 2 ), Teachers.address_id ( integer | values: 15, 7 ), Teachers.first_name ( text | values: Lyla, Sid ), Teachers.middle_name ( text | values: Wilson, Tremayne ), Teachers.last_name ( text | values: Medhurst, Brakus ), Teachers.gender ( text | values: 1, 0 ), Teachers.cell_mobile_number ( text | values: 792.333.7714, 202.626.1698x9242 ), Teachers.email_address ( text | values: ohammes@example.com, deborah37@example.com ), Teachers.other_details ( text | values: Dean ) ]
+table Assessment_Notes, columns = [ Assessment_Notes.notes_id ( real | values: 1, 2 ), Assessment_Notes.student_id ( integer | values: 7, 11 ), Assessment_Notes.teacher_id ( integer | values: 3, 10 ), Assessment_Notes.date_of_notes ( datetime | values: 1978-04-15 04:49:18, 2005-06-30 02:48:35 ), Assessment_Notes.text_of_notes ( text | values: N/A ), Assessment_Notes.other_details ( text | values: N/A ) ]
+table Behavior_Incident, columns = [ Behavior_Incident.incident_id ( integer | primary key | values: 1, 2 ), Behavior_Incident.incident_type_code ( text | values: NOISE, DISTURB ), Behavior_Incident.student_id ( integer | values: 6, 13 ), Behavior_Incident.date_incident_start ( datetime | values: 2017-07-09 10:04:13, 2018-01-31 10:51:13 ), Behavior_Incident.date_incident_end ( datetime | values: 2018-03-08 14:08:54, 2018-03-18 18:40:05 ), Behavior_Incident.incident_summary ( text | values: N/A ), Behavior_Incident.recommendations ( text | values: Transfer schools ), Behavior_Incident.other_details ( text | values: N/A ) ]
+table Detention, columns = [ Detention.detention_id ( integer | primary key | values: 1, 2 ), Detention.detention_type_code ( text | values: AFTER, BREAK  ), Detention.teacher_id ( integer | values: 7, 14 ), Detention.datetime_detention_start ( datetime | values: 2017-09-05 00:38:25, 2018-01-10 08:09:02 ), Detention.datetime_detention_end ( datetime | values: 2018-03-08 02:08:32, 2018-03-07 04:24:48 ), Detention.detention_summary ( text | values: N/A ), Detention.other_details ( text | values: N/A ) ]
+table Student_Addresses, columns = [ Student_Addresses.student_id ( integer | values: 6, 3 ), Student_Addresses.address_id ( integer | values: 12, 18 ), Student_Addresses.date_address_from ( datetime | values: 2017-10-16 13:56:34, 2017-06-19 12:39:39 ), Student_Addresses.date_address_to ( datetime | values: 2018-03-15 10:37:19, 2018-03-02 00:19:57 ), Student_Addresses.monthly_rental ( real | values: 826.4319, 1113.0996 ), Student_Addresses.other_details ( text | values: house, apartment ) ]
+table Students_in_Detention, columns = [ Students_in_Detention.student_id ( integer | values: 3, 8 ), Students_in_Detention.detention_id ( integer | values: 15, 13 ), Students_in_Detention.incident_id ( integer | values: 1, 3 ) ]
+foreign keys:
+Students.address_id = Addresses.address_id
+Teachers.address_id = Addresses.address_id
+Assessment_Notes.teacher_id = Teachers.teacher_id
+Assessment_Notes.student_id = Students.student_id
+Behavior_Incident.student_id = Students.student_id
+Behavior_Incident.incident_type_code = Ref_Incident_Type.incident_type_code
+Detention.teacher_id = Teachers.teacher_id
+Detention.detention_type_code = Ref_Detention_Type.detention_type_code
+Student_Addresses.student_id = Students.student_id
+Student_Addresses.address_id = Addresses.address_id
+Students_in_Detention.student_id = Students.student_id
+Students_in_Detention.detention_id = Detention.detention_id
+Students_in_Detention.incident_id = Behavior_Incident.incident_id
+]
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What is the language that is used by the largest number of Asian nations?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

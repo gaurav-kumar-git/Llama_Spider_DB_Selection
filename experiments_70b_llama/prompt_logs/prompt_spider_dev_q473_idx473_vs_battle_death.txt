@@ -1,0 +1,31 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table battle, columns = [ battle.id ( integer | primary key | values: 1, 2 ), battle.name ( text | values: Battle of Adrianople, Battle of Serres ), battle.date ( text | values: 14 April 1205, June 1205 ), battle.bulgarian_commander ( text | values: Kaloyan, Unknown ), battle.latin_commander ( text | values: Baldwin I, Unknown ), battle.result ( text | values: Bulgarian victory, Latin victory ) ]
+table ship, columns = [ ship.lost_in_battle ( integer | values: 8, 7 ), ship.id ( integer | primary key | values: 1, 2 ), ship.name ( text | values: Lettice, Bon Accord ), ship.tonnage ( text | values: t, 391 ), ship.ship_type ( text | values: Brig, 18-gun Brig ), ship.location ( text | values: English Channel, SW Approaches ), ship.disposition_of_ship ( text | values: Captured, Wrecked ) ]
+table death, columns = [ death.caused_by_ship_id ( integer | values: 1, 2 ), death.id ( integer | primary key | values: 1, 2 ), death.note ( text | values: Dantewada, Chhattisgarh, Erraboru, Chhattisgarh ), death.killed ( real | values: 8, 3 ), death.injured ( real | values: 0, 9 ) ]
+foreign keys:
+ship.lost_in_battle = battle.id
+death.caused_by_ship_id = ship.id
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--What are the death and injury situations caused by the ship with tonnage 't'?
+--List the name and tonnage ordered by in descending alphaetical order for the names.
+--What is the average number of injuries caused each time?
+--How many ships ended up being 'Captured'?
+--List the name, date and result of each battle.
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: Find the name and age of the visitor who bought the most tickets at once.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

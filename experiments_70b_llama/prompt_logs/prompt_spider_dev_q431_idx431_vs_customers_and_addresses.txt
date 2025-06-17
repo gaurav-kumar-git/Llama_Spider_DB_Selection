@@ -1,0 +1,32 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Addresses, columns = [ Addresses.address_id ( integer | primary key | values: 1, 2 ), Addresses.address_content ( text | values: 9443 Boyle Route Suite 857, 1969 Jabari Port Suite 393 ), Addresses.city ( text | values: Lucasville, New Sabryna ), Addresses.zip_postcode ( text | values: 416, 721 ), Addresses.state_province_county ( text | values: Colorado, SouthCarolina ), Addresses.country ( text | values: USA ), Addresses.other_address_details ( text | values: N/A ) ]
+table Products, columns = [ Products.product_id ( integer | primary key | values: 1, 2 ), Products.product_details ( text | values: Americano, Dove Chocolate ) ]
+table Customers, columns = [ Customers.customer_id ( integer | primary key | values: 1, 2 ), Customers.payment_method ( text | values: Cash, Cheque ), Customers.customer_name ( text | values: Dr. Julia Wuckert MD, Tillman Ernser ), Customers.date_became_customer ( datetime | values: 2018-03-01 23:20:10, 2018-02-28 11:37:44 ), Customers.other_customer_details ( text | values: VIP ) ]
+table Customer_Addresses, columns = [ Customer_Addresses.customer_id ( integer | values: 2, 13 ), Customer_Addresses.address_id ( integer | values: 11, 14 ), Customer_Addresses.date_address_from ( datetime | values: 1985-03-29 20:31:43, 2010-08-25 04:24:35 ), Customer_Addresses.address_type ( text | values: Billing, Residential ), Customer_Addresses.date_address_to ( datetime | values: 1993-02-17 17:55:18, 1972-02-17 22:23:38 ) ]
+table Customer_Contact_Channels, columns = [ Customer_Contact_Channels.customer_id ( integer | values: 9, 2 ), Customer_Contact_Channels.channel_code ( text | values: Email, Cell ), Customer_Contact_Channels.active_from_date ( datetime | values: 2017-12-07 18:18:15, 2017-04-07 04:51:41 ), Customer_Contact_Channels.active_to_date ( datetime | values: 2018-03-23 13:37:14, 2018-03-23 01:30:52 ), Customer_Contact_Channels.contact_number ( text | values: 940.035.6435x0225, 189.449.8326x7607 ) ]
+table Customer_Orders, columns = [ Customer_Orders.order_id ( integer | primary key | values: 1, 2 ), Customer_Orders.customer_id ( integer | values: 15, 3 ), Customer_Orders.order_status ( text | values: Cancelled, Delivered ), Customer_Orders.order_date ( datetime | values: 2018-03-21 11:20:46, 2018-03-05 06:35:33 ), Customer_Orders.order_details ( text | values: Second time ) ]
+table Order_Items, columns = [ Order_Items.order_id ( integer | values: 14, 5 ), Order_Items.product_id ( integer | values: 2, 3 ), Order_Items.order_quantity ( text | values: 5, 9 ) ]
+foreign keys:
+Customer_Addresses.customer_id = Customers.customer_id
+Customer_Addresses.address_id = Addresses.address_id
+Customer_Contact_Channels.customer_id = Customers.customer_id
+Customer_Orders.customer_id = Customers.customer_id
+Order_Items.order_id = Customer_Orders.order_id
+Order_Items.product_id = Products.product_id
+]
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What is the document id with 1 to 2 paragraphs?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

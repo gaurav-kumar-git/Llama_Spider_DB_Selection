@@ -1,0 +1,26 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Services, columns = [ Services.Service_ID ( integer | primary key | values: 2, 5 ), Services.Service_Type_Code ( text | values: Marriage, Death Proof ) ]
+table Participants, columns = [ Participants.Participant_ID ( integer | primary key | values: 9, 26 ), Participants.Participant_Type_Code ( text | values: Organizer, Participant ), Participants.Participant_Details ( text | values: Karlee Batz, Vilma Schinner ) ]
+table Events, columns = [ Events.Event_ID ( integer | primary key | values: 3, 8 ), Events.Service_ID ( integer | values: 5, 8 ), Events.Event_Details ( text | values: Success, Fail ) ]
+table Participants_in_Events, columns = [ Participants_in_Events.Event_ID ( integer | primary key | values: 3, 8 ), Participants_in_Events.Participant_ID ( integer | values: 26, 66 ) ]
+foreign keys:
+Events.Service_ID = Services.Service_ID
+Participants_in_Events.Event_ID = Events.Event_ID
+Participants_in_Events.Participant_ID = Participants.Participant_ID
+]
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: How many different loser names are there?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

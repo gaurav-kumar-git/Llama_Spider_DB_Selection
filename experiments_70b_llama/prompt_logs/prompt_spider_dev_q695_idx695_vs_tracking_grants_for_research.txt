@@ -1,0 +1,42 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Document_Types, columns = [ Document_Types.document_type_code ( text | primary key | values: APP, REG ), Document_Types.document_description ( text | values: Initial Application, Regular ) ]
+table Documents, columns = [ Documents.document_id ( integer | primary key | values: 1, 2 ), Documents.document_type_code ( text | values: APP, REG ), Documents.grant_id ( integer | values: 5, 13 ), Documents.sent_date ( datetime | values: 1986-11-30 07:56:35, 2004-01-23 11:57:08 ), Documents.response_received_date ( datetime | values: 1977-12-01 02:18:53, 1979-12-08 10:38:07 ), Documents.other_details ( text | values:  ) ]
+table Grants, columns = [ Grants.grant_id ( integer | primary key | values: 1, 2 ), Grants.organisation_id ( integer | values: 10, 3 ), Grants.grant_amount ( real | values: 4094.542, 281.2446 ), Grants.grant_start_date ( datetime | values: 2016-11-20 00:18:51, 1985-10-09 20:08:49 ), Grants.grant_end_date ( datetime | values: 2004-10-24 09:09:39, 1985-06-08 00:22:07 ), Grants.other_details ( text | values: et, occaecati ) ]
+table Organisation_Types, columns = [ Organisation_Types.organisation_type ( text | primary key | values: RES, SPON ), Organisation_Types.organisation_type_description ( text | values: Research, Sponsor ) ]
+table Organisations, columns = [ Organisations.organisation_id ( integer | primary key | values: 1, 2 ), Organisations.organisation_type ( text | values: RES, SPON ), Organisations.organisation_details ( text | values: et, eius ) ]
+table Project_Outcomes, columns = [ Project_Outcomes.project_id ( integer | values: 4, 3 ), Project_Outcomes.outcome_code ( text | values: Paper, Patent ), Project_Outcomes.outcome_details ( text | values: N/A ) ]
+table Project_Staff, columns = [ Project_Staff.staff_id ( integer | primary key | values: 0.0, 3.0 ), Project_Staff.project_id ( integer | values: 2, 5 ), Project_Staff.role_code ( text | values: leader, researcher ), Project_Staff.date_from ( datetime | values: 1981-10-04 22:44:50, 2003-04-19 15:06:20 ), Project_Staff.date_to ( datetime | values: 1985-05-30 22:26:30, 2010-12-08 11:55:36 ), Project_Staff.other_details ( text | values: N/A ) ]
+table Projects, columns = [ Projects.project_id ( integer | primary key | values: 1, 2 ), Projects.organisation_id ( integer | values: 15, 11 ), Projects.project_details ( text | values: porro, et ) ]
+table Research_Outcomes, columns = [ Research_Outcomes.outcome_code ( text | primary key | values: Paper, Patent ), Research_Outcomes.outcome_description ( text | values: Published Research Paper, Research Patent ) ]
+table Research_Staff, columns = [ Research_Staff.staff_id ( integer | primary key | values: 1, 2 ), Research_Staff.employer_organisation_id ( integer | values: 1, 4 ), Research_Staff.staff_details ( text | values: quo, est ) ]
+table Staff_Roles, columns = [ Staff_Roles.role_code ( text | primary key | values: leader, researcher ), Staff_Roles.role_description ( text | values: Project Leader, Project Researcher ) ]
+table Tasks, columns = [ Tasks.task_id ( integer | primary key | values: 1, 2 ), Tasks.project_id ( integer | values: 1, 2 ), Tasks.task_details ( text | values: a, b ), Tasks.eg Agree Objectives ( text | values: N/A ) ]
+foreign keys:
+Documents.grant_id = Grants.grant_id
+Documents.document_type_code = Document_Types.document_type_code
+Grants.organisation_id = Organisations.organisation_id
+Organisations.organisation_type = Organisation_Types.organisation_type
+Project_Outcomes.outcome_code = Research_Outcomes.outcome_code
+Project_Outcomes.project_id = Projects.project_id
+Project_Staff.role_code = Staff_Roles.role_code
+Project_Staff.project_id = Projects.project_id
+Projects.organisation_id = Organisations.organisation_id
+Research_Staff.employer_organisation_id = Organisations.organisation_id
+Tasks.project_id = Projects.project_id
+]
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What grade is Kyle in?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

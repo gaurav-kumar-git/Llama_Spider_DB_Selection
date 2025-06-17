@@ -1,0 +1,59 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Physician, columns = [ Physician.EmployeeID ( integer | primary key | values: 1, 2 ), Physician.Name ( text | values: John Dorian, Elliot Reid ), Physician.Position ( text | values: Staff Internist, Attending Physician ), Physician.SSN ( real | values: 111111111, 222222222 ) ]
+table Department, columns = [ Department.DepartmentID ( integer | primary key | values: 1, 2 ), Department.Name ( text | values: General Medicine, Surgery ), Department.Head ( integer | values: 4, 7 ) ]
+table Affiliated_With, columns = [ Affiliated_With.Physician ( integer | primary key | values: 1, 2 ), Affiliated_With.Department ( integer | values: 1, 2 ), Affiliated_With.PrimaryAffiliation ( boolean | values: 1, 0 ) ]
+table Procedures, columns = [ Procedures.Code ( integer | primary key | values: 1, 2 ), Procedures.Name ( text | values: Reverse Rhinopodoplasty, Obtuse Pyloric Recombobulation ), Procedures.Cost ( real | values: 1500.0, 3750.0 ) ]
+table Trained_In, columns = [ Trained_In.Physician ( integer | primary key | values: 3, 6 ), Trained_In.Treatment ( integer | values: 1, 2 ), Trained_In.CertificationDate ( datetime | values: 2008-01-01, 2007-01-01 ), Trained_In.CertificationExpires ( datetime | values: 2008-12-31, 2007-12-31 ) ]
+table Patient, columns = [ Patient.SSN ( integer | primary key | values: 100000001, 100000002 ), Patient.Name ( text | values: John Smith, Grace Ritchie ), Patient.Address ( text | values: 42 Foobar Lane, 37 Snafu Drive ), Patient.Phone ( text | values: 555-0256, 555-0512 ), Patient.InsuranceID ( real | values: 68476213, 36546321 ), Patient.PCP ( integer | values: 1, 2 ) ]
+table Nurse, columns = [ Nurse.EmployeeID ( integer | primary key | values: 101, 102 ), Nurse.Name ( text | values: Carla Espinosa, Laverne Roberts ), Nurse.Position ( text | values: Head Nurse, Nurse ), Nurse.Registered ( boolean | values: 1, 0 ), Nurse.SSN ( real | values: 111111110, 222222220 ) ]
+table Appointment, columns = [ Appointment.AppointmentID ( integer | primary key | values: 13216584, 26548913 ), Appointment.Patient ( integer | values: 100000001, 100000002 ), Appointment.PrepNurse ( integer | values: 101, 102 ), Appointment.Physician ( integer | values: 1, 2 ), Appointment.Start ( datetime | values: 2008-04-24 10:00, 2008-04-25 10:00 ), Appointment.End ( datetime | values: 2008-04-24 11:00, 2008-04-25 11:00 ), Appointment.ExaminationRoom ( text | values: A, B ) ]
+table Medication, columns = [ Medication.Code ( integer | primary key | values: 1, 2 ), Medication.Name ( text | values: Procrastin-X, Thesisin ), Medication.Brand ( text | values: X, Foo Labs ), Medication.Description ( text | values: N/A ) ]
+table Prescribes, columns = [ Prescribes.Physician ( integer | primary key | values: 1, 9 ), Prescribes.Patient ( integer | values: 100000001, 100000004 ), Prescribes.Medication ( integer | values: 1, 2 ), Prescribes.Date ( datetime | values: 2008-04-24 10:47, 2008-04-27 10:53 ), Prescribes.Appointment ( integer | values: 13216584, 86213939 ), Prescribes.Dose ( text | values: 5, 10 ) ]
+table Block, columns = [ Block.BlockFloor ( integer | primary key | values: 1, 2 ), Block.BlockCode ( real | values: 1, 2 ) ]
+table Room, columns = [ Room.RoomNumber ( integer | primary key | values: 101, 102 ), Room.RoomType ( text | values: Single ), Room.BlockFloor ( integer | values: 1, 2 ), Room.BlockCode ( integer | values: 1, 2 ), Room.Unavailable ( boolean | values: 0, 1 ) ]
+table On_Call, columns = [ On_Call.Nurse ( integer | primary key | values: 101, 102 ), On_Call.BlockFloor ( integer | values: 1 ), On_Call.BlockCode ( integer | values: 1, 2 ), On_Call.OnCallStart ( datetime | values: 2008-11-04 11:00, 2008-11-04 19:00 ), On_Call.OnCallEnd ( datetime | values: 2008-11-04 19:00, 2008-11-05 03:00 ) ]
+table Stay, columns = [ Stay.StayID ( integer | primary key | values: 3215, 3216 ), Stay.Patient ( integer | values: 100000001, 100000003 ), Stay.Room ( integer | values: 111, 123 ), Stay.StayStart ( datetime | values: 2008-05-01, 2008-05-03 ), Stay.StayEnd ( datetime | values: 2008-05-04, 2008-05-14 ) ]
+table Undergoes, columns = [ Undergoes.Patient ( integer | primary key | values: 100000001, 100000004 ), Undergoes.Procedures ( integer | values: 2, 6 ), Undergoes.Stay ( integer | values: 3215, 3217 ), Undergoes.DateUndergoes ( datetime | values: 2008-05-03, 2008-05-02 ), Undergoes.Physician ( integer | values: 3, 7 ), Undergoes.AssistingNurse ( integer | values: 101, 102 ) ]
+foreign keys:
+Department.Head = Physician.EmployeeID
+Affiliated_With.Department = Department.DepartmentID
+Affiliated_With.Physician = Physician.EmployeeID
+Trained_In.Treatment = Procedures.Code
+Trained_In.Physician = Physician.EmployeeID
+Patient.PCP = Physician.EmployeeID
+Appointment.Physician = Physician.EmployeeID
+Appointment.PrepNurse = Nurse.EmployeeID
+Appointment.Patient = Patient.SSN
+Prescribes.Appointment = Appointment.AppointmentID
+Prescribes.Medication = Medication.Code
+Prescribes.Patient = Patient.SSN
+Prescribes.Physician = Physician.EmployeeID
+Room.BlockFloor = Block.BlockFloor
+Room.BlockCode = Block.BlockCode
+On_Call.BlockFloor = Block.BlockFloor
+On_Call.BlockCode = Block.BlockCode
+On_Call.Nurse = Nurse.EmployeeID
+Stay.Room = Room.RoomNumber
+Stay.Patient = Patient.SSN
+Undergoes.AssistingNurse = Nurse.EmployeeID
+Undergoes.Physician = Physician.EmployeeID
+Undergoes.Stay = Stay.StayID
+Undergoes.Procedures = Procedures.Code
+Undergoes.Patient = Patient.SSN
+]
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What are the names of the singers who performed in a concert in 2014?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

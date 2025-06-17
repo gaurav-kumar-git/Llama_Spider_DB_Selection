@@ -1,0 +1,24 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table workshop, columns = [ workshop.Workshop_ID ( integer | primary key | values: 1, 2 ), workshop.Date ( text | values: August 18, 2007, August 21, 2007 ), workshop.Venue ( text | values: London UK, New Jersey USA ), workshop.Name ( text | values: ABC 2007, Conference 2007 ) ]
+table submission, columns = [ submission.Submission_ID ( integer | primary key | values: 1, 2 ), submission.Scores ( real | values: 72.0, 79.0 ), submission.Author ( text | values: Steve Niehaus, Sammy Green ), submission.College ( text | values: Notre Dame, Florida ) ]
+table Acceptance, columns = [ Acceptance.Submission_ID ( integer | primary key | values: 1, 2 ), Acceptance.Workshop_ID ( integer | values: 1, 3 ), Acceptance.Result ( text | values: Accepted, Rejected ) ]
+foreign keys:
+Acceptance.Workshop_ID = workshop.Workshop_ID
+Acceptance.Submission_ID = submission.Submission_ID
+]
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What are the different continents and the total popuation and average life expectancy corresponding to each, for continents that have an average life expectancy less than 72?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

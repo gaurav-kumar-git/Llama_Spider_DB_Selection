@@ -1,0 +1,22 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table mountain, columns = [ mountain.Mountain_ID ( integer | primary key | values: 1, 2 ), mountain.Name ( text | values: Kibo (Uhuru Pk), Mount Kenya (Batian) ), mountain.Height ( real | values: 5895.0, 5199.0 ), mountain.Prominence ( real | values: 5885.0, 3825.0 ), mountain.Range ( text | values: Kilimanjaro, Mount Kenya ), mountain.Country ( text | values: Tanzania, Kenya ) ]
+table climber, columns = [ climber.Climber_ID ( integer | primary key | values: 1, 2 ), climber.Name ( text | values: Klaus Enders, Siegfried Schauzu ), climber.Country ( text | values: West Germany, Switzerland ), climber.Time ( text | values: 1:13.05.6, 1:14.56.4 ), climber.Points ( real | values: 15.0, 12.0 ), climber.Mountain_ID ( integer | values: 1, 2 ) ]
+foreign keys:
+climber.Mountain_ID = mountain.Mountain_ID
+]
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: Show names of teachers and the number of courses they teach.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

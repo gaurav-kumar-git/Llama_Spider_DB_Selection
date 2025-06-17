@@ -1,0 +1,27 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table product, columns = [ product.product_id ( integer | primary key | values: 1, 2 ), product.product ( text | values: Fujitsu fi-6130 A4 Series Scanner, Plustek MobileOffice D28 Corporate ), product.dimensions ( text | values: 301 x 160 x 158, 303 x 94 x 60 ), product.dpi ( real | values: 600.0 ), product.pages_per_minute_color ( real | values: 30.0, 28.0 ), product.max_page_size ( text | values: A4, 216mm x 356mm ), product.interface ( text | values: USB 2.0 ) ]
+table store, columns = [ store.Store_ID ( integer | primary key | values: 1, 2 ), store.Store_Name ( text | values: Miramichi, Neguac ), store.Type ( text | values: City Mall, Village Store ), store.Area_size ( real | values: 179.84, 26.69 ), store.Number_of_product_category ( real | values: 17811.0, 1678.0 ), store.Ranking ( real | values: 2, 3 ) ]
+table district, columns = [ district.District_ID ( integer | primary key | values: 1, 2 ), district.District_name ( text | values: Attock District, Bahawalnagar District ), district.Headquartered_City ( text | values: Attock City, Bahawalnagar City ), district.City_Population ( real | values: 94620.0, 134936.0 ), district.City_Area ( real | values: 20.0, 13.0 ) ]
+table store_product, columns = [ store_product.Store_ID ( integer | primary key | values: 1, 2 ), store_product.Product_ID ( real | values: 1, 2 ) ]
+table store_district, columns = [ store_district.Store_ID ( integer | primary key | values: 1, 2 ), store_district.District_ID ( integer | values: 15, 11 ) ]
+foreign keys:
+store_product.Store_ID = store.Store_ID
+store_district.District_ID = district.District_ID
+store_district.Store_ID = store.Store_ID
+]
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What is the name and capacity of the stadium with the most concerts after 2013 ?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
