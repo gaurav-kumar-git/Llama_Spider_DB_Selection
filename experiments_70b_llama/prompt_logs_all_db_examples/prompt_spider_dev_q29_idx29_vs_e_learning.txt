@@ -1,0 +1,39 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Course_Authors_and_Tutors, columns = [ Course_Authors_and_Tutors.author_id ( integer | primary key | values: 1, 2 ), Course_Authors_and_Tutors.author_tutor_ATB ( text | values: 331, 975 ), Course_Authors_and_Tutors.login_name ( text | values: jmckenzie, heidenreich.ara ), Course_Authors_and_Tutors.password ( text | values: c40fa148bdd0d2d45cd6e9ec1e685750fe07f81b, 24b0ee84063c3b017ab1839e01b7280f47f7c7c2 ), Course_Authors_and_Tutors.personal_name ( text | values: Cathrine, Retha ), Course_Authors_and_Tutors.middle_name ( text | values: Ruthie, Corene ), Course_Authors_and_Tutors.family_name ( text | values: Grant, Armstrong ), Course_Authors_and_Tutors.gender_mf ( text | values: 0, 1 ), Course_Authors_and_Tutors.address_line_1 ( text | values: 756 Monahan Mews
+Spinkashire, NJ 64230-5098, 98623 Huels Manor
+Jasttown, DE 31611 ) ]
+table Students, columns = [ Students.student_id ( integer | primary key | values: 1, 2 ), Students.date_of_registration ( datetime | values: 2015-07-22 13:32:35, 2015-07-02 00:21:42 ), Students.date_of_latest_logon ( datetime | values: 2017-10-17 22:52:26, 2017-06-24 22:16:27 ), Students.login_name ( text | values: annamae.hoppe, wmiller ), Students.password ( text | values: db8765bb6f, 35faf8182a ), Students.personal_name ( text | values: Wilson, Karson ), Students.middle_name ( text | values: Aubrey, Luella ), Students.family_name ( text | values: Ward, Jaskolski ) ]
+table Subjects, columns = [ Subjects.subject_id ( integer | primary key | values: 1, 2 ), Subjects.subject_name ( text | values: Computer Science, Arts ) ]
+table Courses, columns = [ Courses.course_id ( integer | primary key | values: 1, 2 ), Courses.author_id ( integer | values: 8, 6 ), Courses.subject_id ( integer | values: 1, 2 ), Courses.course_name ( text | values: database, advanced database ), Courses.course_description ( text | values: database, advanced database ) ]
+table Student_Course_Enrolment, columns = [ Student_Course_Enrolment.registration_id ( integer | primary key | values: 1, 2 ), Student_Course_Enrolment.student_id ( integer | values: 11, 15 ), Student_Course_Enrolment.course_id ( integer | values: 2, 4 ), Student_Course_Enrolment.date_of_enrolment ( datetime | values: 2017-10-09 07:09:02, 2017-11-13 12:49:33 ), Student_Course_Enrolment.date_of_completion ( datetime | values: 2018-02-26 07:48:52, 2018-03-04 01:24:56 ) ]
+table Student_Tests_Taken, columns = [ Student_Tests_Taken.registration_id ( integer | values: 12, 10 ), Student_Tests_Taken.date_test_taken ( datetime | values: 2018-03-25 03:27:16, 2018-03-25 21:50:22 ), Student_Tests_Taken.test_result ( text | values: Fail, Pass ) ]
+foreign keys:
+Courses.subject_id = Subjects.subject_id
+Courses.author_id = Course_Authors_and_Tutors.author_id
+Student_Course_Enrolment.student_id = Students.student_id
+Student_Course_Enrolment.course_id = Courses.course_id
+Student_Tests_Taken.registration_id = Student_Course_Enrolment.registration_id
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--How many courses are there in total?
+--Find the total number of courses offered.
+--What are the descriptions of the courses with name "database"?
+--Return the description for the courses named "database".
+--What are the addresses of the course authors or tutors with personal name "Cathrine"
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What is the number of nations that use English and Dutch?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

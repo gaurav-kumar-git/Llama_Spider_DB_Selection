@@ -1,0 +1,49 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table artists, columns = [ artists.id ( integer | primary key | values: 1, 2 ), artists.name ( text | values: AC/DC, Accept ) ]
+table sqlite_sequence, columns = [ sqlite_sequence.name ( text | values: genres, media_types ), sqlite_sequence.seq ( text | values: 25, 5 ) ]
+table albums, columns = [ albums.id ( integer | primary key | values: 1, 4 ), albums.title ( text | values: For Those About To Rock We Salute You, Balls to the Wall ), albums.artist_id ( integer | values: 1, 2 ) ]
+table employees, columns = [ employees.id ( integer | primary key | values: 1, 2 ), employees.last_name ( text | values: Adams, Edwards ), employees.first_name ( text | values: Andrew, Nancy ), employees.title ( text | values: General Manager, Sales Manager ), employees.reports_to ( integer | values: 1, 2 ), employees.birth_date ( datetime | values: 1962-02-18 00:00:00, 1958-12-08 00:00:00 ), employees.hire_date ( datetime | values: 2002-08-14 00:00:00, 2002-05-01 00:00:00 ), employees.address ( text | values: 11120 Jasper Ave NW, 825 8 Ave SW ), employees.city ( text | values: Edmonton, Calgary ), employees.state ( text | values: AB ), employees.country ( text | values: Canada ), employees.postal_code ( text | values: T5K 2N1, T2P 2T3 ), employees.phone ( text | values: +1 (780) 428-9482, +1 (403) 262-3443 ), employees.fax ( text | values: +1 (780) 428-3457, +1 (403) 262-3322 ), employees.email ( text | values: andrew@chinookcorp.com, nancy@chinookcorp.com ) ]
+table customers, columns = [ customers.id ( integer | primary key | values: 1, 3 ), customers.first_name ( text | values: Luís, Leonie ), customers.last_name ( text | values: Gonçalves, Köhler ), customers.company ( text | values: Embraer - Empresa Brasileira de Aeronáutica S.A., JetBrains s.r.o. ), customers.address ( text | values: Av. Brigadeiro Faria Lima, 2170, Theodor-Heuss-Straße 34 ), customers.city ( text | values: São José dos Campos, Stuttgart ), customers.state ( text | values: SP, QC ), customers.country ( text | values: Brazil, Germany ), customers.postal_code ( text | values: 12227-000, 70174 ), customers.phone ( text | values: +55 (12) 3923-5555, +49 0711 2842222 ), customers.fax ( text | values: +55 (12) 3923-5566, +420 2 4172 5555 ), customers.email ( text | values: luisg@embraer.com.br, leonekohler@surfeu.de ), customers.support_rep_id ( integer | values: 3, 4 ) ]
+table genres, columns = [ genres.id ( integer | primary key | values: 1, 2 ), genres.name ( text | values: Rock, Jazz ) ]
+table invoices, columns = [ invoices.id ( integer | primary key | values: 98, 121 ), invoices.customer_id ( integer | values: 1, 2 ), invoices.invoice_date ( datetime | values: 2007-01-01 00:00:00, 2007-01-02 00:00:00 ), invoices.billing_address ( text | values: Theodor-Heuss-Straße 34, Ullevålsveien 14 ), invoices.billing_city ( text | values: Stuttgart, Oslo ), invoices.billing_state ( text | values: AB, MA ), invoices.billing_country ( text | values: Germany, Norway ), invoices.billing_postal_code ( text | values: 70174, 0171 ), invoices.total ( real | values: 1.98, 3.96 ) ]
+table media_types, columns = [ media_types.id ( integer | primary key | values: 1, 2 ), media_types.name ( text | values: MPEG audio file, Protected AAC audio file ) ]
+table tracks, columns = [ tracks.id ( integer | primary key | values: 1, 6 ), tracks.name ( text | values: For Those About To Rock (We Salute You), Balls to the Wall ), tracks.album_id ( integer | values: 1, 2 ), tracks.media_type_id ( integer | values: 1, 2 ), tracks.genre_id ( integer | values: 1, 2 ), tracks.composer ( text | values: Angus Young, Malcolm Young, Brian Johnson, F. Baltes, S. Kaufman, U. Dirkscneider & W. Hoffman ), tracks.milliseconds ( real | values: 343719, 342562 ), tracks.bytes ( real | values: 11170334, 5510424 ), tracks.unit_price ( real | values: 0.99, 1.99 ) ]
+table invoice_lines, columns = [ invoice_lines.id ( integer | primary key | values: 579, 1 ), invoice_lines.invoice_id ( integer | values: 1, 2 ), invoice_lines.track_id ( integer | values: 1, 2 ), invoice_lines.unit_price ( real | values: 0.99, 1.99 ), invoice_lines.quantity ( real | values: 1 ) ]
+table playlists, columns = [ playlists.id ( integer | primary key | values: 1, 2 ), playlists.name ( text | values: Music, Movies ) ]
+table playlist_tracks, columns = [ playlist_tracks.playlist_id ( integer | primary key | values: 1, 3 ), playlist_tracks.track_id ( integer | values: 1, 2 ) ]
+foreign keys:
+albums.artist_id = artists.id
+employees.reports_to = employees.id
+customers.support_rep_id = employees.id
+invoices.customer_id = customers.id
+tracks.media_type_id = media_types.id
+tracks.genre_id = genres.id
+tracks.album_id = albums.id
+invoice_lines.track_id = tracks.id
+invoice_lines.invoice_id = invoices.id
+playlist_tracks.track_id = tracks.id
+playlist_tracks.playlist_id = playlists.id
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--A list of the top 5 countries by number of invoices. List country name and number of invoices.
+--What are the top 5 countries by number of invoices and how many do they have?
+--A list of the top 8 countries by gross/total invoice size. List country name and gross invoice size.
+--What are the names of the top 8 countries by total invoice size and what are those sizes?
+--A list of the top 10 countries by average invoice size. List country name and average invoice size.
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: Find the first name and age of students who have a pet.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

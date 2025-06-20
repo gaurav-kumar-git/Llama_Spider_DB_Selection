@@ -1,0 +1,31 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table airport, columns = [ airport.id ( integer | primary key | values: 1, 2 ), airport.City ( text | values: Akureyri, Amsterdam ), airport.Country ( text | values: Iceland, Netherlands ), airport.IATA ( text | values: AEY, AMS ), airport.ICAO ( text | values: BIAR, EHAM ), airport.name ( text | values: Akureyri Airport, Schiphol Airport ) ]
+table operate_company, columns = [ operate_company.id ( integer | primary key | values: 1, 2 ), operate_company.name ( text | values: Air China, Air China Cargo ), operate_company.Type ( text | values: Corporate, Joint Venture ), operate_company.Principal_activities ( text | values: Airline, Cargo airline ), operate_company.Incorporated_in ( text | values: China, Hong Kong ), operate_company.Group_Equity_Shareholding ( real | values: 18.77, 49.0 ) ]
+table flight, columns = [ flight.id ( integer | primary key | values: 1, 2 ), flight.Vehicle_Flight_number ( text | values: M2-F1 #0, M2-F1 #1 ), flight.Date ( text | values: March 1, 1963, August 16, 1963 ), flight.Pilot ( text | values: Thompson, Peterson ), flight.Velocity ( real | values: 135.0, 240.0 ), flight.Altitude ( real | values: 0.0, 3650.0 ), flight.airport_id ( integer | values: 1, 2 ), flight.company_id ( integer | values: 2, 3 ) ]
+foreign keys:
+flight.company_id = operate_company.id
+flight.airport_id = airport.id
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--How many flights have a velocity larger than 200?
+--List the vehicle flight number, date and pilot of all the flights, ordered by altitude.
+--List the id, country, city and name of the airports ordered alphabetically by the name.
+--What is maximum group equity shareholding of the companies?
+--What is the velocity of the pilot named 'Thompson'?
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What are the birth years and citizenships of the singers?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
