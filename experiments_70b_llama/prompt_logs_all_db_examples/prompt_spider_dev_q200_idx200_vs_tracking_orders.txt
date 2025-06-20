@@ -1,0 +1,40 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Customers, columns = [ Customers.customer_id ( integer | primary key | values: 1, 2 ), Customers.customer_name ( text | values: Savannah, George ), Customers.customer_details ( text | values: rerum, est ) ]
+table Invoices, columns = [ Invoices.invoice_number ( integer | primary key | values: 1, 2 ), Invoices.invoice_date ( datetime | values: 1989-09-03 16:03:05, 1989-12-11 16:40:57 ), Invoices.invoice_details ( text | values: vitae, magnam ) ]
+table Orders, columns = [ Orders.order_id ( integer | primary key | values: 1, 2 ), Orders.customer_id ( integer | values: 2, 11 ), Orders.order_status ( text | values: Shipped, Packing ), Orders.date_order_placed ( datetime | values: 2009-02-21 15:26:19, 1974-06-24 22:10:26 ), Orders.order_details ( text | values: N/A ) ]
+table Products, columns = [ Products.product_id ( integer | primary key | values: 1, 2 ), Products.product_name ( text | values: food, book ), Products.product_details ( text | values: N/A ) ]
+table Order_Items, columns = [ Order_Items.order_item_id ( integer | primary key | values: 1, 2 ), Order_Items.product_id ( integer | values: 4, 15 ), Order_Items.order_id ( integer | values: 6, 15 ), Order_Items.order_item_status ( text | values: Finish, Payed ), Order_Items.order_item_details ( text | values: N/A ) ]
+table Shipments, columns = [ Shipments.shipment_id ( integer | primary key | values: 1, 2 ), Shipments.order_id ( integer | values: 5, 7 ), Shipments.invoice_number ( integer | values: 13, 2 ), Shipments.shipment_tracking_number ( text | values: 3452, 0114 ), Shipments.shipment_date ( datetime | values: 1983-08-13 22:34:11, 1977-11-10 12:11:25 ), Shipments.other_shipment_details ( text | values: N/A ) ]
+table Shipment_Items, columns = [ Shipment_Items.shipment_id ( integer | values: 11, 10 ), Shipment_Items.order_item_id ( integer | values: 12, 15 ) ]
+foreign keys:
+Orders.customer_id = Customers.customer_id
+Order_Items.product_id = Products.product_id
+Order_Items.order_id = Orders.order_id
+Shipments.invoice_number = Invoices.invoice_number
+Shipments.order_id = Orders.order_id
+Shipment_Items.shipment_id = Shipments.shipment_id
+Shipment_Items.order_item_id = Order_Items.order_item_id
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--What is the id of the most recent order?
+--Find the id of the order made most recently.
+--what are the order id and customer id of the oldest order?
+--Find the order id and customer id associated with the oldest order.
+--Find the id of the order whose shipment tracking number is "3452".
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: Show all the grades of the high schoolers.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

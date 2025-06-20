@@ -1,0 +1,31 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table buildings, columns = [ buildings.id ( integer | primary key | values: 1, 2 ), buildings.name ( text | values: Torre KOI, Torre Mitikah ), buildings.City ( text | values: Monterrey, Mexico City ), buildings.Height ( real | values: 220, 210 ), buildings.Stories ( real | values: 67, 60 ), buildings.Status ( text | values: under construction, proposed ) ]
+table Companies, columns = [ Companies.id ( integer | primary key | values: 1, 2 ), Companies.name ( text | values: JPMorgan Chase, HSBC ), Companies.Headquarters ( text | values: USA, UK ), Companies.Industry ( text | values: Banking, Conglomerate ), Companies.Sales_billion ( real | values: 115.5, 103.3 ), Companies.Profits_billion ( real | values: 17.4, 13.3 ), Companies.Assets_billion ( real | values: 2117.6, 2467.9 ), Companies.Market_Value_billion ( text | values: 182.2, 186.5 ) ]
+table Office_locations, columns = [ Office_locations.building_id ( integer | primary key | values: 1, 2 ), Office_locations.company_id ( integer | values: 1, 2 ), Office_locations.move_in_year ( real | values: 2021, 2022 ) ]
+foreign keys:
+Office_locations.company_id = Companies.id
+Office_locations.building_id = buildings.id
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--How many companies are there?
+--Count the number of companies.
+--List the names of companies in descending order of market value.
+--Sort the company names in descending order of the company's market value.
+--What are the names of companies whose headquarters are not "USA"?
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: How many dog pets are raised by female students?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

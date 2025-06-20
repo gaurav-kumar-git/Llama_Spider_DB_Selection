@@ -1,0 +1,30 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Person, columns = [ Person.name ( text | primary key | values: Alice, Bob ), Person.age ( real | values: 25, 35 ), Person.city ( text | values: new york city, salt lake city ), Person.gender ( text | values: female, male ), Person.job ( text | values: student, engineer ) ]
+table PersonFriend, columns = [ PersonFriend.name ( text | values: Alice, Zach ), PersonFriend.friend ( text | values: Bob, Dan ), PersonFriend.year ( real | values: 10, 12 ) ]
+foreign keys:
+PersonFriend.friend = Person.name
+PersonFriend.name = Person.name
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--How many friends does Dan have?
+--How many friends does Dan have?
+--How many females does this network has?
+--How many females are in the network?
+--What is the average age for all person?
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: Find the average age of losers and winners of all matches.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

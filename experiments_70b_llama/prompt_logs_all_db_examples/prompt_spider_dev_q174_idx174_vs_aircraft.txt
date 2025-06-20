@@ -1,0 +1,35 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table pilot, columns = [ pilot.Pilot_Id ( integer | primary key | values: 1, 2 ), pilot.Name ( text | values: Prof. Zackery Collins, Katheryn Gorczany IV ), pilot.Age ( real | values: 23, 20 ) ]
+table aircraft, columns = [ aircraft.Aircraft_ID ( integer | primary key | values: 1, 2 ), aircraft.Aircraft ( text | values: Robinson R-22, Bell 206B3 JetRanger ), aircraft.Description ( text | values: Light utility helicopter, Turboshaft utility helicopter ), aircraft.Max_Gross_Weight ( text | values: 1,370 lb (635 kg), 3,200 lb (1,451 kg) ), aircraft.Total_disk_area ( text | values: 497 ft² (46.2 m²), 872 ft² (81.1 m²) ), aircraft.Max_disk_Loading ( text | values: 2.6 lb/ft² (14 kg/m²), 3.7 lb/ft² (18 kg/m²) ) ]
+table match, columns = [ match.Round ( integer | primary key | values: 1.0, 2.0 ), match.Location ( text | values: Mina' Zayid , Abu Dhabi, Swan River , Perth ), match.Country ( text | values: United Arab Emirates, Australia ), match.Date ( text | values: March 26–27, April 17–18 ), match.Fastest_Qualifying ( text | values: Hannes Arch, Paul Bonhomme ), match.Winning_Pilot ( text | values: 1, 4 ), match.Winning_Aircraft ( text | values: 1, 2 ) ]
+table airport, columns = [ airport.Airport_ID ( integer | primary key | values: 1, 2 ), airport.Airport_Name ( text | values: London Heathrow, London Gatwick ), airport.Total_Passengers ( real | values: 67054745.0, 34205887.0 ), airport.%_Change_2007 ( text | values: 1.5%, 2.9% ), airport.International_Passengers ( real | values: 61344438.0, 30431051.0 ), airport.Domestic_Passengers ( real | values: 5562516.0, 3730963.0 ), airport.Transit_Passengers ( real | values: 147791.0, 43873.0 ), airport.Aircraft_Movements ( real | values: 478693.0, 263653.0 ), airport.Freight_Metric_Tonnes ( real | values: 1397054.0, 107702.0 ) ]
+table airport_aircraft, columns = [ airport_aircraft.ID ( real | values: 1, 2 ), airport_aircraft.Airport_ID ( integer | primary key | values: 1, 2 ), airport_aircraft.Aircraft_ID ( integer | values: 2, 1 ) ]
+foreign keys:
+match.Winning_Pilot = pilot.Pilot_Id
+match.Winning_Aircraft = aircraft.Aircraft_ID
+airport_aircraft.Aircraft_ID = aircraft.Aircraft_ID
+airport_aircraft.Airport_ID = airport.Airport_ID
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--How many aircrafts are there?
+--What is the number of aircraft?
+--List the description of all aircrafts.
+--What are the descriptions for the aircrafts?
+--What is the average number of international passengers of all airports?
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: How many conductors are there?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

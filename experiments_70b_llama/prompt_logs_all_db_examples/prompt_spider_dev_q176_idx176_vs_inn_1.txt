@@ -1,0 +1,29 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Rooms, columns = [ Rooms.RoomId ( text | primary key | values: AOB, CAS ), Rooms.roomName ( text | values: Recluse and defiance, Interim but salutary ), Rooms.beds ( real | values: 1, 2 ), Rooms.bedType ( text | values: King, Queen ), Rooms.maxOccupancy ( real | values: 2, 4 ), Rooms.basePrice ( real | values: 150, 175 ), Rooms.decor ( text | values: modern, traditional ) ]
+table Reservations, columns = [ Reservations.Code ( integer | primary key | values: 10105, 10183 ), Reservations.Room ( text | values: HBB, IBD ), Reservations.CheckIn ( text | values: 23-OCT-10, 19-SEP-10 ), Reservations.CheckOut ( text | values: 25-OCT-10, 20-SEP-10 ), Reservations.Rate ( real | values: 100.0, 150.0 ), Reservations.LastName ( text | values: SELBIG, GABLER ), Reservations.FirstName ( text | values: CONRAD, DOLLIE ), Reservations.Adults ( real | values: 1, 2 ), Reservations.Kids ( real | values: 0, 1 ) ]
+foreign keys:
+Reservations.Room = Rooms.RoomId
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--Find the names of all modern rooms with a base price below $160 and two beds.
+--What are the names of modern rooms that have a base price lower than $160 and two beds.
+--Find all the rooms that have a price higher than 160 and can accommodate more than 2 people. Report room names and ids.
+--What are the room names and ids of all the rooms that cost more than 160 and can accommodate more than two people.
+--Find the most popular room in the hotel. The most popular room is the room that had seen the largest number of reservations.
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: Show the student IDs and numbers of friends corresponding to each.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

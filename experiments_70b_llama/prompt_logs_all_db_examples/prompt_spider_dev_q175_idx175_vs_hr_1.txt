@@ -1,0 +1,40 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table regions, columns = [ regions.REGION_ID ( integer | primary key | values: 1, 2 ), regions.REGION_NAME ( text | values: Europe\r, Americas\r ) ]
+table countries, columns = [ countries.COUNTRY_ID ( text | primary key | values: AR, AU ), countries.COUNTRY_NAME ( text | values: Argentina, Australia ), countries.REGION_ID ( integer | values: 2, 3 ) ]
+table departments, columns = [ departments.DEPARTMENT_ID ( integer | primary key | values: 10, 20 ), departments.DEPARTMENT_NAME ( text | values: Administration, Marketing ), departments.MANAGER_ID ( real | values: 200, 201 ), departments.LOCATION_ID ( real | values: 1700, 1800 ) ]
+table jobs, columns = [ jobs.JOB_ID ( text | primary key | values: AC_ACCOUNT, AC_MGR ), jobs.JOB_TITLE ( text | values: President, Administration Vice President ), jobs.MIN_SALARY ( real | values: 20000, 15000 ), jobs.MAX_SALARY ( real | values: 40000, 30000 ) ]
+table employees, columns = [ employees.EMPLOYEE_ID ( integer | primary key | values: 100, 101 ), employees.FIRST_NAME ( text | values: Steven, Neena ), employees.LAST_NAME ( text | values: King, Kochhar ), employees.EMAIL ( text | values: SKING, NKOCHHAR ), employees.PHONE_NUMBER ( text | values: 515.123.4567, 515.123.4568 ), employees.HIRE_DATE ( datetime | values: 1987-06-17, 1987-06-18 ), employees.JOB_ID ( text | values: AD_PRES, AD_VP ), employees.SALARY ( real | values: 24000, 17000 ), employees.COMMISSION_PCT ( real | values: 0, 0.4 ), employees.MANAGER_ID ( real | values: 0, 100 ), employees.DEPARTMENT_ID ( integer | values: 90, 60 ) ]
+table job_history, columns = [ job_history.EMPLOYEE_ID ( integer | primary key | values: 0, 101 ), job_history.START_DATE ( datetime | values: 0000-00-00, 1989-09-21 ), job_history.END_DATE ( datetime | values: 1998-07-24, 1993-10-27 ), job_history.JOB_ID ( text | values: IT_PROG, AC_ACCOUNT ), job_history.DEPARTMENT_ID ( integer | values: 60, 110 ) ]
+table locations, columns = [ locations.LOCATION_ID ( integer | primary key | values: 1000, 1100 ), locations.STREET_ADDRESS ( text | values: 1297 Via Cola di Rie, 93091 Calle della Testa ), locations.POSTAL_CODE ( text | values: 989, 10934 ), locations.CITY ( text | values: Roma, Venice ), locations.STATE_PROVINCE ( text | values: , Tokyo Prefecture ), locations.COUNTRY_ID ( text | values: IT, JP ) ]
+foreign keys:
+countries.REGION_ID = regions.REGION_ID
+employees.JOB_ID = jobs.JOB_ID
+employees.DEPARTMENT_ID = departments.DEPARTMENT_ID
+job_history.JOB_ID = jobs.JOB_ID
+job_history.DEPARTMENT_ID = departments.DEPARTMENT_ID
+job_history.EMPLOYEE_ID = employees.EMPLOYEE_ID
+locations.COUNTRY_ID = countries.COUNTRY_ID
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--Display the first name and department name for each employee.
+--What are the first name and department name of all employees?
+--List the full name (first and last name), and salary for those employees who earn below 6000.
+--What are the full names and salaries for any employees earning less than 6000?
+--Display the first name, and department number for all employees whose last name is "McEwen".
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: Find the highest rank of losers in all matches.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
