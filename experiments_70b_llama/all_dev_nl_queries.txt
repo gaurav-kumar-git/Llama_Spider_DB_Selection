@@ -1,5 +1,5 @@
 Randomly selected 1034 NL queries for the experiment:
-  Test Query 1: 'How many 'United Airlines' flights go to Airport 'ASY'?' (True DB: flight_2)
+  Test Query 1: 'How many available features are there in total?' (True DB: real_estate_properties)
   Test Query 2: 'What are the name of the countries where there is not a single car maker?' (True DB: car_1)
   Test Query 3: 'What are the date and the operating professional's first name of each treatment?' (True DB: dog_kennels)
   Test Query 4: 'List each owner's first name, last name, and the size of his for her dog.' (True DB: dog_kennels)
