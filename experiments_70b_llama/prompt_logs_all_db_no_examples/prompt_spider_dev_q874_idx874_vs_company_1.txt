@@ -1,0 +1,23 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table works_on, columns = [ works_on.Essn ( integer | primary key | values: 123456789, 333445555 ), works_on.Pno ( real | values: 1, 2 ), works_on.Hours ( real | values: 32.5, 7.5 ) ]
+table employee, columns = [ employee.Fname ( text | values: Jonh, Franklin ), employee.Minit ( text | values: B, T ), employee.Lname ( text | values: Smith, Wong ), employee.Ssn ( integer | primary key | values: 123456789, 333445555 ), employee.Bdate ( text | values: 1965-01-09, 1955-12-08 ), employee.Address ( text | values: 731 Fondren, Houston, TX, 638 Voss, Houston, TX ), employee.Sex ( text | values: M, F ), employee.Salary ( real | values: 30000, 40000 ), employee.Super_ssn ( real | values: 333445555, 888665555 ), employee.Dno ( real | values: 5, 1 ) ]
+table department, columns = [ department.Dname ( text | values: Headquarters, Administration ), department.Dnumber ( integer | primary key | values: 1, 4 ), department.Mgr_ssn ( real | values: 888665555, 987654321 ), department.Mgr_start_date ( text | values: 1981-06-19, 1995-01-01 ) ]
+table project, columns = [ project.Pname ( text | values: ProductX, ProductY ), project.Pnumber ( integer | primary key | values: 1, 2 ), project.Plocation ( text | values: Bellaire, Sugarland ), project.Dnum ( real | values: 5, 4 ) ]
+table dependent, columns = [ dependent.Essn ( integer | primary key | values: 123456789, 333445555 ), dependent.Dependent_name ( text | values: Alice, Elizabeth ), dependent.Sex ( text | values: F, M ), dependent.Bdate ( text | values: 1986-04-05, 1983-10-25 ), dependent.Relationship ( text | values: Daughter, Son ) ]
+table dept_locations, columns = [ dept_locations.Dnumber ( integer | primary key | values: 1, 4 ), dept_locations.Dlocation ( text | values: Houston, Stafford ) ]
+]
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: How many paragraphs in total?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

@@ -1,0 +1,31 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table party, columns = [ party.Party_ID ( integer | primary key | values: 1, 2 ), party.Party_Theme ( text | values: Spring, Club Q-BASE ), party.Location ( text | values: Hemkade 48 Zaandam, Various locations ), party.First_year ( text | values: 2000, 2002 ), party.Last_year ( text | values: 2001, 2002 ), party.Number_of_hosts ( real | values: 5, 23 ) ]
+table host, columns = [ host.Host_ID ( integer | primary key | values: 1, 2 ), host.Name ( text | values: Austin Daye, Lloyd Daniels ), host.Nationality ( text | values: United States, Hungary ), host.Age ( text | values: 43, 37 ) ]
+table party_host, columns = [ party_host.Party_ID ( integer | primary key | values: 1, 2 ), party_host.Host_ID ( integer | values: 1, 5 ), party_host.Is_Main_in_Charge ( text | values: T, F ) ]
+foreign keys:
+party_host.Party_ID = party.Party_ID
+party_host.Host_ID = host.Host_ID
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--How many parties are there?
+--Count the number of parties.
+--List the themes of parties in ascending order of number of hosts.
+--What are the themes of parties ordered by the number of hosts in ascending manner?
+--What are the themes and locations of parties?
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What is the description of the treatment type that costs the least money in total?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

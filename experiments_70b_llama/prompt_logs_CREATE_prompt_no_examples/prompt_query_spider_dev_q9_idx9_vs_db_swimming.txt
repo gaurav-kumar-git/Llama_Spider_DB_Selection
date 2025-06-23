@@ -1,0 +1,74 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Task: Can the question be answered using the schema? Respond with 1 (Yes) or 0 (No).
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# Now, evaluate the following:
+
+[Schema:
+CREATE TABLE swimmer (
+  ID INTEGER PRIMARY KEY,
+  name TEXT,
+  Nationality TEXT,
+  meter_100 REAL,
+  meter_200 TEXT,
+  meter_300 TEXT,
+  meter_400 TEXT,
+  meter_500 TEXT,
+  meter_600 TEXT,
+  meter_700 TEXT,
+  Time TEXT
+);
+
+CREATE TABLE stadium (
+  ID INTEGER PRIMARY KEY,
+  name TEXT,
+  Capacity REAL,
+  City TEXT,
+  Country TEXT,
+  Opening_year REAL
+);
+
+CREATE TABLE event (
+  ID INTEGER PRIMARY KEY,
+  Name TEXT,
+  Stadium_ID INTEGER,
+  Year TEXT,
+  FOREIGN KEY (Stadium_ID) REFERENCES stadium (ID)
+);
+
+CREATE TABLE record (
+  ID REAL,
+  Result TEXT,
+  Swimmer_ID INTEGER PRIMARY KEY,
+  Event_ID INTEGER,
+  FOREIGN KEY (Swimmer_ID) REFERENCES swimmer (ID),
+  FOREIGN KEY (Event_ID) REFERENCES event (ID)
+);
+]
+Q: What is the most common nationality of people?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

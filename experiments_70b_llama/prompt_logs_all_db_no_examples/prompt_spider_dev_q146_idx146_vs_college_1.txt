@@ -1,0 +1,34 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table CLASS, columns = [ CLASS.CLASS_CODE ( text | primary key | values: 10012, 10013 ), CLASS.CRS_CODE ( text | values: ACCT-211, ACCT-212 ), CLASS.CLASS_SECTION ( text | values: 1, 2 ), CLASS.CLASS_TIME ( text | values: MWF 8:00-8:50 a.m., MWF 9:00-9:50 a.m. ), CLASS.CLASS_ROOM ( text | values: BUS311, BUS200 ), CLASS.PROF_NUM ( integer | values: 105, 342 ) ]
+table COURSE, columns = [ COURSE.CRS_CODE ( text | primary key | values: ACCT-211, ACCT-212 ), COURSE.DEPT_CODE ( text | values: ACCT, CIS ), COURSE.CRS_DESCRIPTION ( text | values: Accounting I, Accounting II ), COURSE.CRS_CREDIT ( real | values: 3.0, 4.0 ) ]
+table DEPARTMENT, columns = [ DEPARTMENT.DEPT_CODE ( text | primary key | values: ACCT, ART ), DEPARTMENT.DEPT_NAME ( text | values: Accounting, Fine Arts ), DEPARTMENT.SCHOOL_CODE ( text | values: BUS, A&SCI ), DEPARTMENT.EMP_NUM ( integer | values: 114, 435 ), DEPARTMENT.DEPT_ADDRESS ( text | values: KLR 211, Box 52, BBG 185, Box 128 ), DEPARTMENT.DEPT_EXTENSION ( text | values: 3119, 2278 ) ]
+table EMPLOYEE, columns = [ EMPLOYEE.EMP_NUM ( integer | primary key | values: 100, 101 ), EMPLOYEE.EMP_LNAME ( text | values: Worley, Ramso ), EMPLOYEE.EMP_FNAME ( text | values: James, Henry ), EMPLOYEE.EMP_INITIAL ( text | values: F, B ), EMPLOYEE.EMP_JOBCODE ( text | values: CUST, TECH ), EMPLOYEE.EMP_HIREDATE ( datetime | values: 1978-2-23, 1994-11-15 ), EMPLOYEE.EMP_DOB ( datetime | values: 1950-6-12, 1961-11-2 ) ]
+table ENROLL, columns = [ ENROLL.CLASS_CODE ( text | values: 10014, 10018 ), ENROLL.STU_NUM ( integer | values: 321452, 324257 ), ENROLL.ENROLL_GRADE ( text | values: C, B ) ]
+table PROFESSOR, columns = [ PROFESSOR.EMP_NUM ( integer | values: 103, 104 ), PROFESSOR.DEPT_CODE ( text | values: HIST, ENG ), PROFESSOR.PROF_OFFICE ( text | values: DRE 156, DRE 102 ), PROFESSOR.PROF_EXTENSION ( text | values: 6783, 5561 ), PROFESSOR.PROF_HIGH_DEGREE ( text | values: Ph.D., MA ) ]
+table STUDENT, columns = [ STUDENT.STU_NUM ( integer | primary key | values: 321452, 324257 ), STUDENT.STU_LNAME ( text | values: Bowser, Smithson ), STUDENT.STU_FNAME ( text | values: William, Anne ), STUDENT.STU_INIT ( text | values: C, K ), STUDENT.STU_DOB ( datetime | values: 1975-2-12, 1981-11-15 ), STUDENT.STU_HRS ( real | values: 42, 81 ), STUDENT.STU_CLASS ( text | values: So, Jr ), STUDENT.STU_GPA ( real | values: 2.84, 3.27 ), STUDENT.STU_TRANSFER ( real | values: 0, 1 ), STUDENT.DEPT_CODE ( text | values: BIOL, CIS ), STUDENT.STU_PHONE ( text | values: 2134, 2256 ), STUDENT.PROF_NUM ( real | values: 205, 222 ) ]
+foreign keys:
+CLASS.PROF_NUM = EMPLOYEE.EMP_NUM
+CLASS.CRS_CODE = COURSE.CRS_CODE
+COURSE.DEPT_CODE = DEPARTMENT.DEPT_CODE
+DEPARTMENT.EMP_NUM = EMPLOYEE.EMP_NUM
+ENROLL.STU_NUM = STUDENT.STU_NUM
+ENROLL.CLASS_CODE = CLASS.CLASS_CODE
+PROFESSOR.DEPT_CODE = DEPARTMENT.DEPT_CODE
+PROFESSOR.EMP_NUM = EMPLOYEE.EMP_NUM
+STUDENT.DEPT_CODE = DEPARTMENT.DEPT_CODE
+]
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: Which country does Airline "JetBlue Airways" belong to?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

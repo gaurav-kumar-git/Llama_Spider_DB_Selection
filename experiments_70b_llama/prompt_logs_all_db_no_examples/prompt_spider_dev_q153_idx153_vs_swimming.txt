@@ -1,0 +1,25 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table swimmer, columns = [ swimmer.ID ( integer | primary key | values: 1, 2 ), swimmer.name ( text | values: Przemysław Stańczyk, Craig Stevens ), swimmer.Nationality ( text | values: Poland, Australia ), swimmer.meter_100 ( real | values: 57.31, 57.35 ), swimmer.meter_200 ( text | values: 1:57.10, 1:56.34 ), swimmer.meter_300 ( text | values: 2:56.02, 2:55.90 ), swimmer.meter_400 ( text | values: 3:55.36, 3:55.72 ), swimmer.meter_500 ( text | values: 4:54.21, 4:55.08 ), swimmer.meter_600 ( text | values: 5:52.59, 5:54.45 ), swimmer.meter_700 ( text | values: 6:50.91, 6:52.69 ), swimmer.Time ( text | values: 7:47.91, 7:48.67 ) ]
+table stadium, columns = [ stadium.ID ( integer | primary key | values: 1, 2 ), stadium.name ( text | values: Nou Mestalla, Gazprom Arena ), stadium.Capacity ( real | values: 75000, 69501 ), stadium.City ( text | values: Valencia, Saint Petersburg ), stadium.Country ( text | values: Spain, Russia ), stadium.Opening_year ( real | values: 2004, 2005 ) ]
+table event, columns = [ event.ID ( integer | primary key | values: 1, 2 ), event.Name ( text | values: FINA, Pacific ), event.Stadium_ID ( integer | values: 1, 10 ), event.Year ( text | values: 2016, 2011 ) ]
+table record, columns = [ record.ID ( real | values: 1, 2 ), record.Result ( text | values: NC, Win ), record.Swimmer_ID ( integer | primary key | values: 1, 2 ), record.Event_ID ( integer | values: 1, 2 ) ]
+foreign keys:
+event.Stadium_ID = stadium.ID
+record.Swimmer_ID = swimmer.ID
+record.Event_ID = event.ID
+]
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: List the record company shared by the most number of orchestras.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

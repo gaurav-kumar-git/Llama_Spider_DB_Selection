@@ -1,0 +1,49 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table classroom, columns = [ classroom.building ( text | primary key | values: Alumni, Bronfman ), classroom.room_number ( text | values: 143, 547 ), classroom.capacity ( real | values: 10, 27 ) ]
+table department, columns = [ department.dept_name ( text | primary key | values: Accounting, Astronomy ), department.building ( text | values: Chandler, Candlestick ), department.budget ( real | values: 255041.46, 647610.55 ) ]
+table course, columns = [ course.course_id ( text | primary key | values: 101, 105 ), course.title ( text | values: C  Programming, The Music of Donovan ), course.dept_name ( text | values: Mech. Eng., Comp. Sci. ), course.credits ( real | values: 4, 3 ) ]
+table instructor, columns = [ instructor.ID ( text | primary key | values: 14365, 15347 ), instructor.name ( text | values: McKinnon, Pingr ), instructor.dept_name ( text | values: Cybernetics, Statistics ), instructor.salary ( real | values: 94333.99, 59303.62 ) ]
+table section, columns = [ section.course_id ( text | primary key | values: 105, 137 ), section.sec_id ( text | values: 1, 2 ), section.semester ( text | values: Fall, Spring ), section.year ( real | values: 2009, 2002 ), section.building ( text | values: Chandler, Gates ), section.room_number ( text | values: 804, 314 ), section.time_slot_id ( text | values: N, K ) ]
+table teaches, columns = [ teaches.ID ( text | primary key | values: 14365, 15347 ), teaches.course_id ( text | values: 747, 169 ), teaches.sec_id ( text | values: 1, 2 ), teaches.semester ( text | values: Spring, Fall ), teaches.year ( integer | values: 2004, 2007 ) ]
+table student, columns = [ student.ID ( text | primary key | values: 1000, 10033 ), student.name ( text | values: Schrefl, Rumat ), student.dept_name ( text | values: History, Finance ), student.tot_cred ( real | values: 4, 100 ) ]
+table takes, columns = [ takes.ID ( text | primary key | values: 1000, 10033 ), takes.course_id ( text | values: 239, 319 ), takes.sec_id ( text | values: 1, 2 ), takes.semester ( text | values: Fall, Spring ), takes.year ( integer | values: 2006, 2003 ), takes.grade ( text | values: C-, B- ) ]
+table advisor, columns = [ advisor.s_ID ( text | primary key | values: 1000, 10033 ), advisor.i_ID ( text | values: 19368, 95030 ) ]
+table time_slot, columns = [ time_slot.time_slot_id ( text | primary key | values: A, B ), time_slot.day ( text | values: F, M ), time_slot.start_hr ( real | values: 8, 9 ), time_slot.start_min ( real | values: 0, 30 ), time_slot.end_hr ( real | values: 8, 9 ), time_slot.end_min ( real | values: 50, 45 ) ]
+table prereq, columns = [ prereq.course_id ( text | primary key | values: 133, 158 ), prereq.prereq_id ( text | values: 130, 169 ) ]
+foreign keys:
+course.dept_name = department.dept_name
+instructor.dept_name = department.dept_name
+section.building = classroom.building
+section.room_number = classroom.room_number
+section.course_id = course.course_id
+teaches.ID = instructor.ID
+teaches.course_id = section.course_id
+teaches.sec_id = section.sec_id
+teaches.semester = section.semester
+teaches.year = section.year
+student.dept_name = department.dept_name
+takes.ID = student.ID
+takes.course_id = section.course_id
+takes.sec_id = section.sec_id
+takes.semester = section.semester
+takes.year = section.year
+advisor.s_ID = student.ID
+advisor.i_ID = instructor.ID
+prereq.prereq_id = course.course_id
+prereq.course_id = course.course_id
+]
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What is the content of the series Sky Radio?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

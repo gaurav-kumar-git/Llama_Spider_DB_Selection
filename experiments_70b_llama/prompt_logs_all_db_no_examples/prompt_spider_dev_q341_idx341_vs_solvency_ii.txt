@@ -1,0 +1,42 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Addresses, columns = [ Addresses.Address_ID ( integer | primary key | values: 1, 2 ), Addresses.address_details ( text | values: 465 Emely Bypass
+West Mafalda, CO 23309, 669 Carter Trafficway
+Port Delbert, OK 66249 ) ]
+table Locations, columns = [ Locations.Location_ID ( integer | primary key | values: 1, 2 ), Locations.Other_Details ( text | values: Rowe PLC, Ebert, Green and Bogisich ) ]
+table Products, columns = [ Products.Product_ID ( integer | primary key | values: 1, 3 ), Products.Product_Type_Code ( text | values: Books, Food ), Products.Product_Name ( text | values: Business Policy, Special Dinning ), Products.Product_Price ( real | values: 1336.26, 2894.94 ) ]
+table Parties, columns = [ Parties.Party_ID ( integer | primary key | values: 3, 4 ), Parties.Party_Details ( text | values: European People's Party, European Free Alliance ) ]
+table Assets, columns = [ Assets.Asset_ID ( integer | primary key | values: 1, 2 ), Assets.Other_Details ( text | values: Transportation Cars, Meeting Rooms ) ]
+table Channels, columns = [ Channels.Channel_ID ( integer | primary key | values: 1, 2 ), Channels.Other_Details ( text | values: 145, 348 ) ]
+table Finances, columns = [ Finances.Finance_ID ( integer | primary key | values: 1, 2 ), Finances.Other_Details ( text | values: Mutual, Good ) ]
+table Events, columns = [ Events.Event_ID ( integer | primary key | values: 1, 2 ), Events.Address_ID ( integer | values: 3, 15 ), Events.Channel_ID ( real | values: 12, 13 ), Events.Event_Type_Code ( text | values: Trade Show, Press Conferenc ), Events.Finance_ID ( integer | values: 2, 8 ), Events.Location_ID ( integer | values: 13, 11 ) ]
+table Products_in_Events, columns = [ Products_in_Events.Product_in_Event_ID ( integer | primary key | values: 13, 23 ), Products_in_Events.Event_ID ( integer | values: 4, 8 ), Products_in_Events.Product_ID ( integer | values: 29, 3 ) ]
+table Parties_in_Events, columns = [ Parties_in_Events.Party_ID ( integer | primary key | values: 3, 4 ), Parties_in_Events.Event_ID ( integer | values: 7, 8 ), Parties_in_Events.Role_Code ( text | values: Organizer, Participant ) ]
+table Agreements, columns = [ Agreements.Document_ID ( integer | primary key | values: 1, 2 ), Agreements.Event_ID ( integer | values: 13, 15 ) ]
+table Assets_in_Events, columns = [ Assets_in_Events.Asset_ID ( integer | primary key | values: 1, 2 ), Assets_in_Events.Event_ID ( integer | values: 4, 5 ) ]
+foreign keys:
+Events.Finance_ID = Finances.Finance_ID
+Events.Address_ID = Addresses.Address_ID
+Events.Location_ID = Locations.Location_ID
+Products_in_Events.Product_ID = Products.Product_ID
+Products_in_Events.Event_ID = Events.Event_ID
+Parties_in_Events.Event_ID = Events.Event_ID
+Parties_in_Events.Party_ID = Parties.Party_ID
+Agreements.Event_ID = Events.Event_ID
+Assets_in_Events.Event_ID = Events.Event_ID
+Assets_in_Events.Event_ID = Events.Event_ID
+]
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What is the id of the pet owned by the student whose last name is 'Smith'?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

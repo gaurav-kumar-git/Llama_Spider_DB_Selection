@@ -1,0 +1,23 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Student, columns = [ Student.StuID ( integer | primary key | values: 1001, 1002 ), Student.LName ( text | values: Smith, Kim ), Student.Fname ( text | values: Linda, Tracy ), Student.Age ( real | values: 18, 19 ), Student.Sex ( text | values: F, M ), Student.Major ( real | values: 600, 520 ), Student.Advisor ( real | values: 1121, 7712 ), Student.city_code ( text | values: BAL, HKG ) ]
+table Club, columns = [ Club.ClubID ( integer | primary key | values: 1, 2 ), Club.ClubName ( text | values: Bootup Baltimore, Hopkins Student Enterprises ), Club.ClubDesc ( text | values: Refurbish computers; teach kids and adults about computer basics., Venture capital fund for student business. ), Club.ClubLocation ( text | values: AKW, HHH ) ]
+table Member_of_club, columns = [ Member_of_club.StuID ( integer | values: 1001, 1007 ), Member_of_club.ClubID ( integer | values: 1, 4 ), Member_of_club.Position ( text | values: President, Vice-President ) ]
+foreign keys:
+Member_of_club.ClubID = Club.ClubID
+Member_of_club.StuID = Student.StuID
+]
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What are the ids of high school students who do not have friends?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

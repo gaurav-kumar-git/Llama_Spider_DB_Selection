@@ -1,0 +1,51 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Addresses, columns = [ Addresses.address_id ( integer | primary key | values: 1, 2 ), Addresses.address_details ( text | values: 28481 Crist Circle
+East Burdettestad, IA 21232, 0292 Mitchel Pike
+Port Abefurt, IA 84402-4249 ) ]
+table Staff, columns = [ Staff.staff_id ( integer | primary key | values: 1, 2 ), Staff.staff_gender ( text | values: 1, 0 ), Staff.staff_name ( text | values: Tom, Malika ) ]
+table Suppliers, columns = [ Suppliers.supplier_id ( integer | primary key | values: 1, 2 ), Suppliers.supplier_name ( text | values: Lidl, AB Store ), Suppliers.supplier_phone ( text | values: (692)009-5928, 1-483-283-4742 ) ]
+table Department_Store_Chain, columns = [ Department_Store_Chain.dept_store_chain_id ( integer | primary key | values: 1, 2 ), Department_Store_Chain.dept_store_chain_name ( text | values: South, West ) ]
+table Customers, columns = [ Customers.customer_id ( integer | primary key | values: 1, 2 ), Customers.payment_method_code ( text | values: Credit Card, Direct Debit ), Customers.customer_code ( text | values: 401, 665 ), Customers.customer_name ( text | values: Ahmed, Chauncey ), Customers.customer_address ( text | values: 75099 Tremblay Port Apt. 163
+South Norrisland, SC 80546, 8408 Lindsay Court
+East Dasiabury, IL 72656-3552 ), Customers.customer_phone ( text | values: 254-072-4068x33935, +41(8)1897032009 ), Customers.customer_email ( text | values: margarett.vonrueden@example.com, stiedemann.sigrid@example.com ) ]
+table Products, columns = [ Products.product_id ( integer | primary key | values: 1, 2 ), Products.product_type_code ( text | values: Clothes, Hardware ), Products.product_name ( text | values: red jeans, yellow jeans ), Products.product_price ( real | values: 734.73, 687.23 ) ]
+table Supplier_Addresses, columns = [ Supplier_Addresses.supplier_id ( integer | primary key | values: 2, 3 ), Supplier_Addresses.address_id ( integer | values: 11, 2 ), Supplier_Addresses.date_from ( datetime | values: 2016-09-22 16:41:31, 2014-11-07 19:18:49 ), Supplier_Addresses.date_to ( datetime | values: 2018-03-14 20:06:37, 2018-03-16 16:39:58 ) ]
+table Customer_Addresses, columns = [ Customer_Addresses.customer_id ( integer | primary key | values: 1, 2 ), Customer_Addresses.address_id ( integer | values: 2, 6 ), Customer_Addresses.date_from ( datetime | values: 2017-12-11 05:00:22, 2017-10-07 23:00:26 ), Customer_Addresses.date_to ( datetime | values: 2018-03-20 20:52:34, 2018-02-28 14:53:52 ) ]
+table Customer_Orders, columns = [ Customer_Orders.order_id ( integer | primary key | values: 1, 2 ), Customer_Orders.customer_id ( integer | values: 12, 4 ), Customer_Orders.order_status_code ( text | values: Completed, New ), Customer_Orders.order_date ( datetime | values: 2018-02-10 15:44:48, 2018-01-31 17:49:18 ) ]
+table Department_Stores, columns = [ Department_Stores.dept_store_id ( integer | primary key | values: 1, 2 ), Department_Stores.dept_store_chain_id ( integer | values: 1, 3 ), Department_Stores.store_name ( text | values: store_name ), Department_Stores.store_address ( text | values: 01290 Jeremie Parkway Suite 753
+North Arielle, MS 51249, 082 Purdy Expressway
+O'Connellshire, IL 31732 ), Department_Stores.store_phone ( text | values: (948)944-5099x2027, 877-917-5029 ), Department_Stores.store_email ( text | values: bmaggio@example.com, larissa10@example.org ) ]
+table Departments, columns = [ Departments.department_id ( integer | primary key | values: 1, 2 ), Departments.dept_store_id ( integer | values: 5, 11 ), Departments.department_name ( text | values: human resource, purchasing ) ]
+table Order_Items, columns = [ Order_Items.order_item_id ( integer | primary key | values: 1, 2 ), Order_Items.order_id ( integer | values: 9, 1 ), Order_Items.product_id ( integer | values: 7, 3 ) ]
+table Product_Suppliers, columns = [ Product_Suppliers.product_id ( integer | primary key | values: 3, 4 ), Product_Suppliers.supplier_id ( integer | values: 3, 1 ), Product_Suppliers.date_supplied_from ( datetime | values: 2017-06-19 00:49:05, 2017-07-02 00:35:12 ), Product_Suppliers.date_supplied_to ( datetime | values: 2018-03-24 19:29:18, 2018-03-25 07:30:49 ), Product_Suppliers.total_amount_purchased ( text | values: 89366.05, 25085.57 ), Product_Suppliers.total_value_purchased ( real | values: 36014.6, 36274.56 ) ]
+table Staff_Department_Assignments, columns = [ Staff_Department_Assignments.staff_id ( integer | primary key | values: 1, 2 ), Staff_Department_Assignments.department_id ( integer | values: 5, 3 ), Staff_Department_Assignments.date_assigned_from ( datetime | values: 2017-06-11 22:55:20, 2017-12-18 19:12:15 ), Staff_Department_Assignments.job_title_code ( text | values: Department Manager, Sales Person ), Staff_Department_Assignments.date_assigned_to ( datetime | values: 2018-03-23 21:59:11, 2018-03-23 20:25:24 ) ]
+foreign keys:
+Supplier_Addresses.supplier_id = Suppliers.supplier_id
+Supplier_Addresses.address_id = Addresses.address_id
+Customer_Addresses.customer_id = Customers.customer_id
+Customer_Addresses.address_id = Addresses.address_id
+Customer_Orders.customer_id = Customers.customer_id
+Department_Stores.dept_store_chain_id = Department_Store_Chain.dept_store_chain_id
+Departments.dept_store_id = Department_Stores.dept_store_id
+Order_Items.product_id = Products.product_id
+Order_Items.order_id = Customer_Orders.order_id
+Product_Suppliers.product_id = Products.product_id
+Product_Suppliers.supplier_id = Suppliers.supplier_id
+Staff_Department_Assignments.staff_id = Staff.staff_id
+Staff_Department_Assignments.department_id = Departments.department_id
+]
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What are the email, cell phone and home phone of each professional?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

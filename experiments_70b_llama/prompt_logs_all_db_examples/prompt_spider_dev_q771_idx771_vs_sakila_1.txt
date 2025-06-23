@@ -1,0 +1,63 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table actor, columns = [ actor.actor_id ( integer | primary key | values: 1, 2 ), actor.first_name ( text | values: PENELOPE, NICK ), actor.last_name ( text | values: GUINESS, WAHLBERG ), actor.last_update ( datetime | values: 2006-02-15 04:34:33 ) ]
+table address, columns = [ address.address_id ( integer | primary key | values: 1, 2 ), address.address ( text | values: 47 MySakila Drive, 28 MySQL Boulevard ), address.address2 ( text | values:  ), address.district ( text | values: Alberta, QLD ), address.city_id ( integer | values: 300, 576 ), address.postal_code ( text | values: , 35200 ), address.phone ( text | values: , 14033335568 ), address.last_update ( datetime | values: 2006-02-15 04:45:30 ) ]
+table category, columns = [ category.category_id ( integer | primary key | values: 1, 2 ), category.name ( text | values: Action, Animation ), category.last_update ( datetime | values: 2006-02-15 04:46:27 ) ]
+table city, columns = [ city.city_id ( integer | primary key | values: 1, 2 ), city.city ( text | values: A Corua (La Corua), Abha ), city.country_id ( integer | values: 87, 82 ), city.last_update ( datetime | values: 2006-02-15 04:45:25 ) ]
+table country, columns = [ country.country_id ( integer | primary key | values: 1, 2 ), country.country ( text | values: Afghanistan, Algeria ), country.last_update ( datetime | values: 2006-02-15 04:44:00 ) ]
+table customer, columns = [ customer.customer_id ( integer | primary key | values: 1, 2 ), customer.store_id ( integer | values: 1, 2 ), customer.first_name ( text | values: MARY, PATRICIA ), customer.last_name ( text | values: SMITH, JOHNSON ), customer.email ( text | values: MARY.SMITH@sakilacustomer.org, PATRICIA.JOHNSON@sakilacustomer.org ), customer.address_id ( integer | values: 5, 6 ), customer.active ( boolean | values: 1, 0 ), customer.create_date ( datetime | values: 2006-02-14 22:04:36, 2006-02-14 22:04:37 ), customer.last_update ( datetime | values: 2006-02-15 04:57:20 ) ]
+table film, columns = [ film.film_id ( integer | primary key | values: 1, 2 ), film.title ( text | values: ACADEMY DINOSAUR, ACE GOLDFINGER ), film.description ( text | values: A Epic Drama of a Feminist And a Mad Scientist who must Battle a Teacher in The Canadian Rockies, A Astounding Epistle of a Database Administrator And a Explorer who must Find a Car in Ancient China ), film.release_year ( datetime | values: 2006 ), film.language_id ( integer | values: 1 ), film.original_language_id ( integer | values: N/A ), film.rental_duration ( real | values: 6, 3 ), film.rental_rate ( real | values: 0.99, 4.99 ), film.length ( real | values: 86, 48 ), film.replacement_cost ( real | values: 20.99, 12.99 ), film.rating ( text | values: PG, G ), film.special_features ( text | values: Deleted Scenes,Behind the Scenes, Trailers,Deleted Scenes ), film.last_update ( datetime | values: 2006-02-15 05:03:42 ) ]
+table film_actor, columns = [ film_actor.actor_id ( integer | primary key | values: 1, 2 ), film_actor.film_id ( integer | values: 1, 23 ), film_actor.last_update ( datetime | values: 2006-02-15 05:05:03 ) ]
+table film_category, columns = [ film_category.film_id ( integer | primary key | values: 1, 2 ), film_category.category_id ( integer | values: 6, 11 ), film_category.last_update ( datetime | values: 2006-02-15 05:07:09 ) ]
+table film_text, columns = [ film_text.film_id ( integer | primary key | values: N/A ), film_text.title ( text | values: N/A ), film_text.description ( text | values: N/A ) ]
+table inventory, columns = [ inventory.inventory_id ( integer | primary key | values: 1, 2 ), inventory.film_id ( integer | values: 1, 2 ), inventory.store_id ( integer | values: 1, 2 ), inventory.last_update ( datetime | values: 2006-02-15 05:09:17 ) ]
+table language, columns = [ language.language_id ( integer | primary key | values: N/A ), language.name ( text | values: N/A ), language.last_update ( datetime | values: N/A ) ]
+table payment, columns = [ payment.payment_id ( integer | primary key | values: 1, 2 ), payment.customer_id ( integer | values: 1, 2 ), payment.staff_id ( integer | values: 1, 2 ), payment.rental_id ( integer | values: 76, 573 ), payment.amount ( real | values: 2.99, 0.99 ), payment.payment_date ( datetime | values: 2005-05-25 11:30:37, 2005-05-28 10:35:23 ), payment.last_update ( datetime | values: 2006-02-15 22:12:30, 2006-02-15 22:12:31 ) ]
+table rental, columns = [ rental.rental_id ( integer | primary key | values: 1, 2 ), rental.rental_date ( datetime | values: 2005-05-24 22:53:30, 2005-05-24 22:54:33 ), rental.inventory_id ( integer | values: 367, 1525 ), rental.customer_id ( integer | values: 130, 459 ), rental.return_date ( datetime | values: 2005-05-26 22:04:30, 2005-05-28 19:40:33 ), rental.staff_id ( integer | values: 1, 2 ), rental.last_update ( datetime | values: 2006-02-15 21:30:53, 2006-02-23 04:12:08 ) ]
+table staff, columns = [ staff.staff_id ( integer | primary key | values: N/A ), staff.first_name ( text | values: N/A ), staff.last_name ( text | values: N/A ), staff.address_id ( integer | values: N/A ), staff.picture ( text | values: N/A ), staff.email ( text | values: N/A ), staff.store_id ( real | values: N/A ), staff.active ( boolean | values: N/A ), staff.username ( text | values: N/A ), staff.password ( text | values: N/A ), staff.last_update ( datetime | values: N/A ) ]
+table store, columns = [ store.store_id ( integer | primary key | values: N/A ), store.manager_staff_id ( integer | values: N/A ), store.address_id ( integer | values: N/A ), store.last_update ( datetime | values: N/A ) ]
+foreign keys:
+address.city_id = city.city_id
+city.country_id = country.country_id
+customer.store_id = store.store_id
+customer.address_id = address.address_id
+film.original_language_id = language.language_id
+film.language_id = language.language_id
+film_actor.film_id = film.film_id
+film_actor.actor_id = actor.actor_id
+film_category.category_id = category.category_id
+film_category.film_id = film.film_id
+inventory.film_id = film.film_id
+inventory.store_id = store.store_id
+payment.staff_id = staff.staff_id
+payment.customer_id = customer.customer_id
+payment.rental_id = rental.rental_id
+rental.customer_id = customer.customer_id
+rental.inventory_id = inventory.inventory_id
+rental.staff_id = staff.staff_id
+staff.address_id = address.address_id
+store.address_id = address.address_id
+store.manager_staff_id = staff.staff_id
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--How many different last names do the actors and actresses have?
+--Count the number of different last names actors have.
+--What is the most popular first name of the actors?
+--Return the most common first name among all actors.
+--What is the most popular full name of the actors?
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What are the number of concerts that occurred in the stadium with the largest capacity ?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

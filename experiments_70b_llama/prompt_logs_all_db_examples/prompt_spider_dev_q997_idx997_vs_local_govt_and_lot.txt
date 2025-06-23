@@ -1,0 +1,52 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Customers, columns = [ Customers.customer_id ( integer | primary key | values: 4, 5 ), Customers.customer_details ( text | values: Mr. Raul Prosacco, Esteban Senger ) ]
+table Properties, columns = [ Properties.property_id ( integer | primary key | values: 24, 107 ), Properties.property_type_code ( text | values: apartment, house ), Properties.property_address ( text | values: 85456 Annie Lodge Suite 449, 2580 Yundt Plains ), Properties.other_details ( text | values: USA ) ]
+table Residents, columns = [ Residents.resident_id ( integer | primary key | values: 6, 10 ), Residents.property_id ( integer | values: 954, 605 ), Residents.date_moved_in ( datetime | values: 2017-06-17 15:43:33, 2015-03-27 12:00:00 ), Residents.date_moved_out ( datetime | values: 2017-12-18 03:46:04, 2018-03-17 07:48:09 ), Residents.other_details ( text | values: Anderson Batz, Miss Naomie Osinski ) ]
+table Organizations, columns = [ Organizations.organization_id ( integer | primary key | values: 7, 8 ), Organizations.parent_organization_id ( real | values: 7, 8 ), Organizations.organization_details ( text | values: Reinger, Hudson and Nolan Group, Denesik and Sons Party ) ]
+table Services, columns = [ Services.service_id ( integer | primary key | values: 10, 11 ), Services.organization_id ( integer | values: 10, 7 ), Services.service_type_code ( text | values: Cleanning, Check ), Services.service_details ( text | values: Satisfied, Unsatisfied ) ]
+table Residents_Services, columns = [ Residents_Services.resident_id ( integer | primary key | values: 6, 23 ), Residents_Services.service_id ( integer | values: 49, 41 ), Residents_Services.date_moved_in ( datetime | values: 2017-06-17 15:43:33, 2015-03-27 12:00:00 ), Residents_Services.property_id ( integer | values: 954, 879 ), Residents_Services.date_requested ( datetime | values: 2016-07-25 01:32:23, 2016-10-10 21:42:21 ), Residents_Services.date_provided ( datetime | values: 2018-02-26 00:27:11, 2017-08-21 06:23:06 ), Residents_Services.other_details ( text | values: Satisfied, Unsatisfied ) ]
+table Things, columns = [ Things.thing_id ( integer | primary key | values: 1, 2 ), Things.organization_id ( integer | values: 8, 10 ), Things.Type_of_Thing_Code ( text | values: Electronics, Commen ), Things.service_type_code ( text | values: Check, Cleanning ), Things.service_details ( text | values: Unsatisfied, Satisfied ) ]
+table Customer_Events, columns = [ Customer_Events.Customer_Event_ID ( integer | primary key | values: 70, 160 ), Customer_Events.customer_id ( integer | values: 19, 5 ), Customer_Events.date_moved_in ( datetime | values: 2015-03-27 12:00:00, 2016-09-27 12:00:00 ), Customer_Events.property_id ( integer | values: 605, 879 ), Customer_Events.resident_id ( integer | values: 10, 23 ), Customer_Events.thing_id ( integer | values: 1, 80 ) ]
+table Customer_Event_Notes, columns = [ Customer_Event_Notes.Customer_Event_Note_ID ( integer | primary key | values: 18, 21 ), Customer_Event_Notes.Customer_Event_ID ( integer | values: 70, 428 ), Customer_Event_Notes.service_type_code ( text | values: Cleanning, Check ), Customer_Event_Notes.resident_id ( real | values: 58, 87 ), Customer_Event_Notes.property_id ( real | values: 107, 445 ), Customer_Event_Notes.date_moved_in ( datetime | values: 2016-08-04 01:06:05, 2016-12-11 01:05:14 ) ]
+table Timed_Status_of_Things, columns = [ Timed_Status_of_Things.thing_id ( integer | primary key | values: 2, 10 ), Timed_Status_of_Things.Date_and_Date ( datetime | values: 2016-05-27 23:33:34, 2016-07-17 08:35:27 ), Timed_Status_of_Things.Status_of_Thing_Code ( text | values: Open, Close ) ]
+table Timed_Locations_of_Things, columns = [ Timed_Locations_of_Things.thing_id ( integer | primary key | values: 2, 10 ), Timed_Locations_of_Things.Date_and_Time ( datetime | values: 2016-10-12 12:03:07, 2016-12-29 00:39:19 ), Timed_Locations_of_Things.Location_Code ( text | values: 064 Charles Mou, 288 Lang Ferry ) ]
+foreign keys:
+Residents.property_id = Properties.property_id
+Services.organization_id = Organizations.organization_id
+Residents_Services.resident_id = Residents.resident_id
+Residents_Services.property_id = Residents.property_id
+Residents_Services.date_moved_in = Residents.date_moved_in
+Residents_Services.service_id = Services.service_id
+Things.organization_id = Organizations.organization_id
+Customer_Events.resident_id = Residents.resident_id
+Customer_Events.property_id = Residents.property_id
+Customer_Events.date_moved_in = Residents.date_moved_in
+Customer_Events.customer_id = Customers.customer_id
+Customer_Events.thing_id = Things.thing_id
+Customer_Event_Notes.Customer_Event_ID = Customer_Events.Customer_Event_ID
+Timed_Status_of_Things.thing_id = Things.thing_id
+Timed_Locations_of_Things.thing_id = Things.thing_id
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--How many residents does each property have? List property id and resident count.
+--What is the distinct service types that are provided by the organization which has detail 'Denesik and Sons Party'?
+--How many services has each resident requested? List the resident id, details, and the count in descending order of the count.
+--What is the maximum number that a certain service is provided? List the service id, details and number.
+--List the id and type of each thing, and the details of the organization that owns it.
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What are the average and maximum number of tickets bought in all visits?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

@@ -1,0 +1,48 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Ref_Hotel_Star_Ratings, columns = [ Ref_Hotel_Star_Ratings.star_rating_code ( text | primary key | values: 1, 2 ), Ref_Hotel_Star_Ratings.star_rating_description ( text | values: star ) ]
+table Locations, columns = [ Locations.Location_ID ( integer | primary key | values: 333, 368 ), Locations.Location_Name ( text | values: Astro Orbiter, African Animals ), Locations.Address ( text | values: 660 Shea Crescent, 254 Ottilie Junction ), Locations.Other_Details ( text | values: N/A ) ]
+table Ref_Attraction_Types, columns = [ Ref_Attraction_Types.Attraction_Type_Code ( text | primary key | values: 2, 3 ), Ref_Attraction_Types.Attraction_Type_Description ( text | values: park, garden ) ]
+table Visitors, columns = [ Visitors.Tourist_ID ( integer | primary key | values: 164, 189 ), Visitors.Tourist_Details ( text | values: Toney, Graciela ) ]
+table Features, columns = [ Features.Feature_ID ( integer | primary key | values: 523, 528 ), Features.Feature_Details ( text | values: cafe, park ) ]
+table Hotels, columns = [ Hotels.hotel_id ( integer | primary key | values: 123, 144 ), Hotels.star_rating_code ( text | values: 5, 4 ), Hotels.pets_allowed_yn ( text | values: 1,  ), Hotels.price_range ( real | values: 2914989.571,  ), Hotels.other_hotel_details ( text | values: N/A ) ]
+table Tourist_Attractions, columns = [ Tourist_Attractions.Tourist_Attraction_ID ( integer | primary key | values: 2113, 2701 ), Tourist_Attractions.Attraction_Type_Code ( text | values: 2, 6 ), Tourist_Attractions.Location_ID ( integer | values: 579, 417 ), Tourist_Attractions.How_to_Get_There ( text | values: bus, walk ), Tourist_Attractions.Name ( text | values: art museum, UK gallery ), Tourist_Attractions.Description ( text | values: N/A ), Tourist_Attractions.Opening_Hours ( text | values: N/A ), Tourist_Attractions.Other_Details ( text | values: N/A ) ]
+table Street_Markets, columns = [ Street_Markets.Market_ID ( integer | primary key | values: 6852, 7067 ), Street_Markets.Market_Details ( text | values: Broadway, Fish Farm Market ) ]
+table Shops, columns = [ Shops.Shop_ID ( integer | primary key | values: 8429, 8449 ), Shops.Shop_Details ( text | values: soup, coffee ) ]
+table Museums, columns = [ Museums.Museum_ID ( integer | primary key | values: 2113, 2701 ), Museums.Museum_Details ( text | values: Yale Center for British Art, The Metropolitan Museum of Art ) ]
+table Royal_Family, columns = [ Royal_Family.Royal_Family_ID ( integer | primary key | values: 9561, 9919 ), Royal_Family.Royal_Family_Details ( text | values: N/A ) ]
+table Theme_Parks, columns = [ Theme_Parks.Theme_Park_ID ( integer | primary key | values: 5265, 6476 ), Theme_Parks.Theme_Park_Details ( text | values: Disney, Sea World ) ]
+table Visits, columns = [ Visits.Visit_ID ( integer | primary key | values: 183, 268 ), Visits.Tourist_Attraction_ID ( integer | values: 6653, 5076 ), Visits.Tourist_ID ( integer | values: 377, 204 ), Visits.Visit_Date ( datetime | values: 2004-08-21 03:06:14, 2013-08-06 05:35:51 ), Visits.Visit_Details ( text | values:  ) ]
+table Photos, columns = [ Photos.Photo_ID ( integer | primary key | values: 211, 280 ), Photos.Tourist_Attraction_ID ( integer | values: 8449, 7067 ), Photos.Name ( text | values: game1, game2 ), Photos.Description ( text | values: N/A ), Photos.Filename ( text | values: 702, 762 ), Photos.Other_Details ( text | values: N/A ) ]
+table Staff, columns = [ Staff.Staff_ID ( integer | primary key | values: 170, 219 ), Staff.Tourist_Attraction_ID ( integer | values: 6476, 7067 ), Staff.Name ( text | values: Whitney, Kaela ), Staff.Other_Details ( text | values: N/A ) ]
+table Tourist_Attraction_Features, columns = [ Tourist_Attraction_Features.Tourist_Attraction_ID ( integer | primary key | values: 5076, 5265 ), Tourist_Attraction_Features.Feature_ID ( integer | values: 528, 681 ) ]
+foreign keys:
+Hotels.star_rating_code = Ref_Hotel_Star_Ratings.star_rating_code
+Tourist_Attractions.Attraction_Type_Code = Ref_Attraction_Types.Attraction_Type_Code
+Tourist_Attractions.Location_ID = Locations.Location_ID
+Street_Markets.Market_ID = Tourist_Attractions.Tourist_Attraction_ID
+Shops.Shop_ID = Tourist_Attractions.Tourist_Attraction_ID
+Museums.Museum_ID = Tourist_Attractions.Tourist_Attraction_ID
+Royal_Family.Royal_Family_ID = Tourist_Attractions.Tourist_Attraction_ID
+Theme_Parks.Theme_Park_ID = Tourist_Attractions.Tourist_Attraction_ID
+Visits.Tourist_ID = Visitors.Tourist_ID
+Visits.Tourist_Attraction_ID = Tourist_Attractions.Tourist_Attraction_ID
+Photos.Tourist_Attraction_ID = Tourist_Attractions.Tourist_Attraction_ID
+Staff.Tourist_Attraction_ID = Tourist_Attractions.Tourist_Attraction_ID
+Tourist_Attraction_Features.Feature_ID = Features.Feature_ID
+Tourist_Attraction_Features.Tourist_Attraction_ID = Tourist_Attractions.Tourist_Attraction_ID
+]
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What is the number of countries with more than 2 car makers ?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

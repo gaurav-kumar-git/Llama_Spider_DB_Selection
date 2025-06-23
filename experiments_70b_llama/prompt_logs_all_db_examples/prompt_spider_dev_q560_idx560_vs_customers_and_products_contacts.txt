@@ -1,0 +1,38 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Addresses, columns = [ Addresses.address_id ( integer | primary key | values: 1, 2 ), Addresses.line_1_number_building ( text | values: 4315 Kerluke Canyon Apt. 800, 319 Kozey Highway Suite 973 ), Addresses.city ( text | values: Hertafurt, Edgardoberg ), Addresses.zip_postcode ( text | values: 740, 282 ), Addresses.state_province_county ( text | values: Nevada, Colorado ), Addresses.country ( text | values: USA ) ]
+table Products, columns = [ Products.product_id ( integer | primary key | values: 1, 2 ), Products.product_type_code ( text | values: Hardware, Clothes ), Products.product_name ( text | values: Apple, jcrew ), Products.product_price ( real | values: 54753982.574522, 30590929.528306 ) ]
+table Customers, columns = [ Customers.customer_id ( integer | primary key | values: 1, 2 ), Customers.payment_method_code ( text | values: Credit Card, Direct Debit ), Customers.customer_number ( text | values: 456, 553 ), Customers.customer_name ( text | values: Kayley, Sterling ), Customers.customer_address ( text | values: 636 Chanelle Isle Apt. 846, 12174 Boyer Crossroad ), Customers.customer_phone ( text | values: +87(9)5279161988, 896.685.8228x2786 ), Customers.customer_email ( text | values: antonette73@example.com, stroman.chadd@example.net ) ]
+table Contacts, columns = [ Contacts.contact_id ( integer | primary key | values: 1, 2 ), Contacts.customer_id ( real | values: 4, 6 ), Contacts.gender ( text | values: male, female ), Contacts.first_name ( text | values: Cierra, Jennifer ), Contacts.last_name ( text | values: Collins, Doyle ), Contacts.contact_phone ( text | values: +73(2)0854391820, 482-949-1364x17500 ) ]
+table Customer_Address_History, columns = [ Customer_Address_History.customer_id ( integer | values: 12, 3 ), Customer_Address_History.address_id ( integer | values: 7, 2 ), Customer_Address_History.date_from ( datetime | values: 2015-07-23 14:37:18, 2016-11-06 14:33:12 ), Customer_Address_History.date_to ( datetime | values: 2018-03-07 12:04:20, 2018-03-14 21:36:28 ) ]
+table Customer_Orders, columns = [ Customer_Orders.order_id ( integer | primary key | values: 1, 2 ), Customer_Orders.customer_id ( integer | values: 2, 6 ), Customer_Orders.order_date ( datetime | values: 2009-07-19 13:40:49, 1976-05-28 15:02:44 ), Customer_Orders.order_status_code ( text | values: Completed, Part ) ]
+table Order_Items, columns = [ Order_Items.order_item_id ( real | values: 1, 2 ), Order_Items.order_id ( integer | values: 9, 8 ), Order_Items.product_id ( integer | values: 15, 12 ), Order_Items.order_quantity ( text | values: 3, 7 ) ]
+foreign keys:
+Customer_Address_History.address_id = Addresses.address_id
+Customer_Address_History.customer_id = Customers.customer_id
+Customer_Orders.customer_id = Customers.customer_id
+Order_Items.order_id = Customer_Orders.order_id
+Order_Items.product_id = Products.product_id
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--How many addresses are there in country USA?
+--Show all distinct cities in the address record.
+--Show each state and the number of addresses in each state.
+--Show names and phones of customers who do not have address information.
+--Show the name of the customer who has the most orders.
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What is the date and id of the transcript with the least number of results?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

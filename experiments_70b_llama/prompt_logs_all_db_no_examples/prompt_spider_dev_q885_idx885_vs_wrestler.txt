@@ -1,0 +1,21 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table wrestler, columns = [ wrestler.Wrestler_ID ( integer | primary key | values: 1, 2 ), wrestler.Name ( text | values: Rey Misterio Sr., Fishman ), wrestler.Reign ( text | values: 1, 2 ), wrestler.Days_held ( text | values: 344, 113 ), wrestler.Location ( text | values: Tijuana , Mexico, Tokyo , Japan ), wrestler.Event ( text | values: Live event, Wrestling World 1997 ) ]
+table Elimination, columns = [ Elimination.Elimination_ID ( text | primary key | values: 1, 2 ), Elimination.Wrestler_ID ( text | values: 1, 2 ), Elimination.Team ( text | values: Team Orton, Team Batista ), Elimination.Eliminated_By ( text | values: Punk, Benjamin ), Elimination.Elimination_Move ( text | values: Go To Sleep, Paydirt ), Elimination.Time ( text | values: 00:11, 07:38 ) ]
+foreign keys:
+Elimination.Wrestler_ID = wrestler.Wrestler_ID
+]
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: Count the number of different templates used for documents.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

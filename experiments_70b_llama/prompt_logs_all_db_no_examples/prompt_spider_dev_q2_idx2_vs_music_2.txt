@@ -1,0 +1,33 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Songs, columns = [ Songs.SongId ( integer | primary key | values: N/A ), Songs.Title ( text | values: N/A ) ]
+table Albums, columns = [ Albums.AId ( integer | primary key | values: N/A ), Albums.Title ( text | values: N/A ), Albums.Year ( real | values: N/A ), Albums.Label ( text | values: N/A ), Albums.Type ( text | values: N/A ) ]
+table Band, columns = [ Band.Id ( integer | primary key | values: N/A ), Band.Firstname ( text | values: N/A ), Band.Lastname ( text | values: N/A ) ]
+table Instruments, columns = [ Instruments.SongId ( integer | primary key | values: N/A ), Instruments.BandmateId ( integer | values: N/A ), Instruments.Instrument ( text | values: N/A ) ]
+table Performance, columns = [ Performance.SongId ( integer | primary key | values: N/A ), Performance.Bandmate ( integer | values: N/A ), Performance.StagePosition ( text | values: N/A ) ]
+table Tracklists, columns = [ Tracklists.AlbumId ( integer | primary key | values: N/A ), Tracklists.Position ( real | values: N/A ), Tracklists.SongId ( integer | values: N/A ) ]
+table Vocals, columns = [ Vocals.SongId ( integer | primary key | values: N/A ), Vocals.Bandmate ( integer | values: N/A ), Vocals.Type ( text | values: N/A ) ]
+foreign keys:
+Instruments.BandmateId = Band.Id
+Instruments.SongId = Songs.SongId
+Performance.Bandmate = Band.Id
+Performance.SongId = Songs.SongId
+Tracklists.AlbumId = Albums.AId
+Tracklists.SongId = Songs.SongId
+Vocals.Bandmate = Band.Id
+Vocals.SongId = Songs.SongId
+]
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What are the date and the operating professional's first name of each treatment?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

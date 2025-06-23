@@ -1,0 +1,31 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table TV_Channel, columns = [ TV_Channel.id ( text | primary key | values: 700, 701 ), TV_Channel.series_name ( text | values: Sky Radio, Sky Music ), TV_Channel.Country ( text | values: Italy, United Kingdom ), TV_Channel.Language ( text | values: Italian, English ), TV_Channel.Content ( text | values: music ), TV_Channel.Pixel_aspect_ratio_PAR ( text | values: 4:3, 4:3 / 16:9 ), TV_Channel.Hight_definition_TV ( text | values: no, yes ), TV_Channel.Pay_per_view_PPV ( text | values: no ), TV_Channel.Package_Option ( text | values: Sky Famiglia, no ( FTV ) ) ]
+table TV_series, columns = [ TV_series.id ( integer | primary key | values: 1.0, 2.0 ), TV_series.Episode ( text | values: A Love of a Lifetime, Friendly Skies ), TV_series.Air_Date ( text | values: September 24, 2007, October 1, 2007 ), TV_series.Rating ( text | values: 5.8, 5.3 ), TV_series.Share ( real | values: 9.0, 7.0 ), TV_series.18_49_Rating_Share ( text | values: 3.5/9, 3.2/8 ), TV_series.Viewers_m ( text | values: 9.16, 8.23 ), TV_series.Weekly_Rank ( real | values: 43.0, 50.0 ), TV_series.Channel ( text | values: 700, 701 ) ]
+table Cartoon, columns = [ Cartoon.id ( integer | primary key | values: 1.0, 2.0 ), Cartoon.Title ( text | values: The Rise of the Blue Beetle!, Terror on Dinosaur Island! ), Cartoon.Directed_by ( text | values: Ben Jones, Brandon Vietti ), Cartoon.Written_by ( text | values: Michael Jelenic, Steven Melching ), Cartoon.Original_air_date ( text | values: November14,2008, November21,2008 ), Cartoon.Production_code ( real | values: 101.0, 102.0 ), Cartoon.Channel ( text | values: 700, 701 ) ]
+foreign keys:
+TV_series.Channel = TV_Channel.id
+Cartoon.Channel = TV_Channel.id
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--List the title of all cartoons in alphabetical order.
+--What are the titles of the cartoons sorted alphabetically?
+--List all cartoon directed by "Ben Jones".
+--What are the names of all cartoons directed by Ben Jones?
+--How many cartoons were written by "Joseph Kuhr"?
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: List the contestant numbers and names, ordered by contestant name descending.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

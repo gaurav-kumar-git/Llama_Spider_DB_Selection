@@ -1,0 +1,41 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Discount_Coupons, columns = [ Discount_Coupons.coupon_id ( integer | primary key | values: 1, 2 ), Discount_Coupons.date_issued ( datetime | values: 2017-09-06 01:33:27, 2018-02-20 09:40:56 ), Discount_Coupons.coupon_amount ( real | values: 500, 686.25 ) ]
+table Customers, columns = [ Customers.customer_id ( integer | primary key | values: 1, 2 ), Customers.coupon_id ( integer | values: 12, 14 ), Customers.good_or_bad_customer ( text | values: good, bad ), Customers.first_name ( text | values: Geovany, Jailyn ), Customers.last_name ( text | values: Homenick, Gerlach ), Customers.gender_mf ( text | values: 0, 1 ), Customers.date_became_customer ( datetime | values: 2017-10-20 12:13:17, 2015-04-06 21:18:37 ), Customers.date_last_hire ( datetime | values: 2018-02-27 18:55:26, 2018-01-30 04:47:13 ) ]
+table Bookings, columns = [ Bookings.booking_id ( integer | primary key | values: 1, 2 ), Bookings.customer_id ( integer | values: 7, 15 ), Bookings.booking_status_code ( text | values: Provisional, Confirmed ), Bookings.returned_damaged_yn ( text | values: 1, 0 ), Bookings.booking_start_date ( datetime | values: 2016-12-07 23:39:17, 2017-06-16 11:42:31 ), Bookings.booking_end_date ( datetime | values: 2018-02-01 16:39:13, 2018-02-19 21:53:31 ), Bookings.count_hired ( text | values: 298, 331 ), Bookings.amount_payable ( real | values: 214.39, 386.92 ), Bookings.amount_of_discount ( real | values: 71.45, 83.82 ), Bookings.amount_outstanding ( real | values: 28.22, 57.62 ), Bookings.amount_of_refund ( real | values: 179.14, 183.68 ) ]
+table Products_for_Hire, columns = [ Products_for_Hire.product_id ( integer | primary key | values: 1, 2 ), Products_for_Hire.product_type_code ( text | values: Cutlery, Din_Plates ), Products_for_Hire.daily_hire_cost ( real | values: 26.15, 15.62 ), Products_for_Hire.product_name ( text | values: Book collection C, Book collection B ), Products_for_Hire.product_description ( text | values: Anna Karenina, War and Peace ) ]
+table Payments, columns = [ Payments.payment_id ( integer | primary key | values: 1, 2 ), Payments.booking_id ( integer | values: 6, 9 ), Payments.customer_id ( integer | values: 15, 12 ), Payments.payment_type_code ( text | values: Check, Cash ), Payments.amount_paid_in_full_yn ( text | values: 1, 0 ), Payments.payment_date ( datetime | values: 2018-03-09 16:28:00, 2018-03-03 13:39:44 ), Payments.amount_due ( real | values: 369.52, 278.6 ), Payments.amount_paid ( real | values: 206.27, 666.45 ) ]
+table Products_Booked, columns = [ Products_Booked.booking_id ( integer | primary key | values: 1, 2 ), Products_Booked.product_id ( integer | values: 2, 4 ), Products_Booked.returned_yn ( text | values: 1 ), Products_Booked.returned_late_yn ( text | values: 1, 0 ), Products_Booked.booked_count ( real | values: 5, 3 ), Products_Booked.booked_amount ( real | values: 309.73, 102.76 ) ]
+table View_Product_Availability, columns = [ View_Product_Availability.product_id ( integer | values: 1, 2 ), View_Product_Availability.booking_id ( integer | values: 5, 11 ), View_Product_Availability.status_date ( datetime | primary key | values: 2018-03-18 05:25:55, 2018-03-21 15:20:32 ), View_Product_Availability.available_yn ( text | values: 1, 0 ) ]
+foreign keys:
+Customers.coupon_id = Discount_Coupons.coupon_id
+Bookings.customer_id = Customers.customer_id
+Payments.customer_id = Customers.customer_id
+Payments.booking_id = Bookings.booking_id
+Products_Booked.product_id = Products_for_Hire.product_id
+Products_Booked.booking_id = Bookings.booking_id
+View_Product_Availability.product_id = Products_for_Hire.product_id
+View_Product_Availability.booking_id = Bookings.booking_id
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--Are the customers holding coupons with amount 500 bad or good?
+--How many bookings did each customer make? List the customer id, first name, and the count.
+--What is the maximum total amount paid by a customer? List the customer id and amount.
+--What are the id and the amount of refund of the booking that incurred the most times of payments?
+--What is the id of the product that is booked for 3 times?
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: When was the last transcript released?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

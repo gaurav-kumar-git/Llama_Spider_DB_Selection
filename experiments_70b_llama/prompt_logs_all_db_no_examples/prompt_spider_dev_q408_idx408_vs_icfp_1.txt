@@ -1,0 +1,25 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Inst, columns = [ Inst.instID ( integer | primary key | values: 1000, 1010 ), Inst.name ( text | values: University of Oxford, Northeastern University ), Inst.country ( text | values: UK, USA ) ]
+table Authors, columns = [ Authors.authID ( integer | primary key | values: 50, 51 ), Authors.lname ( text | values: Gibbons, Hinze ), Authors.fname ( text | values: Jeremy, Ralf ) ]
+table Papers, columns = [ Papers.paperID ( integer | primary key | values: 200, 201 ), Papers.title ( text | values: Just do it: Simple Monadic Equational Reasoning, Proving the Unique Fixed-Point Principle Correct: An Adventure with Category Theory ) ]
+table Authorship, columns = [ Authorship.authID ( integer | primary key | values: 50, 51 ), Authorship.instID ( integer | values: 1000, 1010 ), Authorship.paperID ( integer | values: 200, 201 ), Authorship.authOrder ( real | values: 1, 2 ) ]
+foreign keys:
+Authorship.paperID = Papers.paperID
+Authorship.instID = Inst.instID
+Authorship.authID = Authors.authID
+]
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What is the count of singers?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

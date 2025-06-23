@@ -1,0 +1,29 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table election, columns = [ election.Election_ID ( integer | primary key | values: 1, 2 ), election.Representative_ID ( integer | values: 1, 2 ), election.Date ( text | values: July 1942, October 1942 ), election.Votes ( real | values: 9423.0, 11059.0 ), election.Vote_Percent ( real | values: 16.2, 18.5 ), election.Seats ( real | values: 6.0, 10.0 ), election.Place ( real | values: 3.0, 1.0 ) ]
+table representative, columns = [ representative.Representative_ID ( integer | primary key | values: 1, 2 ), representative.Name ( text | values: Dan Quayle, John Quayle ), representative.State ( text | values: Indiana, New York ), representative.Party ( text | values: Republican, Democratic ), representative.Lifespan ( text | values: 1947–, 1868–1930 ) ]
+foreign keys:
+election.Representative_ID = representative.Representative_ID
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--How many elections are there?
+--List the votes of elections in descending order.
+--List the dates and vote percents of elections.
+--What are the minimum and maximum vote percents of elections?
+--What are the names and parties of representatives?
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: Find the average grade of all students who have some friends.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

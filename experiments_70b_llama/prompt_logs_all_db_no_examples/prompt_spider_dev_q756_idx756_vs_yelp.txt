@@ -1,0 +1,32 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table business, columns = [ business.bid ( integer | primary key | values: N/A ), business.business_id ( text | values: N/A ), business.name ( text | values: N/A ), business.full_address ( text | values: N/A ), business.city ( text | values: N/A ), business.latitude ( text | values: N/A ), business.longitude ( text | values: N/A ), business.review_count ( real | values: N/A ), business.is_open ( real | values: N/A ), business.rating ( real | values: N/A ), business.state ( text | values: N/A ) ]
+table category, columns = [ category.id ( integer | primary key | values: N/A ), category.business_id ( text | values: N/A ), category.category_name ( text | values: N/A ) ]
+table user, columns = [ user.uid ( integer | primary key | values: N/A ), user.user_id ( text | values: N/A ), user.name ( text | values: N/A ) ]
+table checkin, columns = [ checkin.cid ( integer | primary key | values: N/A ), checkin.business_id ( text | values: N/A ), checkin.count ( real | values: N/A ), checkin.day ( text | values: N/A ) ]
+table neighbourhood, columns = [ neighbourhood.id ( integer | primary key | values: N/A ), neighbourhood.business_id ( text | values: N/A ), neighbourhood.neighbourhood_name ( text | values: N/A ) ]
+table review, columns = [ review.rid ( integer | primary key | values: N/A ), review.business_id ( text | values: N/A ), review.user_id ( text | values: N/A ), review.rating ( real | values: N/A ), review.text ( text | values: N/A ), review.year ( real | values: N/A ), review.month ( text | values: N/A ) ]
+table tip, columns = [ tip.tip_id ( integer | primary key | values: N/A ), tip.business_id ( text | values: N/A ), tip.text ( text | values: N/A ), tip.user_id ( text | values: N/A ), tip.likes ( real | values: N/A ), tip.year ( real | values: N/A ), tip.month ( text | values: N/A ) ]
+foreign keys:
+category.business_id = business.business_id
+checkin.business_id = business.business_id
+neighbourhood.business_id = business.business_id
+review.user_id = user.user_id
+review.business_id = business.business_id
+tip.user_id = user.user_id
+tip.business_id = business.business_id
+]
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What is the average and maximum capacities for all stadiums ?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

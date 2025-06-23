@@ -1,0 +1,43 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Breeds, columns = [ Breeds.breed_code ( text | primary key | values: BUL, ESK ), Breeds.breed_name ( text | values: Eskimo, Husky ) ]
+table Charges, columns = [ Charges.charge_id ( integer | primary key | values: 1, 2 ), Charges.charge_type ( text | values: Daily Accommodation, Drugs ), Charges.charge_amount ( real | values: 98, 322 ) ]
+table Sizes, columns = [ Sizes.size_code ( text | primary key | values: LGE, MED ), Sizes.size_description ( text | values: Small, Medium ) ]
+table Treatment_Types, columns = [ Treatment_Types.treatment_type_code ( text | primary key | values: EXAM, VAC ), Treatment_Types.treatment_type_description ( text | values: Physical examination, Vaccination ) ]
+table Owners, columns = [ Owners.owner_id ( integer | primary key | values: 1, 2 ), Owners.first_name ( text | values: Nora, Melisa ), Owners.last_name ( text | values: Haley, DuBuque ), Owners.street ( text | values: 0647 Hintz Village Apt. 024, 1204 Mae Highway Apt. 107 ), Owners.city ( text | values: Lake Tia, Port Reannamouth ), Owners.state ( text | values: Wisconsin, Virginia ), Owners.zip_code ( text | values: 93165, 45244 ), Owners.email_address ( text | values: lynn81@example.org, ykris@example.com ), Owners.home_phone ( text | values: 1-682-845-0116x63235, (799)563-0260x454 ), Owners.cell_number ( text | values: 478.978.0729, (722)768-5439x484 ) ]
+table Dogs, columns = [ Dogs.dog_id ( integer | primary key | values: 1, 2 ), Dogs.owner_id ( integer | values: 3, 11 ), Dogs.abandoned_yn ( text | values: 1, 0 ), Dogs.breed_code ( text | values: ESK, BUL ), Dogs.size_code ( text | values: LGE, MED ), Dogs.name ( text | values: Kacey, Hipolito ), Dogs.age ( text | values: 6, 9 ), Dogs.date_of_birth ( datetime | values: 2012-01-27 05:11:53, 2013-02-13 05:15:21 ), Dogs.gender ( text | values: 1, 0 ), Dogs.weight ( text | values: 7.57, 1.72 ), Dogs.date_arrived ( datetime | values: 2017-09-08 20:10:13, 2017-12-22 05:02:02 ), Dogs.date_adopted ( datetime | values: 2018-03-06 16:32:11, 2018-03-25 08:12:51 ), Dogs.date_departed ( datetime | values: 2018-03-25 06:58:44, 2018-03-25 02:11:32 ) ]
+table Professionals, columns = [ Professionals.professional_id ( integer | primary key | values: 1, 2 ), Professionals.role_code ( text | values: Employee, Veterenarian ), Professionals.first_name ( text | values: Taryn, Jayson ), Professionals.street ( text | values: 6915 Oberbrunner Point Suite 491
+Gleasonville, LA , 88665 Terence Lodge Apt. 904
+Corneliusfort, NC 194 ), Professionals.city ( text | values: West Heidi, North Odellfurt ), Professionals.state ( text | values: Indiana, Connecticut ), Professionals.zip_code ( text | values: 06646, 43129 ), Professionals.last_name ( text | values: Braun, Ullrich ), Professionals.email_address ( text | values: deanna.schuster@example.com, lucile.shanahan@example.org ), Professionals.home_phone ( text | values: +71(6)2898266914, +02(1)0259033559 ), Professionals.cell_number ( text | values: (275)939-2435x80863, 889-940-2676 ) ]
+table Treatments, columns = [ Treatments.treatment_id ( integer | primary key | values: 1, 2 ), Treatments.dog_id ( integer | values: 14, 4 ), Treatments.professional_id ( integer | values: 9, 10 ), Treatments.treatment_type_code ( text | values: WALK, VAC ), Treatments.date_of_treatment ( datetime | values: 2018-03-19 04:39:54, 2018-03-15 20:25:34 ), Treatments.cost_of_treatment ( real | values: 567, 147 ) ]
+foreign keys:
+Dogs.owner_id = Owners.owner_id
+Dogs.owner_id = Owners.owner_id
+Dogs.size_code = Sizes.size_code
+Dogs.breed_code = Breeds.breed_code
+Treatments.dog_id = Dogs.dog_id
+Treatments.professional_id = Professionals.professional_id
+Treatments.treatment_type_code = Treatment_Types.treatment_type_code
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--Which states have both owners and professionals living there?
+--Find the states where both owners and professionals live.
+--What is the average age of the dogs who have gone through any treatments?
+--Find the average age of the dogs who went through treatments.
+--Which professionals live in the state of Indiana or have done treatment on more than 2 treatments? List his or her id, last name and cell phone.
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: Find number of pets owned by students who are older than 20.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

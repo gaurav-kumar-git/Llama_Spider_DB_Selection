@@ -1,0 +1,27 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table list, columns = [ list.LastName ( text | primary key | values: AMY, AREHART ), list.FirstName ( text | values:  PATRINA,  VERTIE ), list.Grade ( real | values: 2, 6 ), list.Classroom ( real | values: 101, 112 ) ]
+table teachers, columns = [ teachers.LastName ( text | primary key | values: COVIN, KAWA ), teachers.FirstName ( text | values:  JEROME,  GORDON ), teachers.Classroom ( real | values: 101, 102 ) ]
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--Find the number of students in total.
+--How many students are there?
+--Find the last names of students studying in room 111.
+--What are the last names of students in room 111?
+--Find the first names of students studying in room 108.
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: Give the name of the student with the most likes.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

@@ -1,0 +1,29 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Ref_Characteristic_Types, columns = [ Ref_Characteristic_Types.characteristic_type_code ( text | primary key | values: Grade, Purity ), Ref_Characteristic_Types.characteristic_type_description ( text | values: Grade, Purity ) ]
+table Ref_Colors, columns = [ Ref_Colors.color_code ( text | primary key | values: 1, 2 ), Ref_Colors.color_description ( text | values: red, green ) ]
+table Ref_Product_Categories, columns = [ Ref_Product_Categories.product_category_code ( text | primary key | values: Herbs, Seeds ), Ref_Product_Categories.product_category_description ( text | values: Herbs, Seeds ), Ref_Product_Categories.unit_of_measure ( text | values: Handful             , Weight - pound,kilo. ) ]
+table Characteristics, columns = [ Characteristics.characteristic_id ( integer | primary key | values: 1, 2 ), Characteristics.characteristic_type_code ( text | values: Grade, Purity ), Characteristics.characteristic_data_type ( text | values: numquam, doloribus ), Characteristics.characteristic_name ( text | values: slow, fast ), Characteristics.other_characteristic_details ( text | values: N/A ) ]
+table Products, columns = [ Products.product_id ( integer | primary key | values: 1, 2 ), Products.color_code ( text | values: 4, 2 ), Products.product_category_code ( text | values: Spices, Herbs ), Products.product_name ( text | values: cumin, peper ), Products.typical_buying_price ( text | values: , 352447.2874677 ), Products.typical_selling_price ( text | values: 2878.3, 1892070.2803543 ), Products.product_description ( text | values: et, rerum ), Products.other_product_details ( text | values: N/A ) ]
+table Product_Characteristics, columns = [ Product_Characteristics.product_id ( integer | values: 13, 11 ), Product_Characteristics.characteristic_id ( integer | values: 13, 2 ), Product_Characteristics.product_characteristic_value ( text | values: low, medium ) ]
+foreign keys:
+Characteristics.characteristic_type_code = Ref_Characteristic_Types.characteristic_type_code
+Products.color_code = Ref_Colors.color_code
+Products.product_category_code = Ref_Product_Categories.product_category_code
+Product_Characteristics.product_id = Products.product_id
+Product_Characteristics.characteristic_id = Characteristics.characteristic_id
+]
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: Return the number of likes that the high schooler named Kyle has.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

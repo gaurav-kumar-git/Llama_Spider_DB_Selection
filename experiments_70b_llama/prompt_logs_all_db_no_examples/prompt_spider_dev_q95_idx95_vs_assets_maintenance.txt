@@ -1,0 +1,50 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Third_Party_Companies, columns = [ Third_Party_Companies.company_id ( integer | primary key | values: 1, 2 ), Third_Party_Companies.company_type ( text | values: Maintenance Contractor, Supplier ), Third_Party_Companies.company_name ( text | values: Langworth-Funk, McDermott Group ), Third_Party_Companies.company_address ( text | values: 615 Jacobs Mews, 873 Conrad Creek Apt. 286 ), Third_Party_Companies.other_company_details ( text | values: Uganda, China ) ]
+table Maintenance_Contracts, columns = [ Maintenance_Contracts.maintenance_contract_id ( integer | primary key | values: 1, 2 ), Maintenance_Contracts.maintenance_contract_company_id ( integer | values: 15, 9 ), Maintenance_Contracts.contract_start_date ( datetime | values: 2017-09-13 11:51:29, 2017-12-18 11:43:16 ), Maintenance_Contracts.contract_end_date ( datetime | values: 2018-03-16 21:21:50, 2018-03-22 06:00:37 ), Maintenance_Contracts.other_contract_details ( text | values: N/A ) ]
+table Parts, columns = [ Parts.part_id ( integer | primary key | values: 1, 2 ), Parts.part_name ( text | values: top, middle ), Parts.chargeable_yn ( text | values: 0, 1 ), Parts.chargeable_amount ( text | values: 4, 9 ), Parts.other_part_details ( text | values: N/A ) ]
+table Skills, columns = [ Skills.skill_id ( integer | primary key | values: 1, 2 ), Skills.skill_code ( text | values: ELEC, MECH ), Skills.skill_description ( text | values: Electrical, Mechanical ) ]
+table Staff, columns = [ Staff.staff_id ( integer | primary key | values: 1, 2 ), Staff.staff_name ( text | values: Audreanne, Berneice ), Staff.gender ( text | values: 1, 0 ), Staff.other_staff_details ( text | values: Manager, Woker ) ]
+table Assets, columns = [ Assets.asset_id ( integer | primary key | values: 1, 2 ), Assets.maintenance_contract_id ( integer | values: 2, 14 ), Assets.supplier_company_id ( integer | values: 2, 1 ), Assets.asset_details ( text | values: dell laptop1, dell laptop2 ), Assets.asset_make ( text | values: PT, IN ), Assets.asset_model ( text | values: 58 ub, 35 xt ), Assets.asset_acquired_date ( datetime | values: 2017-12-25 00:31:27, 2018-01-27 00:59:46 ), Assets.asset_disposed_date ( datetime | values: 2018-03-14 10:50:00, 2018-03-20 04:24:09 ), Assets.other_asset_details ( text | values: Bad condition ) ]
+table Asset_Parts, columns = [ Asset_Parts.asset_id ( integer | values: 5, 3 ), Asset_Parts.part_id ( integer | values: 3, 1 ) ]
+table Maintenance_Engineers, columns = [ Maintenance_Engineers.engineer_id ( integer | primary key | values: 1, 2 ), Maintenance_Engineers.company_id ( integer | values: 14, 2 ), Maintenance_Engineers.first_name ( text | values: Etha, Clemens ), Maintenance_Engineers.last_name ( text | values: Reinger, Orn ), Maintenance_Engineers.other_details ( text | values: Skilled ) ]
+table Engineer_Skills, columns = [ Engineer_Skills.engineer_id ( integer | values: 10, 15 ), Engineer_Skills.skill_id ( integer | values: 2, 1 ) ]
+table Fault_Log, columns = [ Fault_Log.fault_log_entry_id ( integer | primary key | values: 1, 2 ), Fault_Log.asset_id ( integer | values: 3, 7 ), Fault_Log.recorded_by_staff_id ( integer | values: 14, 4 ), Fault_Log.fault_log_entry_datetime ( datetime | values: 2018-03-21 04:25:00, 2018-03-13 09:43:05 ), Fault_Log.fault_description ( text | values: system error, failed parts ), Fault_Log.other_fault_details ( text | values: N/A ) ]
+table Engineer_Visits, columns = [ Engineer_Visits.engineer_visit_id ( integer | primary key | values: 1, 2 ), Engineer_Visits.contact_staff_id ( integer | values: 8, 7 ), Engineer_Visits.engineer_id ( integer | values: 8, 15 ), Engineer_Visits.fault_log_entry_id ( integer | values: 13, 4 ), Engineer_Visits.fault_status ( text | values: Waiting, Return ), Engineer_Visits.visit_start_datetime ( datetime | values: 1978-10-12 23:14:40, 1980-05-02 23:31:18 ), Engineer_Visits.visit_end_datetime ( datetime | values: 1988-01-07 06:41:51, 1990-08-30 22:44:16 ), Engineer_Visits.other_visit_details ( text | values: N/A ) ]
+table Part_Faults, columns = [ Part_Faults.part_fault_id ( integer | primary key | values: 1, 2 ), Part_Faults.part_id ( integer | values: 1, 3 ), Part_Faults.fault_short_name ( text | values: PW, TW ), Part_Faults.fault_description ( text | values: Package Wrong, Top Parts Wrong ), Part_Faults.other_fault_details ( text | values: N/A ) ]
+table Fault_Log_Parts, columns = [ Fault_Log_Parts.fault_log_entry_id ( integer | values: 12, 7 ), Fault_Log_Parts.part_fault_id ( integer | values: 3, 4 ), Fault_Log_Parts.fault_status ( text | values: Reported, Return ) ]
+table Skills_Required_To_Fix, columns = [ Skills_Required_To_Fix.part_fault_id ( integer | values: 3, 12 ), Skills_Required_To_Fix.skill_id ( integer | values: 2, 3 ) ]
+foreign keys:
+Maintenance_Contracts.maintenance_contract_company_id = Third_Party_Companies.company_id
+Assets.supplier_company_id = Third_Party_Companies.company_id
+Assets.maintenance_contract_id = Maintenance_Contracts.maintenance_contract_id
+Asset_Parts.asset_id = Assets.asset_id
+Asset_Parts.part_id = Parts.part_id
+Maintenance_Engineers.company_id = Third_Party_Companies.company_id
+Engineer_Skills.skill_id = Skills.skill_id
+Engineer_Skills.engineer_id = Maintenance_Engineers.engineer_id
+Fault_Log.recorded_by_staff_id = Staff.staff_id
+Fault_Log.asset_id = Assets.asset_id
+Engineer_Visits.contact_staff_id = Staff.staff_id
+Engineer_Visits.engineer_id = Maintenance_Engineers.engineer_id
+Engineer_Visits.fault_log_entry_id = Fault_Log.fault_log_entry_id
+Part_Faults.part_id = Parts.part_id
+Fault_Log_Parts.fault_log_entry_id = Fault_Log.fault_log_entry_id
+Fault_Log_Parts.part_fault_id = Part_Faults.part_fault_id
+Skills_Required_To_Fix.skill_id = Skills.skill_id
+Skills_Required_To_Fix.part_fault_id = Part_Faults.part_fault_id
+]
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: Return the id and type code of the template that is used for the greatest number of documents.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

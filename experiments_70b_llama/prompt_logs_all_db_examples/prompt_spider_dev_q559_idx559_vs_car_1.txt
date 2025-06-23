@@ -1,0 +1,37 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table continents, columns = [ continents.ContId ( integer | primary key | values: 1, 2 ), continents.Continent ( text | values: america, europe ) ]
+table countries, columns = [ countries.CountryId ( integer | primary key | values: 1, 2 ), countries.CountryName ( text | values: usa, germany ), countries.Continent ( integer | values: 1, 2 ) ]
+table car_makers, columns = [ car_makers.Id ( integer | primary key | values: 1, 2 ), car_makers.Maker ( text | values: amc, volkswagen ), car_makers.FullName ( text | values: American Motor Company, Volkswagen ), car_makers.Country ( text | values: 1, 2 ) ]
+table model_list, columns = [ model_list.ModelId ( integer | primary key | values: 1, 2 ), model_list.Maker ( integer | values: 1, 2 ), model_list.Model ( text | values: amc, audi ) ]
+table car_names, columns = [ car_names.MakeId ( integer | primary key | values: 1, 2 ), car_names.Model ( text | values: chevrolet, buick ), car_names.Make ( text | values: chevrolet chevelle malibu, buick skylark 320 ) ]
+table cars_data, columns = [ cars_data.Id ( integer | primary key | values: 1, 2 ), cars_data.MPG ( text | values: 18, 15 ), cars_data.Cylinders ( real | values: 8, 4 ), cars_data.Edispl ( real | values: 307.0, 350.0 ), cars_data.Horsepower ( text | values: 130, 165 ), cars_data.Weight ( real | values: 3504, 3693 ), cars_data.Accelerate ( real | values: 12.0, 11.5 ), cars_data.Year ( real | values: 1970, 1971 ) ]
+foreign keys:
+countries.Continent = continents.ContId
+car_makers.Country = countries.CountryId
+model_list.Maker = car_makers.Id
+car_names.Model = model_list.Model
+cars_data.Id = car_names.MakeId
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--How many continents are there?
+--What is the number of continents?
+--How many countries does each continent have? List the continent id, continent name and the number of countries.
+--For each continent, list its id, name, and how many countries it has?
+--How many countries are listed?
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: Find the model of the car whose weight is below the average weight.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

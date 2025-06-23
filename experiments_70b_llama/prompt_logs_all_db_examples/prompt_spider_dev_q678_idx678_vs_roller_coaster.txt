@@ -1,0 +1,29 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table roller_coaster, columns = [ roller_coaster.Roller_Coaster_ID ( integer | primary key | values: 1, 2 ), roller_coaster.Name ( text | values: Boardwalk Bullet, Dauling Dragon ), roller_coaster.Park ( text | values: Kemah Boardwalk, Happy Valley ), roller_coaster.Country_ID ( integer | values: 1, 2 ), roller_coaster.Length ( real | values: 3236.0, 3914.0 ), roller_coaster.Height ( real | values: 96.0, 105.0 ), roller_coaster.Speed ( text | values: 51, 55 ), roller_coaster.Opened ( text | values: August 31, 2007, 2012 ), roller_coaster.Status ( text | values: Operating ) ]
+table country, columns = [ country.Country_ID ( integer | primary key | values: 1, 2 ), country.Name ( text | values: Austria, Finland ), country.Population ( real | values: 8206524, 5261008 ), country.Area ( real | values: 83871, 338145 ), country.Languages ( text | values: German, Finnish Swedish ) ]
+foreign keys:
+roller_coaster.Country_ID = country.Country_ID
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--How many roller coasters are there?
+--List the names of roller coasters by ascending order of length.
+--What are the lengths and heights of roller coasters?
+--List the names of countries whose language is not "German".
+--Show the statuses of roller coasters longer than 3300 or higher than 100.
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What is the weekly rank for the episode "A Love of a Lifetime"?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

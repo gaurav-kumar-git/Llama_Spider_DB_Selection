@@ -1,0 +1,35 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Student, columns = [ Student.StuID ( integer | primary key | values: 1001, 1002 ), Student.LName ( text | values: Smith, Kim ), Student.Fname ( text | values: Linda, Tracy ), Student.Age ( real | values: 18, 19 ), Student.Sex ( text | values: F, M ), Student.Major ( real | values: 600, 520 ), Student.Advisor ( real | values: 1121, 7712 ), Student.city_code ( text | values: BAL, HKG ) ]
+table Dorm, columns = [ Dorm.dormid ( real | values: 100, 110 ), Dorm.dorm_name ( text | values: Smith Hall, Bud Jones Hall ), Dorm.student_capacity ( real | values: 85, 116 ), Dorm.gender ( text | values: X, M ) ]
+table Dorm_amenity, columns = [ Dorm_amenity.amenid ( real | values: 900, 901 ), Dorm_amenity.amenity_name ( text | values: TV Lounge, Study Room ) ]
+table Has_amenity, columns = [ Has_amenity.dormid ( integer | values: 109, 104 ), Has_amenity.amenid ( integer | values: 900, 901 ) ]
+table Lives_in, columns = [ Lives_in.stuid ( integer | values: 1001, 1002 ), Lives_in.dormid ( integer | values: 109, 100 ), Lives_in.room_number ( real | values: 105, 112 ) ]
+foreign keys:
+Has_amenity.amenid = Dorm_amenity.amenid
+Has_amenity.dormid = Dorm.dormid
+Lives_in.dormid = Dorm.dormid
+Lives_in.stuid = Student.StuID
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--Find the name of dorms only for female (F gender).
+--What are the names of the all-female dorms?
+--Find the name of dorms that can accommodate more than 300 students.
+--What are the names of all the dorms that can accomdate more than 300 students?
+--How many female students (sex is F) whose age is below 25?
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What is the total number of unique official languages spoken in the countries that are founded before 1930?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

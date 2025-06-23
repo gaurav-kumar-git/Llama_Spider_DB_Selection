@@ -1,0 +1,27 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table genre, columns = [ genre.g_name ( text | primary key | values: blues, folk ), genre.rating ( text | values: 8, 7 ), genre.most_popular_in ( text | values: Bangladesh, Sylhet,Chittagong,Kustia ) ]
+table artist, columns = [ artist.artist_name ( text | primary key | values: Enrique, Farida ), artist.country ( text | values: India, Bangladesh ), artist.gender ( text | values: Male, Female ), artist.preferred_genre ( text | values: tagore, nazrul ) ]
+table files, columns = [ files.f_id ( integer | primary key | values: 1, 2 ), files.artist_name ( text | values: Shrikanta, Prity ), files.file_size ( text | values: 3.78 MB, 4.12 MB ), files.duration ( text | values: 3:45, 2:56 ), files.formats ( text | values: mp4, mp3 ) ]
+table song, columns = [ song.song_name ( text | primary key | values: Aj ei akash, Ami opar hoye ), song.artist_name ( text | values: Shrikanta, Prity ), song.country ( text | values: India, Bangladesh ), song.f_id ( integer | values: 1, 2 ), song.genre_is ( text | values: tagore, nazrul ), song.rating ( real | values: 8, 5 ), song.languages ( text | values: bangla, english ), song.releasedate ( datetime | values: 28-AUG-2011, 21-SEP-1997 ), song.resolution ( real | values: 1080, 512 ) ]
+foreign keys:
+artist.preferred_genre = genre.g_name
+files.artist_name = artist.artist_name
+song.genre_is = genre.g_name
+song.f_id = files.f_id
+song.artist_name = artist.artist_name
+]
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: find the number of distinct country codes of all players.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

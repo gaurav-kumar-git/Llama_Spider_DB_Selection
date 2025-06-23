@@ -1,0 +1,25 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table city, columns = [ city.City_ID ( integer | primary key | values: 1, 2 ), city.City ( text | values: Shanghai, Nanjing ( Jiangsu ) ), city.Hanzi ( text | values: 上海, 南京 ), city.Hanyu_Pinyin ( text | values: Shànghǎi, Nánjīng ), city.Regional_Population ( real | values: 23019148, 8004680 ), city.GDP ( real | values: 1919.57, 614.55 ) ]
+table match, columns = [ match.Match_ID ( integer | primary key | values: 1, 2 ), match.Date ( text | values: 18 February 1992, 19 July 1992 ), match.Venue ( text | values: Estadio Cuscatlán , San Salvador , El Salvador, Estadio Rigoberto López , Managua , Nicaragua ), match.Score ( text | values: 1-0, 3-0 ), match.Result ( text | values: 2-0, 5-0 ), match.Competition ( text | values: Friendly match, 1994 FIFA World Cup qualification ) ]
+table temperature, columns = [ temperature.City_ID ( integer | primary key | values: 1, 2 ), temperature.Jan ( real | values: 17.8, 26.1 ), temperature.Feb ( real | values: 17.8, 26.1 ), temperature.Mar ( real | values: 18.3, 26.1 ), temperature.Apr ( real | values: 18.9, 26.1 ), temperature.Jun ( real | values: 20.0, 27.8 ), temperature.Jul ( real | values: 20.6, 27.8 ), temperature.Aug ( real | values: 20.6, 28.3 ), temperature.Sep ( real | values: 20.6, 28.3 ), temperature.Oct ( real | values: 20.0, 28.3 ), temperature.Nov ( real | values: 19.4, 27.2 ), temperature.Dec ( real | values: 18.3, 26.7 ) ]
+table hosting_city, columns = [ hosting_city.Year ( integer | primary key | values: 2008, 2009 ), hosting_city.Match_ID ( integer | values: 1, 2 ), hosting_city.Host_City ( text | values: 1, 2 ) ]
+foreign keys:
+temperature.City_ID = city.City_ID
+hosting_city.Match_ID = match.Match_ID
+hosting_city.Host_City = city.City_ID
+]
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: Which continent has the most diverse languages?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

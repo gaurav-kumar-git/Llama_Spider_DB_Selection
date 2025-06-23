@@ -1,0 +1,23 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table department, columns = [ department.Department_ID ( integer | primary key | values: 1, 2 ), department.Name ( text | values: State, Treasury ), department.Creation ( text | values: 1789, 1947 ), department.Ranking ( real | values: 1, 2 ), department.Budget_in_Billions ( real | values: 9.96, 11.1 ), department.Num_Employees ( real | values: 30266.0, 115897.0 ) ]
+table head, columns = [ head.head_ID ( integer | primary key | values: 1, 2 ), head.name ( text | values: Tiger Woods, Sergio García ), head.born_state ( text | values: Alabama, California ), head.age ( real | values: 67.0, 68.0 ) ]
+table management, columns = [ management.department_ID ( integer | primary key | values: 2, 7 ), management.head_ID ( integer | values: 5, 6 ), management.temporary_acting ( text | values: Yes, No ) ]
+foreign keys:
+management.head_ID = head.head_ID
+management.department_ID = department.Department_ID
+]
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What are the arriving date and the departing date of all the dogs?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

@@ -1,0 +1,25 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table train, columns = [ train.id ( integer | primary key | values: 1, 2 ), train.train_number ( real | values: 16724, 16127 ), train.name ( text | values: Ananthapuri Express, Guruvayur Express ), train.origin ( text | values: Trivandrum, Chennai ), train.destination ( text | values: Chennai, Guruvayur ), train.time ( text | values: 17:15, 22:10 ), train.interval ( text | values: Daily ) ]
+table station, columns = [ station.id ( integer | primary key | values: 1, 2 ), station.network_name ( text | values: Amersham, Bushey ), station.services ( text | values: Metropolitan line and Chiltern Railways, London Overground and London Midland ), station.local_authority ( text | values: Chiltern, Watford ) ]
+table route, columns = [ route.train_id ( integer | primary key | values: 1, 2 ), route.station_id ( integer | values: 1, 2 ) ]
+table weekly_weather, columns = [ weekly_weather.station_id ( integer | primary key | values: 1, 2 ), weekly_weather.day_of_week ( text | values: Friday, Monday ), weekly_weather.high_temperature ( real | values: 59, 66 ), weekly_weather.low_temperature ( real | values: 54, 55 ), weekly_weather.precipitation ( real | values: 90.0, 20.0 ), weekly_weather.wind_speed_mph ( real | values: 13, 12 ) ]
+foreign keys:
+route.station_id = station.id
+route.train_id = train.id
+weekly_weather.station_id = station.id
+]
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What are the country code and first name of the players who won in both tourney WTA Championships and Australian Open?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

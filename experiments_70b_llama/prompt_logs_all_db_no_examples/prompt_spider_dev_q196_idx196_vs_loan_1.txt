@@ -1,0 +1,23 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table bank, columns = [ bank.branch_ID ( integer | primary key | values: 1, 2 ), bank.bname ( text | values: morningside, downtown ), bank.no_of_customers ( real | values: 203, 123 ), bank.city ( text | values: New York City, Salt Lake City ), bank.state ( text | values: New York, Utah ) ]
+table customer, columns = [ customer.cust_ID ( text | primary key | values: 1, 2 ), customer.cust_name ( text | values: Mary, Jack ), customer.acc_type ( text | values: saving, checking ), customer.acc_bal ( real | values: 2000, 1000 ), customer.no_of_loans ( real | values: 2, 1 ), customer.credit_score ( real | values: 30, 20 ), customer.branch_ID ( integer | values: 2, 1 ), customer.state ( text | values: Utah, Texas ) ]
+table loan, columns = [ loan.loan_ID ( text | primary key | values: 1, 2 ), loan.loan_type ( text | values: Mortgages, Auto ), loan.cust_ID ( text | values: 1, 3 ), loan.branch_ID ( text | values: 1, 2 ), loan.amount ( real | values: 2050, 3000 ) ]
+foreign keys:
+customer.branch_ID = bank.branch_ID
+loan.branch_ID = bank.branch_ID
+]
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: Show all template type codes and number of templates for each.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

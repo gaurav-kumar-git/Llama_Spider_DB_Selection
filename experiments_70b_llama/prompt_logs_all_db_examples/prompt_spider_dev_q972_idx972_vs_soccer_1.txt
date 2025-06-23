@@ -1,0 +1,38 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Player_Attributes, columns = [ Player_Attributes.id ( integer | primary key | values: 1, 2 ), Player_Attributes.player_fifa_api_id ( integer | values: 218353, 189615 ), Player_Attributes.player_api_id ( integer | values: 505942, 155782 ), Player_Attributes.date ( text | values: 2016-02-18 00:00:00, 2015-11-19 00:00:00 ), Player_Attributes.overall_rating ( real | values: 67, 62 ), Player_Attributes.potential ( real | values: 71, 66 ), Player_Attributes.preferred_foot ( text | values: right, left ), Player_Attributes.attacking_work_rate ( text | values: medium, high ), Player_Attributes.defensive_work_rate ( text | values: medium, high ), Player_Attributes.crossing ( real | values: 49, 48 ), Player_Attributes.finishing ( real | values: 44, 43 ), Player_Attributes.heading_accuracy ( real | values: 71, 70 ), Player_Attributes.short_passing ( real | values: 61, 60 ), Player_Attributes.volleys ( real | values: 44, 43 ), Player_Attributes.dribbling ( real | values: 51, 50 ), Player_Attributes.curve ( real | values: 45, 44 ), Player_Attributes.free_kick_accuracy ( real | values: 39, 38 ), Player_Attributes.long_passing ( real | values: 64, 63 ), Player_Attributes.ball_control ( real | values: 49, 48 ), Player_Attributes.acceleration ( real | values: 60, 79 ), Player_Attributes.sprint_speed ( real | values: 64, 78 ), Player_Attributes.agility ( real | values: 59, 78 ), Player_Attributes.reactions ( real | values: 47, 46 ), Player_Attributes.balance ( real | values: 65, 90 ), Player_Attributes.shot_power ( real | values: 55, 54 ), Player_Attributes.jumping ( real | values: 58, 85 ), Player_Attributes.stamina ( real | values: 54, 79 ), Player_Attributes.strength ( real | values: 76, 56 ), Player_Attributes.long_shots ( real | values: 35, 34 ), Player_Attributes.aggression ( real | values: 71, 63 ), Player_Attributes.interceptions ( real | values: 70, 41 ), Player_Attributes.positioning ( real | values: 45, 44 ), Player_Attributes.vision ( real | values: 54, 53 ), Player_Attributes.penalties ( real | values: 48, 47 ), Player_Attributes.marking ( real | values: 65, 62 ), Player_Attributes.standing_tackle ( real | values: 69, 66 ), Player_Attributes.sliding_tackle ( real | values: 69, 66 ), Player_Attributes.gk_diving ( real | values: 6, 5 ), Player_Attributes.gk_handling ( real | values: 11, 10 ), Player_Attributes.gk_kicking ( real | values: 10, 9 ), Player_Attributes.gk_positioning ( real | values: 8, 7 ), Player_Attributes.gk_reflexes ( real | values: 8, 7 ) ]
+table sqlite_sequence, columns = [ sqlite_sequence.name ( text | values: Team, Country ), sqlite_sequence.seq ( text | values: 103916, 51958 ) ]
+table Player, columns = [ Player.id ( integer | primary key | values: 3879, 401 ), Player.player_api_id ( real | values: 2625, 2752 ), Player.player_name ( text | values: Aaron Appindangoye, Aaron Cresswell ), Player.player_fifa_api_id ( real | values: 2, 6 ), Player.birthday ( text | values: 1992-02-29 00:00:00, 1989-12-15 00:00:00 ), Player.height ( real | values: 182.88, 170.18 ), Player.weight ( real | values: 187, 146 ) ]
+table League, columns = [ League.id ( integer | primary key | values: 1, 1729 ), League.country_id ( integer | values: 1, 1729 ), League.name ( text | values: Belgium Jupiler League, England Premier League ) ]
+table Country, columns = [ Country.id ( integer | primary key | values: 1, 1729 ), Country.name ( text | values: Belgium, England ) ]
+table Team, columns = [ Team.id ( integer | primary key | values: 31446, 1513 ), Team.team_api_id ( real | values: 1601, 1773 ), Team.team_fifa_api_id ( real | values: 673, 675 ), Team.team_long_name ( text | values: KRC Genk, Beerschot AC ), Team.team_short_name ( text | values: GEN, BAC ) ]
+table Team_Attributes, columns = [ Team_Attributes.id ( integer | primary key | values: 1, 2 ), Team_Attributes.team_fifa_api_id ( integer | values: 434, 77 ), Team_Attributes.team_api_id ( integer | values: 9930, 8485 ), Team_Attributes.date ( text | values: 2010-02-22 00:00:00, 2014-09-19 00:00:00 ), Team_Attributes.buildUpPlaySpeed ( real | values: 60, 52 ), Team_Attributes.buildUpPlaySpeedClass ( text | values: Balanced, Fast ), Team_Attributes.buildUpPlayDribbling ( real | values: 48, 41 ), Team_Attributes.buildUpPlayDribblingClass ( text | values: Little, Normal ), Team_Attributes.buildUpPlayPassing ( real | values: 50, 56 ), Team_Attributes.buildUpPlayPassingClass ( text | values: Mixed, Long ), Team_Attributes.buildUpPlayPositioningClass ( text | values: Organised, Free Form ), Team_Attributes.chanceCreationPassing ( real | values: 60, 54 ), Team_Attributes.chanceCreationPassingClass ( text | values: Normal, Risky ), Team_Attributes.chanceCreationCrossing ( real | values: 65, 63 ), Team_Attributes.chanceCreationCrossingClass ( text | values: Normal, Lots ), Team_Attributes.chanceCreationShooting ( real | values: 55, 64 ), Team_Attributes.chanceCreationShootingClass ( text | values: Normal, Lots ), Team_Attributes.chanceCreationPositioningClass ( text | values: Organised, Free Form ), Team_Attributes.defencePressure ( real | values: 50, 47 ), Team_Attributes.defencePressureClass ( text | values: Medium, Deep ), Team_Attributes.defenceAggression ( real | values: 55, 44 ), Team_Attributes.defenceAggressionClass ( text | values: Press, Double ), Team_Attributes.defenceTeamWidth ( real | values: 45, 54 ), Team_Attributes.defenceTeamWidthClass ( text | values: Normal, Wide ), Team_Attributes.defenceDefenderLineClass ( text | values: Cover, Offside Trap ) ]
+foreign keys:
+Player_Attributes.player_api_id = Player.player_api_id
+Player_Attributes.player_fifa_api_id = Player.player_fifa_api_id
+League.country_id = Country.id
+Team_Attributes.team_api_id = Team.team_api_id
+Team_Attributes.team_fifa_api_id = Team.team_fifa_api_id
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--List all country and league names.
+--How many leagues are there in England?
+--What is the average weight of all players?
+--What is the maximum and minimum height of all players?
+--List all player names who have an overall rating higher than the average.
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What is the grade of each high schooler?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

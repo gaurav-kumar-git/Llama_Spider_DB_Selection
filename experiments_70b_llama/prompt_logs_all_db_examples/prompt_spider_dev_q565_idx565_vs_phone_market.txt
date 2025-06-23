@@ -1,0 +1,31 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table phone, columns = [ phone.Name ( text | values: IPhone 5s, IPhone 6 ), phone.Phone_ID ( integer | primary key | values: 1, 2 ), phone.Memory_in_G ( real | values: 32, 128 ), phone.Carrier ( text | values: Sprint, TMobile ), phone.Price ( real | values: 320.0, 480.0 ) ]
+table market, columns = [ market.Market_ID ( integer | primary key | values: 1, 2 ), market.District ( text | values: Alberta, British Columbia ), market.Num_of_employees ( real | values: 1966, 1965 ), market.Num_of_shops ( real | values: 40.0, 49.0 ), market.Ranking ( real | values: 1, 21 ) ]
+table phone_market, columns = [ phone_market.Market_ID ( integer | primary key | values: 1, 2 ), phone_market.Phone_ID ( text | values: 1, 4 ), phone_market.Num_of_stock ( real | values: 2232, 4324 ) ]
+foreign keys:
+phone_market.Phone_ID = phone.Phone_ID
+phone_market.Market_ID = market.Market_ID
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--How many phones are there?
+--List the names of phones in ascending order of price.
+--What are the memories and carriers of phones?
+--List the distinct carriers of phones with memories bigger than 32.
+--Show the names of phones with carrier either "Sprint" or "TMobile".
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What are the different template type codes, and how many documents use each type?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

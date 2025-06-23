@@ -1,0 +1,37 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Campuses, columns = [ Campuses.Id ( integer | primary key | values: 1, 2 ), Campuses.Campus ( text | values: California State University-Bakersfield, California State University-Channel Islands ), Campuses.Location ( text | values: Bakersfield, Camarillo ), Campuses.County ( text | values: Kern, Ventura ), Campuses.Year ( real | values: 1965, 2002 ) ]
+table csu_fees, columns = [ csu_fees.Campus ( integer | primary key | values: 1, 2 ), csu_fees.Year ( real | values: 1996, 2003 ), csu_fees.CampusFee ( real | values: 1951, 1868 ) ]
+table degrees, columns = [ degrees.Year ( integer | primary key | values: 1990, 1991 ), degrees.Campus ( integer | values: 1, 3 ), degrees.Degrees ( real | values: 701, 681 ) ]
+table discipline_enrollments, columns = [ discipline_enrollments.Campus ( integer | primary key | values: 1, 2 ), discipline_enrollments.Discipline ( real | values: 4, 5 ), discipline_enrollments.Year ( real | values: 2004 ), discipline_enrollments.Undergraduate ( real | values: 248, 811 ), discipline_enrollments.Graduate ( real | values: 0, 73 ) ]
+table enrollments, columns = [ enrollments.Campus ( integer | primary key | values: 1, 2 ), enrollments.Year ( real | values: 1956, 1957 ), enrollments.TotalEnrollment_AY ( real | values: 384, 432 ), enrollments.FTE_AY ( real | values: 123, 151 ) ]
+table faculty, columns = [ faculty.Campus ( integer | values: 1, 2 ), faculty.Year ( real | values: 2002, 2003 ), faculty.Faculty ( real | values: 357.1, 48.4 ) ]
+foreign keys:
+csu_fees.Campus = Campuses.Id
+degrees.Campus = Campuses.Id
+discipline_enrollments.Campus = Campuses.Id
+enrollments.Campus = Campuses.Id
+faculty.Campus = Campuses.Id
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--Report the name of all campuses in Los Angeles county.
+--What campuses are located in the county of Los Angeles?
+--What are the names of all campuses located at Chico?
+--What campuses are located in Chico?
+--Find all the campuses opened in 1958.
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: How many templates have template type code CV?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

@@ -1,0 +1,31 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table School, columns = [ School.School_id ( text | primary key | values: 1, 2 ), School.School_name ( text | values: Bremen, Culver Community ), School.Location ( text | values: Bremen, Culver ), School.Mascot ( text | values: Lions, Cavaliers ), School.Enrollment ( real | values: 495, 287 ), School.IHSAA_Class ( text | values: AA, A ), School.IHSAA_Football_Class ( text | values: AA, A ), School.County ( text | values: 50 Marshall, 71 St. Joseph ) ]
+table budget, columns = [ budget.School_id ( integer | primary key | values: 1, 2 ), budget.Year ( real | values: 2003, 1999 ), budget.Budgeted ( real | values: 4979, 3666 ), budget.total_budget_percent_budgeted ( real | values: 2.0, 2.4 ), budget.Invested ( real | values: 2134, 5840 ), budget.total_budget_percent_invested ( real | values: 2.0, 2.2 ), budget.Budget_invested_percent ( text | values: 42.9, 159.3 ) ]
+table endowment, columns = [ endowment.endowment_id ( integer | primary key | values: 1, 2 ), endowment.School_id ( integer | values: 1, 2 ), endowment.donator_name ( text | values: Monte Plata, San José de Ocoa ), endowment.amount ( real | values: 9.51, 9.83 ) ]
+foreign keys:
+budget.School_id = School.School_id
+endowment.School_id = School.School_id
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--How many schools are there?
+--Count the number of schools.
+--Show all school names in alphabetical order.
+--List the name, location, mascot for all schools.
+--What are the total and average enrollment of all schools?
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What are each professional's first name and description of the treatment they have performed?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

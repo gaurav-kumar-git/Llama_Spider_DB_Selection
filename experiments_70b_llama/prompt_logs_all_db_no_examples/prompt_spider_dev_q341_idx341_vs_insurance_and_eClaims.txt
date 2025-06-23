@@ -1,0 +1,31 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Customers, columns = [ Customers.Customer_ID ( integer | primary key | values: 252, 263 ), Customers.Customer_Details ( text | values: America Jaskolski, Ellsworth Paucek ) ]
+table Staff, columns = [ Staff.Staff_ID ( integer | primary key | values: 406, 427 ), Staff.Staff_Details ( text | values: Clifton, Cathryn ) ]
+table Policies, columns = [ Policies.Policy_ID ( integer | primary key | values: 125, 151 ), Policies.Customer_ID ( integer | values: 808, 380 ), Policies.Policy_Type_Code ( text | values: Deputy, Jurisdiction ), Policies.Start_Date ( datetime | values: 2018-02-10 08:56:30, 2017-12-20 06:02:31 ), Policies.End_Date ( datetime | values: 2018-03-18 09:17:26, 2017-09-16 22:04:13 ) ]
+table Claim_Headers, columns = [ Claim_Headers.Claim_Header_ID ( integer | primary key | values: 15, 24 ), Claim_Headers.Claim_Status_Code ( text | values: Settled, Disputed ), Claim_Headers.Claim_Type_Code ( text | values: Handphone Subsidy, Child Birth ), Claim_Headers.Policy_ID ( integer | values: 518, 287 ), Claim_Headers.Date_of_Claim ( datetime | values: 2016-05-31 06:07:11, 2016-12-30 21:43:21 ), Claim_Headers.Date_of_Settlement ( datetime | values: 2018-02-23 03:46:38, 2017-10-08 21:43:14 ), Claim_Headers.Amount_Claimed ( real | values: 349.15, 318.16 ), Claim_Headers.Amount_Piad ( real | values: 582.03, 309.2 ) ]
+table Claims_Documents, columns = [ Claims_Documents.Claim_ID ( integer | primary key | values: 24, 27 ), Claims_Documents.Document_Type_Code ( text | values: Document, Medical ), Claims_Documents.Created_by_Staff_ID ( integer | values: 718, 986 ), Claims_Documents.Created_Date ( real | values: 8, 6 ) ]
+table Claims_Processing_Stages, columns = [ Claims_Processing_Stages.Claim_Stage_ID ( integer | primary key | values: 1, 3 ), Claims_Processing_Stages.Next_Claim_Stage_ID ( real | values: 1 ), Claims_Processing_Stages.Claim_Status_Name ( text | values: Open, Close ), Claims_Processing_Stages.Claim_Status_Description ( text | values: Open a new claim, Close a claim ) ]
+table Claims_Processing, columns = [ Claims_Processing.Claim_Processing_ID ( integer | primary key | values: 118, 145 ), Claims_Processing.Claim_ID ( integer | values: 28, 62 ), Claims_Processing.Claim_Outcome_Code ( text | values: In progress, Disputed ), Claims_Processing.Claim_Stage_ID ( real | values: 1, 3 ), Claims_Processing.Staff_ID ( integer | values: 771, 589 ) ]
+foreign keys:
+Policies.Customer_ID = Customers.Customer_ID
+Claim_Headers.Policy_ID = Policies.Policy_ID
+Claims_Documents.Created_by_Staff_ID = Staff.Staff_ID
+Claims_Documents.Claim_ID = Claim_Headers.Claim_Header_ID
+Claims_Processing.Staff_ID = Staff.Staff_ID
+Claims_Processing.Claim_ID = Claim_Headers.Claim_Header_ID
+]
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What is the id of the pet owned by the student whose last name is 'Smith'?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

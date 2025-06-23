@@ -1,0 +1,27 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Activity, columns = [ Activity.actid ( integer | primary key | values: 770, 771 ), Activity.activity_name ( text | values: Mountain Climbing, Canoeing ) ]
+table Participates_in, columns = [ Participates_in.stuid ( integer | values: 1001, 1002 ), Participates_in.actid ( integer | values: 770, 771 ) ]
+table Faculty_Participates_in, columns = [ Faculty_Participates_in.FacID ( integer | values: 1082, 1121 ), Faculty_Participates_in.actid ( integer | values: 784, 785 ) ]
+table Student, columns = [ Student.StuID ( integer | primary key | values: 1001, 1002 ), Student.LName ( text | values: Smith, Kim ), Student.Fname ( text | values: Linda, Tracy ), Student.Age ( real | values: 18, 19 ), Student.Sex ( text | values: F, M ), Student.Major ( real | values: 600, 520 ), Student.Advisor ( real | values: 1121, 7712 ), Student.city_code ( text | values: BAL, HKG ) ]
+table Faculty, columns = [ Faculty.FacID ( integer | primary key | values: 1082, 1121 ), Faculty.Lname ( text | values: Giuliano, Goodrich ), Faculty.Fname ( text | values: Mark, Michael ), Faculty.Rank ( text | values: Instructor, Professor ), Faculty.Sex ( text | values: M, F ), Faculty.Phone ( real | values: 2424, 3593 ), Faculty.Room ( text | values: 224, 219 ), Faculty.Building ( text | values: NEB, Barton ) ]
+foreign keys:
+Participates_in.actid = Activity.actid
+Participates_in.stuid = Student.StuID
+Faculty_Participates_in.actid = Activity.actid
+Faculty_Participates_in.FacID = Faculty.FacID
+]
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What is the abbreviation of the airilne has the fewest flights and what country is it in?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

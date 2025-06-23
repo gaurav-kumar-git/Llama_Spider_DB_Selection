@@ -1,0 +1,25 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table country, columns = [ country.Country_id ( integer | primary key | values: 1, 2 ), country.Country_name ( text | values: Indonesia, Iran ), country.Capital ( text | values: Jakarta, Tehran ), country.Official_native_language ( text | values: Bahasa Indonesia, Persian ( Arabic script ) ) ]
+table team, columns = [ team.Team_id ( integer | primary key | values: 1, 2 ), team.Name ( text | values: Columbus Crew, Evalyn Feil ) ]
+table match_season, columns = [ match_season.Season ( integer | primary key | values: 1996.0, 1997.0 ), match_season.Player ( text | values: Steve Ralston Category:Articles with hCards, Mike Duhaney Category:Articles with hCards ), match_season.Position ( text | values: Midfielder, Defender ), match_season.Country ( integer | values: 6, 4 ), match_season.Team ( integer | values: 1, 2 ), match_season.Draft_Pick_Number ( real | values: 18, 87 ), match_season.Draft_Class ( text | values: 1996 MLS College Draft, 1996 MLS Inaugural Player Draft ), match_season.College ( text | values: Florida International, UNLV ) ]
+table player, columns = [ player.Player_ID ( integer | primary key | values: 1, 2 ), player.Player ( text | values: Cho Soong-Jae (630), Chung Hong (717) ), player.Years_Played ( text | values: 1 (2011), 8 (2003–2005, 2007–2011) ), player.Total_WL ( text | values: 2–0, 0–0 ), player.Singles_WL ( text | values: 1–0, 0–0 ), player.Doubles_WL ( text | values: 1–0, 0–0 ), player.Team ( integer | values: 1, 2 ) ]
+foreign keys:
+match_season.Team = team.Team_id
+match_season.Country = country.Country_id
+player.Team = team.Team_id
+]
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What is the number of distinct continents where Chinese is spoken?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

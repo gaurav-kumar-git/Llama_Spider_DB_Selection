@@ -1,0 +1,33 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table school, columns = [ school.School_ID ( integer | primary key | values: 1, 2 ), school.School ( text | values: St Aloysius' College, Barker College ), school.Location ( text | values: Milsons Point, Hornsby ), school.Enrollment ( real | values: 1200.0, 2300.0 ), school.Founded ( real | values: 1879.0, 1890.0 ), school.Denomination ( text | values: Catholic, Anglican ), school.Boys_or_Girls ( text | values: Boys, Boys only to Yr 9 Co-ed Year 10 to 12 ), school.Day_or_Boarding ( text | values: Day, Day & Boarding ), school.Year_Entered_Competition ( real | values: 1929.0, 1944.0 ), school.School_Colors ( text | values: Royal Blue and Gold, Red & Blue ) ]
+table school_details, columns = [ school_details.School_ID ( integer | primary key | values: 1, 2 ), school_details.Nickname ( text | values: Tigers, Auks ), school_details.Colors ( text | values: Blue and Yellow, Dark Green and White ), school_details.League ( text | values: DSHA ), school_details.Class ( text | values: Flight A, Flight B ), school_details.Division ( text | values: Division 1, Division 3 ) ]
+table school_performance, columns = [ school_performance.School_Id ( integer | primary key | values: 1, 2 ), school_performance.School_Year ( text | values: 1987-88, 1988-89 ), school_performance.Class_A ( text | values: Yantis, Happy ), school_performance.Class_AA ( text | values: Blanco, Bishop ) ]
+table player, columns = [ player.Player_ID ( integer | primary key | values: 1, 2 ), player.Player ( text | values: Timothy Beckham, Pedro Álvarez ), player.Team ( text | values: Tampa Bay Devil Rays, Pittsburgh Pirates ), player.Age ( real | values: 15, 14 ), player.Position ( text | values: Shortstop, Third baseman ), player.School_ID ( integer | values: 1, 2 ) ]
+foreign keys:
+school_details.School_ID = school.School_ID
+school_performance.School_Id = school.School_ID
+player.School_ID = school.School_ID
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--How many schools are there?
+--Count the number of schools.
+--List the locations of schools in ascending order of enrollment.
+--What is the list of school locations sorted in ascending order of school enrollment?
+--List the locations of schools in descending order of founded year.
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: Which abbreviation corresponds to Jetblue Airways?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

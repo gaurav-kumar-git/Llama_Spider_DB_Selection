@@ -1,0 +1,31 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table device, columns = [ device.Device_ID ( integer | primary key | values: 1, 2 ), device.Device ( text | values: BlackBerry Storm 9530, Apple ), device.Carrier ( text | values: MTS Mobility, Verizon Wireless ), device.Package_Version ( text | values: 5.0.0.808, 5.0.0.328 ), device.Applications ( text | values: 5.0.0.419, 5.0.0.328 ), device.Software_Platform ( text | values: Android, iOS ) ]
+table shop, columns = [ shop.Shop_ID ( integer | primary key | values: 1, 2 ), shop.Shop_Name ( text | values: Dinas Device, Best Buy ), shop.Location ( text | values: Dinas, Cymmer ), shop.Open_Date ( text | values: 1 January, 15 July ), shop.Open_Year ( real | values: 2014, 2006 ) ]
+table stock, columns = [ stock.Shop_ID ( integer | primary key | values: 1, 2 ), stock.Device_ID ( integer | values: 4, 6 ), stock.Quantity ( real | values: 100, 110 ) ]
+foreign keys:
+stock.Device_ID = device.Device_ID
+stock.Shop_ID = shop.Shop_ID
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--How many devices are there?
+--Count the number of devices.
+--List the carriers of devices in ascending alphabetical order.
+--What are the different carriers for devices, listed in alphabetical order?
+--What are the carriers of devices whose software platforms are not "Android"?
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What is the name of the museum that had no visitor yet?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

@@ -1,0 +1,29 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table candidate, columns = [ candidate.Candidate_ID ( integer | primary key | values: 1, 2 ), candidate.People_ID ( integer | values: 1, 3 ), candidate.Poll_Source ( text | values: WNBC/Marist Poll, FOX News/Opinion Dynamics Poll ), candidate.Date ( text | values: Feb 12–15, 2007, Feb 13–14, 2007 ), candidate.Support_rate ( real | values: 0.25, 0.17 ), candidate.Consider_rate ( real | values: 0.3, 0.42 ), candidate.Oppose_rate ( real | values: 0.43, 0.32 ), candidate.Unsure_rate ( real | values: 0.2, 0.9 ) ]
+table people, columns = [ people.People_ID ( integer | primary key | values: 1, 2 ), people.Sex ( text | values: M, F ), people.Name ( text | values: Hubert Henno, Dominique Daquin ), people.Date_of_Birth ( text | values: 06.10.1976, 10.11.1972 ), people.Height ( real | values: 188.0, 197.0 ), people.Weight ( real | values: 83.0, 85.0 ) ]
+foreign keys:
+candidate.People_ID = people.People_ID
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--How many candidates are there?
+--Count the number of candidates.
+--Which poll resource provided the most number of candidate information?
+--Return the poll resource associated with the most candidates.
+--what are the top 3 highest support rates?
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: How many languages are spoken in Aruba?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

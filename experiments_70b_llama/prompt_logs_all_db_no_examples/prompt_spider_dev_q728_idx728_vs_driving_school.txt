@@ -1,0 +1,30 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Addresses, columns = [ Addresses.address_id ( integer | primary key | values: 1, 2 ), Addresses.line_1_number_building ( text | values: 3904 Stroman Passage, 053 Quigley Island ), Addresses.city ( text | values: Port Melyssa, Hagenesfurt ), Addresses.zip_postcode ( text | values: 14445, 22194 ), Addresses.state_province_county ( text | values: Georgia, Kentucky ), Addresses.country ( text | values: USA ) ]
+table Staff, columns = [ Staff.staff_id ( integer | primary key | values: 1, 2 ), Staff.staff_address_id ( integer | values: 14, 3 ), Staff.nickname ( text | values: thompson.constantin, santos45 ), Staff.first_name ( text | values: Janessa, Camylle ), Staff.middle_name ( text | values: Amara, Icie ), Staff.last_name ( text | values: Sawayn, Weissnat ), Staff.date_of_birth ( datetime | values: 2010-12-08 16:55:14, 2015-08-01 13:22:43 ), Staff.date_joined_staff ( datetime | values: 2017-04-27 03:21:26, 2016-06-06 08:54:28 ), Staff.date_left_staff ( datetime | values: 2018-03-23 22:53:12, 2018-03-10 15:25:00 ) ]
+table Vehicles, columns = [ Vehicles.vehicle_id ( integer | primary key | values: 1, 2 ), Vehicles.vehicle_details ( text | values: Van, Truck ) ]
+table Customers, columns = [ Customers.customer_id ( integer | primary key | values: 1, 2 ), Customers.customer_address_id ( integer | values: 13, 10 ), Customers.customer_status_code ( text | values: Bad Customer, Good Customer ), Customers.date_became_customer ( datetime | values: 2016-05-11 17:03:48, 2015-11-16 22:52:14 ), Customers.date_of_birth ( datetime | values: 1998-12-15 13:24:40, 1995-07-17 12:13:16 ), Customers.first_name ( text | values: Carole, Genevieve ), Customers.last_name ( text | values: Bernhard, Terry ), Customers.amount_outstanding ( real | values: 255.0, 7256.0 ), Customers.email_address ( text | values: everette.goyette@example.org, huel.jana@example.org ), Customers.phone_number ( text | values: 07278206718, +14(5)2351480248 ), Customers.cell_mobile_phone_number ( text | values: 861-638-9797, 578-518-4785x612 ) ]
+table Customer_Payments, columns = [ Customer_Payments.customer_id ( integer | primary key | values: 1, 2 ), Customer_Payments.datetime_payment ( datetime | values: 2018-03-18 13:48:13, 2018-02-24 10:07:05 ), Customer_Payments.payment_method_code ( text | values: Direct Debit, Credit Card ), Customer_Payments.amount_payment ( real | values: 9570.93, 8180.26 ) ]
+table Lessons, columns = [ Lessons.lesson_id ( integer | primary key | values: 1, 2 ), Lessons.customer_id ( integer | values: 6, 8 ), Lessons.lesson_status_code ( text | values: Cancelled, Completed ), Lessons.staff_id ( integer | values: 8, 14 ), Lessons.vehicle_id ( integer | values: 3, 2 ), Lessons.lesson_date ( datetime | values: 2018-02-28 10:55:36, 2018-03-07 16:12:36 ), Lessons.lesson_time ( text | values: 5, 6 ), Lessons.price ( real | values: 199.0, 167.0 ) ]
+foreign keys:
+Staff.staff_address_id = Addresses.address_id
+Customers.customer_address_id = Addresses.address_id
+Customer_Payments.customer_id = Customers.customer_id
+Lessons.customer_id = Customers.customer_id
+Lessons.staff_id = Staff.staff_id
+Lessons.vehicle_id = Vehicles.vehicle_id
+]
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: How many likes correspond to each student id?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

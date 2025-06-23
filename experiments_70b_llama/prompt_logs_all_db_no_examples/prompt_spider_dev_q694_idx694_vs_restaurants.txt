@@ -1,0 +1,23 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table GEOGRAPHIC, columns = [ GEOGRAPHIC.CITY_NAME ( text | primary key | values: N/A ), GEOGRAPHIC.COUNTY ( text | values: N/A ), GEOGRAPHIC.REGION ( text | values: N/A ) ]
+table RESTAURANT, columns = [ RESTAURANT.ID ( integer | primary key | values: N/A ), RESTAURANT.NAME ( text | values: N/A ), RESTAURANT.FOOD_TYPE ( text | values: N/A ), RESTAURANT.CITY_NAME ( text | values: N/A ), RESTAURANT.RATING ( real | values: N/A ) ]
+table LOCATION, columns = [ LOCATION.RESTAURANT_ID ( integer | primary key | values: N/A ), LOCATION.HOUSE_NUMBER ( real | values: N/A ), LOCATION.STREET_NAME ( text | values: N/A ), LOCATION.CITY_NAME ( text | values: N/A ) ]
+foreign keys:
+RESTAURANT.CITY_NAME = GEOGRAPHIC.CITY_NAME
+LOCATION.CITY_NAME = GEOGRAPHIC.CITY_NAME
+]
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: Show the names of high schoolers who have likes, and numbers of likes for each.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

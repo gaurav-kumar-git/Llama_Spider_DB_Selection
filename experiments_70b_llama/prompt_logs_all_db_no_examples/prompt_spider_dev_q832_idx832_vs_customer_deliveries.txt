@@ -1,0 +1,48 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table Products, columns = [ Products.product_id ( integer | primary key | values: 1, 2 ), Products.product_name ( text | values: dvds, cloth ), Products.product_price ( real | values: 1322.78, 6402.09 ), Products.product_description ( text | values: good condition, great condition ) ]
+table Addresses, columns = [ Addresses.address_id ( integer | primary key | values: 1, 2 ), Addresses.address_details ( text | values: 92283 Lora Forges Suite 322, 17135 Jaida Fork Suite 798 ), Addresses.city ( text | values: Mohrville, East Brody ), Addresses.zip_postcode ( text | values: 271, 940 ), Addresses.state_province_county ( text | values: Nebraska, Colorado ), Addresses.country ( text | values: USA ) ]
+table Customers, columns = [ Customers.customer_id ( integer | primary key | values: 1, 2 ), Customers.payment_method ( text | values: Visa, MasterCard ), Customers.customer_name ( text | values: Ron Emard, Gabe Schroeder ), Customers.customer_phone ( text | values: 1-382-503-5179x53639, 1-728-537-4293x0885 ), Customers.customer_email ( text | values: shaniya45@example.net, alexandra91@example.net ), Customers.date_became_customer ( datetime | values: 2011-04-25 22:20:35, 2011-10-17 16:08:25 ) ]
+table Regular_Orders, columns = [ Regular_Orders.regular_order_id ( integer | primary key | values: 1, 2 ), Regular_Orders.distributer_id ( integer | values: 12, 15 ) ]
+table Regular_Order_Products, columns = [ Regular_Order_Products.regular_order_id ( integer | values: 5, 2 ), Regular_Order_Products.product_id ( integer | values: 3, 1 ) ]
+table Actual_Orders, columns = [ Actual_Orders.actual_order_id ( integer | primary key | values: 1, 2 ), Actual_Orders.order_status_code ( text | values: Success, Cancel ), Actual_Orders.regular_order_id ( integer | values: 8, 15 ), Actual_Orders.actual_order_date ( datetime | values: 2018-03-02 23:26:19, 2018-03-02 08:33:39 ) ]
+table Actual_Order_Products, columns = [ Actual_Order_Products.actual_order_id ( integer | values: 2, 14 ), Actual_Order_Products.product_id ( integer | values: 1, 5 ) ]
+table Customer_Addresses, columns = [ Customer_Addresses.customer_id ( integer | values: 5, 14 ), Customer_Addresses.address_id ( integer | values: 6, 5 ), Customer_Addresses.date_from ( datetime | values: 2016-09-06 19:23:46, 2016-12-21 03:49:54 ), Customer_Addresses.address_type ( text | values: House, Flat ), Customer_Addresses.date_to ( datetime | values: 2018-02-25 15:34:58, 2018-03-13 21:20:21 ) ]
+table Delivery_Routes, columns = [ Delivery_Routes.route_id ( integer | primary key | values: 1, 2 ), Delivery_Routes.route_name ( text | values: Torphy Ltd, Heidenreich Group ), Delivery_Routes.other_route_details ( text | values: 16893 Wilderman Terrace
+Port Lucasburgh, ND 55978-5550, 6534 Cheyenne Trace Suite 242
+Koryburgh, PA 21391-9164 ) ]
+table Delivery_Route_Locations, columns = [ Delivery_Route_Locations.location_code ( text | primary key | values: 04 Elm Rd, 15 Sixth Av ), Delivery_Route_Locations.route_id ( integer | values: 11, 7 ), Delivery_Route_Locations.location_address_id ( integer | values: 5, 13 ), Delivery_Route_Locations.location_name ( text | values: Labadie-Crooks, VonRueden, Schmeler and Fay ) ]
+table Trucks, columns = [ Trucks.truck_id ( integer | primary key | values: 1, 2 ), Trucks.truck_licence_number ( text | values: 58110, 33822 ), Trucks.truck_details ( text | values: Frida, Randy ) ]
+table Employees, columns = [ Employees.employee_id ( integer | primary key | values: 1, 2 ), Employees.employee_address_id ( integer | values: 4, 12 ), Employees.employee_name ( text | values: Kacie, Dejuan ), Employees.employee_phone ( text | values: 716-650-2081, 211.289.9042 ) ]
+table Order_Deliveries, columns = [ Order_Deliveries.location_code ( text | values: 27 City Rd, 73 Nancy Av ), Order_Deliveries.actual_order_id ( integer | values: 11, 1 ), Order_Deliveries.delivery_status_code ( text | values: Ready, On Road ), Order_Deliveries.driver_employee_id ( integer | values: 6, 4 ), Order_Deliveries.truck_id ( integer | values: 11, 10 ), Order_Deliveries.delivery_date ( datetime | values: 2018-03-21 00:57:22, 2018-02-26 01:32:49 ) ]
+foreign keys:
+Regular_Orders.distributer_id = Customers.customer_id
+Regular_Order_Products.regular_order_id = Regular_Orders.regular_order_id
+Regular_Order_Products.product_id = Products.product_id
+Actual_Orders.regular_order_id = Regular_Orders.regular_order_id
+Actual_Order_Products.actual_order_id = Actual_Orders.actual_order_id
+Actual_Order_Products.product_id = Products.product_id
+Customer_Addresses.address_id = Addresses.address_id
+Customer_Addresses.customer_id = Customers.customer_id
+Delivery_Route_Locations.route_id = Delivery_Routes.route_id
+Delivery_Route_Locations.location_address_id = Addresses.address_id
+Employees.employee_address_id = Addresses.address_id
+Order_Deliveries.driver_employee_id = Employees.employee_id
+Order_Deliveries.location_code = Delivery_Route_Locations.location_code
+Order_Deliveries.actual_order_id = Actual_Orders.actual_order_id
+Order_Deliveries.truck_id = Trucks.truck_id
+]
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What are airlines that have flights arriving at airport 'AHD'?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

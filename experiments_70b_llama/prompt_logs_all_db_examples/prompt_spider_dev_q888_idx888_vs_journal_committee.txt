@@ -1,0 +1,31 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# You are provided with a database schema.
+[Schema:
+table journal, columns = [ journal.Journal_ID ( integer | primary key | values: 1, 2 ), journal.Date ( text | values: September 9, 2001, September 23, 2001 ), journal.Theme ( text | values: Miami Dolphins, at Jacksonville Jaguars ), journal.Sales ( real | values: 798, 994 ) ]
+table editor, columns = [ editor.Editor_ID ( integer | primary key | values: 1, 2 ), editor.Name ( text | values: Kamila Porczyk, Anna Powierza ), editor.Age ( real | values: 34.0, 35.0 ) ]
+table journal_committee, columns = [ journal_committee.Editor_ID ( integer | primary key | values: 1, 3 ), journal_committee.Journal_ID ( integer | values: 13, 6 ), journal_committee.Work_Type ( text | values: Photo, Article ) ]
+foreign keys:
+journal_committee.Journal_ID = journal.Journal_ID
+journal_committee.Editor_ID = editor.Editor_ID
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--How many editors are there?
+--List the names of editors in ascending order of age.
+--What are the names and ages of editors?
+--List the names of editors who are older than 25.
+--Show the names of editors of age either 24 or 25.
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: How long is the people’s average life expectancy in Central Africa?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
