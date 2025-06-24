@@ -1,0 +1,159 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Task: Can the question be answered using the schema? Respond with 1 (Yes) or 0 (No).
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# Now, evaluate the following:
+
+[Schema:
+CREATE TABLE actor (
+  aid INTEGER PRIMARY KEY,
+  gender TEXT,
+  name TEXT,
+  nationality TEXT,
+  birth_city TEXT,
+  birth_year REAL
+);
+
+CREATE TABLE copyright (
+  id INTEGER PRIMARY KEY,
+  msid REAL,
+  cid REAL
+);
+
+CREATE TABLE cast (
+  id INTEGER PRIMARY KEY,
+  msid INTEGER,
+  aid INTEGER,
+  role REAL,
+  FOREIGN KEY (msid) REFERENCES copyright (msid),
+  FOREIGN KEY (aid) REFERENCES actor (aid)
+);
+
+CREATE TABLE genre (
+  gid INTEGER PRIMARY KEY,
+  genre TEXT
+);
+
+CREATE TABLE classification (
+  id INTEGER PRIMARY KEY,
+  msid INTEGER,
+  gid INTEGER,
+  FOREIGN KEY (msid) REFERENCES copyright (msid),
+  FOREIGN KEY (gid) REFERENCES genre (gid)
+);
+
+CREATE TABLE company (
+  id INTEGER PRIMARY KEY,
+  name TEXT,
+  country_code TEXT
+);
+
+CREATE TABLE director (
+  did INTEGER PRIMARY KEY,
+  gender TEXT,
+  name TEXT,
+  nationality TEXT,
+  birth_city TEXT,
+  birth_year REAL
+);
+
+CREATE TABLE producer (
+  pid INTEGER PRIMARY KEY,
+  gender TEXT,
+  name TEXT,
+  nationality TEXT,
+  birth_city TEXT,
+  birth_year REAL
+);
+
+CREATE TABLE directed_by (
+  id INTEGER PRIMARY KEY,
+  msid INTEGER,
+  did INTEGER,
+  FOREIGN KEY (did) REFERENCES director (did),
+  FOREIGN KEY (msid) REFERENCES copyright (msid)
+);
+
+CREATE TABLE keyword (
+  id INTEGER PRIMARY KEY,
+  keyword TEXT
+);
+
+CREATE TABLE made_by (
+  id INTEGER PRIMARY KEY,
+  msid INTEGER,
+  pid INTEGER,
+  FOREIGN KEY (pid) REFERENCES producer (pid),
+  FOREIGN KEY (msid) REFERENCES copyright (msid)
+);
+
+CREATE TABLE movie (
+  mid INTEGER PRIMARY KEY,
+  title TEXT,
+  release_year REAL,
+  title_aka TEXT,
+  budget TEXT
+);
+
+CREATE TABLE tags (
+  id INTEGER PRIMARY KEY,
+  msid INTEGER,
+  kid REAL,
+  FOREIGN KEY (msid) REFERENCES copyright (msid)
+);
+
+CREATE TABLE tv_series (
+  sid INTEGER PRIMARY KEY,
+  title TEXT,
+  release_year REAL,
+  num_of_seasons REAL,
+  num_of_episodes REAL,
+  title_aka TEXT,
+  budget TEXT
+);
+
+CREATE TABLE writer (
+  wid INTEGER PRIMARY KEY,
+  gender TEXT,
+  name REAL,
+  nationality REAL,
+  num_of_episodes REAL,
+  birth_city TEXT,
+  birth_year REAL
+);
+
+CREATE TABLE written_by (
+  id REAL,
+  msid INTEGER,
+  wid INTEGER,
+  FOREIGN KEY (wid) REFERENCES writer (wid),
+  FOREIGN KEY (msid) REFERENCES copyright (msid)
+);
+]
+Q: How many visitors below age 30 are there?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

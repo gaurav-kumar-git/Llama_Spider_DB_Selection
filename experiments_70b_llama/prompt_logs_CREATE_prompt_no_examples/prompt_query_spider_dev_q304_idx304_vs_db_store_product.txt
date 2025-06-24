@@ -1,0 +1,74 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Task: Can the question be answered using the schema? Respond with 1 (Yes) or 0 (No).
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# Now, evaluate the following:
+
+[Schema:
+CREATE TABLE product (
+  product_id INTEGER PRIMARY KEY,
+  product TEXT,
+  dimensions TEXT,
+  dpi REAL,
+  pages_per_minute_color REAL,
+  max_page_size TEXT,
+  interface TEXT
+);
+
+CREATE TABLE store (
+  Store_ID INTEGER PRIMARY KEY,
+  Store_Name TEXT,
+  Type TEXT,
+  Area_size REAL,
+  Number_of_product_category REAL,
+  Ranking REAL
+);
+
+CREATE TABLE district (
+  District_ID INTEGER PRIMARY KEY,
+  District_name TEXT,
+  Headquartered_City TEXT,
+  City_Population REAL,
+  City_Area REAL
+);
+
+CREATE TABLE store_product (
+  Store_ID INTEGER PRIMARY KEY,
+  Product_ID REAL,
+  FOREIGN KEY (Store_ID) REFERENCES store (Store_ID)
+);
+
+CREATE TABLE store_district (
+  Store_ID INTEGER PRIMARY KEY,
+  District_ID INTEGER,
+  FOREIGN KEY (District_ID) REFERENCES district (District_ID),
+  FOREIGN KEY (Store_ID) REFERENCES store (Store_ID)
+);
+]
+Q: Find the package choice and series name of the TV channel that has high definition TV.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

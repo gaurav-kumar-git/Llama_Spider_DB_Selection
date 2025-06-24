@@ -1,0 +1,144 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Task: Can the question be answered using the schema? Respond with 1 (Yes) or 0 (No).
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# Now, evaluate the following:
+
+[Schema:
+CREATE TABLE Ref_Address_Types (
+  address_type_code TEXT PRIMARY KEY,
+  address_type_description TEXT
+);
+
+CREATE TABLE Ref_Detention_Type (
+  detention_type_code TEXT PRIMARY KEY,
+  detention_type_description TEXT
+);
+
+CREATE TABLE Ref_Incident_Type (
+  incident_type_code TEXT PRIMARY KEY,
+  incident_type_description TEXT
+);
+
+CREATE TABLE Addresses (
+  address_id INTEGER PRIMARY KEY,
+  line_1 TEXT,
+  line_2 TEXT,
+  line_3 TEXT,
+  city TEXT,
+  zip_postcode TEXT,
+  state_province_county TEXT,
+  country TEXT,
+  other_address_details TEXT
+);
+
+CREATE TABLE Students (
+  student_id INTEGER PRIMARY KEY,
+  address_id INTEGER,
+  first_name TEXT,
+  middle_name TEXT,
+  last_name TEXT,
+  cell_mobile_number TEXT,
+  email_address TEXT,
+  date_first_rental DATETIME,
+  date_left_university DATETIME,
+  other_student_details TEXT,
+  FOREIGN KEY (address_id) REFERENCES Addresses (address_id)
+);
+
+CREATE TABLE Teachers (
+  teacher_id INTEGER PRIMARY KEY,
+  address_id INTEGER,
+  first_name TEXT,
+  middle_name TEXT,
+  last_name TEXT,
+  gender TEXT,
+  cell_mobile_number TEXT,
+  email_address TEXT,
+  other_details TEXT,
+  FOREIGN KEY (address_id) REFERENCES Addresses (address_id)
+);
+
+CREATE TABLE Assessment_Notes (
+  notes_id REAL,
+  student_id INTEGER,
+  teacher_id INTEGER,
+  date_of_notes DATETIME,
+  text_of_notes TEXT,
+  other_details TEXT,
+  FOREIGN KEY (teacher_id) REFERENCES Teachers (teacher_id),
+  FOREIGN KEY (student_id) REFERENCES Students (student_id)
+);
+
+CREATE TABLE Behavior_Incident (
+  incident_id INTEGER PRIMARY KEY,
+  incident_type_code TEXT,
+  student_id INTEGER,
+  date_incident_start DATETIME,
+  date_incident_end DATETIME,
+  incident_summary TEXT,
+  recommendations TEXT,
+  other_details TEXT,
+  FOREIGN KEY (student_id) REFERENCES Students (student_id),
+  FOREIGN KEY (incident_type_code) REFERENCES Ref_Incident_Type (incident_type_code)
+);
+
+CREATE TABLE Detention (
+  detention_id INTEGER PRIMARY KEY,
+  detention_type_code TEXT,
+  teacher_id INTEGER,
+  datetime_detention_start DATETIME,
+  datetime_detention_end DATETIME,
+  detention_summary TEXT,
+  other_details TEXT,
+  FOREIGN KEY (teacher_id) REFERENCES Teachers (teacher_id),
+  FOREIGN KEY (detention_type_code) REFERENCES Ref_Detention_Type (detention_type_code)
+);
+
+CREATE TABLE Student_Addresses (
+  student_id INTEGER,
+  address_id INTEGER,
+  date_address_from DATETIME,
+  date_address_to DATETIME,
+  monthly_rental REAL,
+  other_details TEXT,
+  FOREIGN KEY (student_id) REFERENCES Students (student_id),
+  FOREIGN KEY (address_id) REFERENCES Addresses (address_id)
+);
+
+CREATE TABLE Students_in_Detention (
+  student_id INTEGER,
+  detention_id INTEGER,
+  incident_id INTEGER,
+  FOREIGN KEY (student_id) REFERENCES Students (student_id),
+  FOREIGN KEY (detention_id) REFERENCES Detention (detention_id),
+  FOREIGN KEY (incident_id) REFERENCES Behavior_Incident (incident_id)
+);
+]
+Q: List the name and tonnage ordered by in descending alphaetical order for the names.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

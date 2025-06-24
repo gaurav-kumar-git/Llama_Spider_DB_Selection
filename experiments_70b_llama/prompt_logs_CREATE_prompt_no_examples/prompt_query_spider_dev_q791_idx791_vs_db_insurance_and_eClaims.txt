@@ -1,0 +1,91 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Task: Can the question be answered using the schema? Respond with 1 (Yes) or 0 (No).
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# Now, evaluate the following:
+
+[Schema:
+CREATE TABLE Customers (
+  Customer_ID INTEGER PRIMARY KEY,
+  Customer_Details TEXT
+);
+
+CREATE TABLE Staff (
+  Staff_ID INTEGER PRIMARY KEY,
+  Staff_Details TEXT
+);
+
+CREATE TABLE Policies (
+  Policy_ID INTEGER PRIMARY KEY,
+  Customer_ID INTEGER,
+  Policy_Type_Code TEXT,
+  Start_Date DATETIME,
+  End_Date DATETIME,
+  FOREIGN KEY (Customer_ID) REFERENCES Customers (Customer_ID)
+);
+
+CREATE TABLE Claim_Headers (
+  Claim_Header_ID INTEGER PRIMARY KEY,
+  Claim_Status_Code TEXT,
+  Claim_Type_Code TEXT,
+  Policy_ID INTEGER,
+  Date_of_Claim DATETIME,
+  Date_of_Settlement DATETIME,
+  Amount_Claimed REAL,
+  Amount_Piad REAL,
+  FOREIGN KEY (Policy_ID) REFERENCES Policies (Policy_ID)
+);
+
+CREATE TABLE Claims_Documents (
+  Claim_ID INTEGER PRIMARY KEY,
+  Document_Type_Code TEXT,
+  Created_by_Staff_ID INTEGER,
+  Created_Date REAL,
+  FOREIGN KEY (Created_by_Staff_ID) REFERENCES Staff (Staff_ID),
+  FOREIGN KEY (Claim_ID) REFERENCES Claim_Headers (Claim_Header_ID)
+);
+
+CREATE TABLE Claims_Processing_Stages (
+  Claim_Stage_ID INTEGER PRIMARY KEY,
+  Next_Claim_Stage_ID REAL,
+  Claim_Status_Name TEXT,
+  Claim_Status_Description TEXT
+);
+
+CREATE TABLE Claims_Processing (
+  Claim_Processing_ID INTEGER PRIMARY KEY,
+  Claim_ID INTEGER,
+  Claim_Outcome_Code TEXT,
+  Claim_Stage_ID REAL,
+  Staff_ID INTEGER,
+  FOREIGN KEY (Staff_ID) REFERENCES Staff (Staff_ID),
+  FOREIGN KEY (Claim_ID) REFERENCES Claim_Headers (Claim_Header_ID)
+);
+]
+Q: What are the names of the teachers whose courses have not been arranged?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

@@ -1,0 +1,67 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Task: Can the question be answered using the schema? Respond with 1 (Yes) or 0 (No).
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# Now, evaluate the following:
+
+[Schema:
+CREATE TABLE building (
+  building_id TEXT PRIMARY KEY,
+  Name TEXT,
+  Street_address TEXT,
+  Years_as_tallest TEXT,
+  Height_feet REAL,
+  Floors REAL
+);
+
+CREATE TABLE Institution (
+  Institution_id TEXT PRIMARY KEY,
+  Institution TEXT,
+  Location TEXT,
+  Founded REAL,
+  Type TEXT,
+  Enrollment REAL,
+  Team TEXT,
+  Primary_Conference TEXT,
+  building_id TEXT,
+  FOREIGN KEY (building_id) REFERENCES building (building_id)
+);
+
+CREATE TABLE protein (
+  common_name TEXT PRIMARY KEY,
+  protein_name TEXT,
+  divergence_from_human_lineage REAL,
+  accession_number TEXT,
+  sequence_length REAL,
+  sequence_identity_to_human_protein TEXT,
+  Institution_id TEXT,
+  FOREIGN KEY (Institution_id) REFERENCES Institution (Institution_id)
+);
+]
+Q: Return the version numbers and template type codes of templates with a version number greater than 5.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

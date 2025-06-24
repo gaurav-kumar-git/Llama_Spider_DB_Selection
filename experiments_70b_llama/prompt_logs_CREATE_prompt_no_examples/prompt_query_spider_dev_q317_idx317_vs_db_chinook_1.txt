@@ -1,0 +1,142 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Task: Can the question be answered using the schema? Respond with 1 (Yes) or 0 (No).
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# Now, evaluate the following:
+
+[Schema:
+CREATE TABLE Album (
+  AlbumId INTEGER PRIMARY KEY,
+  Title TEXT,
+  ArtistId INTEGER,
+  FOREIGN KEY (ArtistId) REFERENCES Artist (ArtistId)
+);
+
+CREATE TABLE Artist (
+  ArtistId INTEGER PRIMARY KEY,
+  Name TEXT
+);
+
+CREATE TABLE Customer (
+  CustomerId INTEGER PRIMARY KEY,
+  FirstName TEXT,
+  LastName TEXT,
+  Company TEXT,
+  Address TEXT,
+  City TEXT,
+  State TEXT,
+  Country TEXT,
+  PostalCode TEXT,
+  Phone TEXT,
+  Fax TEXT,
+  Email TEXT,
+  SupportRepId INTEGER,
+  FOREIGN KEY (SupportRepId) REFERENCES Employee (EmployeeId)
+);
+
+CREATE TABLE Employee (
+  EmployeeId INTEGER PRIMARY KEY,
+  LastName TEXT,
+  FirstName TEXT,
+  Title TEXT,
+  ReportsTo INTEGER,
+  BirthDate DATETIME,
+  HireDate DATETIME,
+  Address TEXT,
+  City TEXT,
+  State TEXT,
+  Country TEXT,
+  PostalCode TEXT,
+  Phone TEXT,
+  Fax TEXT,
+  Email TEXT,
+  FOREIGN KEY (ReportsTo) REFERENCES Employee (EmployeeId)
+);
+
+CREATE TABLE Genre (
+  GenreId INTEGER PRIMARY KEY,
+  Name TEXT
+);
+
+CREATE TABLE Invoice (
+  InvoiceId INTEGER PRIMARY KEY,
+  CustomerId INTEGER,
+  InvoiceDate DATETIME,
+  BillingAddress TEXT,
+  BillingCity TEXT,
+  BillingState TEXT,
+  BillingCountry TEXT,
+  BillingPostalCode TEXT,
+  Total REAL,
+  FOREIGN KEY (CustomerId) REFERENCES Customer (CustomerId)
+);
+
+CREATE TABLE InvoiceLine (
+  InvoiceLineId INTEGER PRIMARY KEY,
+  InvoiceId INTEGER,
+  TrackId INTEGER,
+  UnitPrice REAL,
+  Quantity REAL,
+  FOREIGN KEY (TrackId) REFERENCES Track (TrackId),
+  FOREIGN KEY (InvoiceId) REFERENCES Invoice (InvoiceId)
+);
+
+CREATE TABLE MediaType (
+  MediaTypeId INTEGER PRIMARY KEY,
+  Name TEXT
+);
+
+CREATE TABLE Playlist (
+  PlaylistId INTEGER PRIMARY KEY,
+  Name TEXT
+);
+
+CREATE TABLE PlaylistTrack (
+  PlaylistId INTEGER PRIMARY KEY,
+  TrackId INTEGER,
+  FOREIGN KEY (TrackId) REFERENCES Track (TrackId),
+  FOREIGN KEY (PlaylistId) REFERENCES Playlist (PlaylistId)
+);
+
+CREATE TABLE Track (
+  TrackId INTEGER PRIMARY KEY,
+  Name TEXT,
+  AlbumId INTEGER,
+  MediaTypeId INTEGER,
+  GenreId INTEGER,
+  Composer TEXT,
+  Milliseconds REAL,
+  Bytes REAL,
+  UnitPrice REAL,
+  FOREIGN KEY (MediaTypeId) REFERENCES MediaType (MediaTypeId),
+  FOREIGN KEY (GenreId) REFERENCES Genre (GenreId),
+  FOREIGN KEY (AlbumId) REFERENCES Album (AlbumId)
+);
+]
+Q: What is the total number of languages used in Aruba?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

@@ -1,0 +1,89 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Task: Can the question be answered using the schema? Respond with 1 (Yes) or 0 (No).
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# Now, evaluate the following:
+
+[Schema:
+CREATE TABLE Course_Authors_and_Tutors (
+  author_id INTEGER PRIMARY KEY,
+  author_tutor_ATB TEXT,
+  login_name TEXT,
+  password TEXT,
+  personal_name TEXT,
+  middle_name TEXT,
+  family_name TEXT,
+  gender_mf TEXT,
+  address_line_1 TEXT
+);
+
+CREATE TABLE Students (
+  student_id INTEGER PRIMARY KEY,
+  date_of_registration DATETIME,
+  date_of_latest_logon DATETIME,
+  login_name TEXT,
+  password TEXT,
+  personal_name TEXT,
+  middle_name TEXT,
+  family_name TEXT
+);
+
+CREATE TABLE Subjects (
+  subject_id INTEGER PRIMARY KEY,
+  subject_name TEXT
+);
+
+CREATE TABLE Courses (
+  course_id INTEGER PRIMARY KEY,
+  author_id INTEGER,
+  subject_id INTEGER,
+  course_name TEXT,
+  course_description TEXT,
+  FOREIGN KEY (subject_id) REFERENCES Subjects (subject_id),
+  FOREIGN KEY (author_id) REFERENCES Course_Authors_and_Tutors (author_id)
+);
+
+CREATE TABLE Student_Course_Enrolment (
+  registration_id INTEGER PRIMARY KEY,
+  student_id INTEGER,
+  course_id INTEGER,
+  date_of_enrolment DATETIME,
+  date_of_completion DATETIME,
+  FOREIGN KEY (student_id) REFERENCES Students (student_id),
+  FOREIGN KEY (course_id) REFERENCES Courses (course_id)
+);
+
+CREATE TABLE Student_Tests_Taken (
+  registration_id INTEGER,
+  date_test_taken DATETIME,
+  test_result TEXT,
+  FOREIGN KEY (registration_id) REFERENCES Student_Course_Enrolment (registration_id)
+);
+]
+Q: What is the name of the shop that is hiring the largest number of employees?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

@@ -1,0 +1,172 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Task: Can the question be answered using the schema? Respond with 1 (Yes) or 0 (No).
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# Now, evaluate the following:
+
+[Schema:
+CREATE TABLE Physician (
+  EmployeeID INTEGER PRIMARY KEY,
+  Name TEXT,
+  Position TEXT,
+  SSN REAL
+);
+
+CREATE TABLE Department (
+  DepartmentID INTEGER PRIMARY KEY,
+  Name TEXT,
+  Head INTEGER,
+  FOREIGN KEY (Head) REFERENCES Physician (EmployeeID)
+);
+
+CREATE TABLE Affiliated_With (
+  Physician INTEGER PRIMARY KEY,
+  Department INTEGER,
+  PrimaryAffiliation BOOLEAN,
+  FOREIGN KEY (Department) REFERENCES Department (DepartmentID),
+  FOREIGN KEY (Physician) REFERENCES Physician (EmployeeID)
+);
+
+CREATE TABLE Procedures (
+  Code INTEGER PRIMARY KEY,
+  Name TEXT,
+  Cost REAL
+);
+
+CREATE TABLE Trained_In (
+  Physician INTEGER PRIMARY KEY,
+  Treatment INTEGER,
+  CertificationDate DATETIME,
+  CertificationExpires DATETIME,
+  FOREIGN KEY (Treatment) REFERENCES Procedures (Code),
+  FOREIGN KEY (Physician) REFERENCES Physician (EmployeeID)
+);
+
+CREATE TABLE Patient (
+  SSN INTEGER PRIMARY KEY,
+  Name TEXT,
+  Address TEXT,
+  Phone TEXT,
+  InsuranceID REAL,
+  PCP INTEGER,
+  FOREIGN KEY (PCP) REFERENCES Physician (EmployeeID)
+);
+
+CREATE TABLE Nurse (
+  EmployeeID INTEGER PRIMARY KEY,
+  Name TEXT,
+  Position TEXT,
+  Registered BOOLEAN,
+  SSN REAL
+);
+
+CREATE TABLE Appointment (
+  AppointmentID INTEGER PRIMARY KEY,
+  Patient INTEGER,
+  PrepNurse INTEGER,
+  Physician INTEGER,
+  Start DATETIME,
+  End DATETIME,
+  ExaminationRoom TEXT,
+  FOREIGN KEY (Physician) REFERENCES Physician (EmployeeID),
+  FOREIGN KEY (PrepNurse) REFERENCES Nurse (EmployeeID),
+  FOREIGN KEY (Patient) REFERENCES Patient (SSN)
+);
+
+CREATE TABLE Medication (
+  Code INTEGER PRIMARY KEY,
+  Name TEXT,
+  Brand TEXT,
+  Description TEXT
+);
+
+CREATE TABLE Prescribes (
+  Physician INTEGER PRIMARY KEY,
+  Patient INTEGER,
+  Medication INTEGER,
+  Date DATETIME,
+  Appointment INTEGER,
+  Dose TEXT,
+  FOREIGN KEY (Appointment) REFERENCES Appointment (AppointmentID),
+  FOREIGN KEY (Medication) REFERENCES Medication (Code),
+  FOREIGN KEY (Patient) REFERENCES Patient (SSN),
+  FOREIGN KEY (Physician) REFERENCES Physician (EmployeeID)
+);
+
+CREATE TABLE Block (
+  BlockFloor INTEGER PRIMARY KEY,
+  BlockCode REAL
+);
+
+CREATE TABLE Room (
+  RoomNumber INTEGER PRIMARY KEY,
+  RoomType TEXT,
+  BlockFloor INTEGER,
+  BlockCode INTEGER,
+  Unavailable BOOLEAN,
+  FOREIGN KEY (BlockFloor) REFERENCES Block (BlockFloor),
+  FOREIGN KEY (BlockCode) REFERENCES Block (BlockCode)
+);
+
+CREATE TABLE On_Call (
+  Nurse INTEGER PRIMARY KEY,
+  BlockFloor INTEGER,
+  BlockCode INTEGER,
+  OnCallStart DATETIME,
+  OnCallEnd DATETIME,
+  FOREIGN KEY (BlockFloor) REFERENCES Block (BlockFloor),
+  FOREIGN KEY (BlockCode) REFERENCES Block (BlockCode),
+  FOREIGN KEY (Nurse) REFERENCES Nurse (EmployeeID)
+);
+
+CREATE TABLE Stay (
+  StayID INTEGER PRIMARY KEY,
+  Patient INTEGER,
+  Room INTEGER,
+  StayStart DATETIME,
+  StayEnd DATETIME,
+  FOREIGN KEY (Room) REFERENCES Room (RoomNumber),
+  FOREIGN KEY (Patient) REFERENCES Patient (SSN)
+);
+
+CREATE TABLE Undergoes (
+  Patient INTEGER PRIMARY KEY,
+  Procedures INTEGER,
+  Stay INTEGER,
+  DateUndergoes DATETIME,
+  Physician INTEGER,
+  AssistingNurse INTEGER,
+  FOREIGN KEY (AssistingNurse) REFERENCES Nurse (EmployeeID),
+  FOREIGN KEY (Physician) REFERENCES Physician (EmployeeID),
+  FOREIGN KEY (Stay) REFERENCES Stay (StayID),
+  FOREIGN KEY (Procedures) REFERENCES Procedures (Code),
+  FOREIGN KEY (Patient) REFERENCES Patient (SSN)
+);
+]
+Q: Return the money rank of the poker player with the greatest height.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

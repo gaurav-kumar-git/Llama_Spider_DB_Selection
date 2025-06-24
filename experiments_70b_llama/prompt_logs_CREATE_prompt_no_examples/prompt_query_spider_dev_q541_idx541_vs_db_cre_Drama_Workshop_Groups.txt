@@ -1,0 +1,212 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Task: Can the question be answered using the schema? Respond with 1 (Yes) or 0 (No).
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# Now, evaluate the following:
+
+[Schema:
+CREATE TABLE Ref_Payment_Methods (
+  payment_method_code TEXT PRIMARY KEY,
+  payment_method_description TEXT
+);
+
+CREATE TABLE Ref_Service_Types (
+  Service_Type_Code TEXT PRIMARY KEY,
+  Parent_Service_Type_Code TEXT,
+  Service_Type_Description TEXT
+);
+
+CREATE TABLE Addresses (
+  Address_ID TEXT PRIMARY KEY,
+  Line_1 TEXT,
+  Line_2 TEXT,
+  City_Town TEXT,
+  State_County TEXT,
+  Other_Details TEXT
+);
+
+CREATE TABLE Products (
+  Product_ID TEXT PRIMARY KEY,
+  Product_Name TEXT,
+  Product_Price REAL,
+  Product_Description TEXT,
+  Other_Product_Service_Details TEXT
+);
+
+CREATE TABLE Marketing_Regions (
+  Marketing_Region_Code TEXT PRIMARY KEY,
+  Marketing_Region_Name TEXT,
+  Marketing_Region_Descriptrion TEXT,
+  Other_Details TEXT
+);
+
+CREATE TABLE Clients (
+  Client_ID INTEGER PRIMARY KEY,
+  Address_ID INTEGER,
+  Customer_Email_Address TEXT,
+  Customer_Name TEXT,
+  Customer_Phone TEXT,
+  Other_Details TEXT,
+  FOREIGN KEY (Address_ID) REFERENCES Addresses (Address_ID)
+);
+
+CREATE TABLE Drama_Workshop_Groups (
+  Workshop_Group_ID INTEGER PRIMARY KEY,
+  Address_ID INTEGER,
+  Currency_Code TEXT,
+  Marketing_Region_Code TEXT,
+  Store_Name TEXT,
+  Store_Phone TEXT,
+  Store_Email_Address TEXT,
+  Other_Details TEXT,
+  FOREIGN KEY (Address_ID) REFERENCES Addresses (Address_ID)
+);
+
+CREATE TABLE Performers (
+  Performer_ID INTEGER PRIMARY KEY,
+  Address_ID INTEGER,
+  Customer_Name TEXT,
+  Customer_Phone TEXT,
+  Customer_Email_Address TEXT,
+  Other_Details TEXT,
+  FOREIGN KEY (Address_ID) REFERENCES Addresses (Address_ID)
+);
+
+CREATE TABLE Customers (
+  Customer_ID TEXT PRIMARY KEY,
+  Address_ID INTEGER,
+  Customer_Name TEXT,
+  Customer_Phone TEXT,
+  Customer_Email_Address TEXT,
+  Other_Details TEXT,
+  FOREIGN KEY (Address_ID) REFERENCES Addresses (Address_ID)
+);
+
+CREATE TABLE Stores (
+  Store_ID TEXT PRIMARY KEY,
+  Address_ID INTEGER,
+  Marketing_Region_Code TEXT,
+  Store_Name TEXT,
+  Store_Phone TEXT,
+  Store_Email_Address TEXT,
+  Other_Details TEXT,
+  FOREIGN KEY (Marketing_Region_Code) REFERENCES Marketing_Regions (Marketing_Region_Code),
+  FOREIGN KEY (Address_ID) REFERENCES Addresses (Address_ID)
+);
+
+CREATE TABLE Bookings (
+  Booking_ID INTEGER PRIMARY KEY,
+  Customer_ID INTEGER,
+  Workshop_Group_ID TEXT,
+  Status_Code TEXT,
+  Store_ID REAL,
+  Order_Date DATETIME,
+  Planned_Delivery_Date DATETIME,
+  Actual_Delivery_Date DATETIME,
+  Other_Order_Details TEXT,
+  FOREIGN KEY (Workshop_Group_ID) REFERENCES Drama_Workshop_Groups (Workshop_Group_ID),
+  FOREIGN KEY (Customer_ID) REFERENCES Clients (Client_ID)
+);
+
+CREATE TABLE Performers_in_Bookings (
+  Order_ID INTEGER PRIMARY KEY,
+  Performer_ID INTEGER,
+  FOREIGN KEY (Order_ID) REFERENCES Bookings (Booking_ID),
+  FOREIGN KEY (Performer_ID) REFERENCES Performers (Performer_ID)
+);
+
+CREATE TABLE Customer_Orders (
+  Order_ID INTEGER PRIMARY KEY,
+  Customer_ID INTEGER,
+  Store_ID INTEGER,
+  Order_Date DATETIME,
+  Planned_Delivery_Date DATETIME,
+  Actual_Delivery_Date DATETIME,
+  Other_Order_Details TEXT,
+  FOREIGN KEY (Store_ID) REFERENCES Stores (Store_ID),
+  FOREIGN KEY (Customer_ID) REFERENCES Customers (Customer_ID)
+);
+
+CREATE TABLE Order_Items (
+  Order_Item_ID INTEGER PRIMARY KEY,
+  Order_ID INTEGER,
+  Product_ID INTEGER,
+  Order_Quantity TEXT,
+  Other_Item_Details TEXT,
+  FOREIGN KEY (Product_ID) REFERENCES Products (Product_ID),
+  FOREIGN KEY (Order_ID) REFERENCES Customer_Orders (Order_ID)
+);
+
+CREATE TABLE Invoices (
+  Invoice_ID INTEGER PRIMARY KEY,
+  Order_ID INTEGER,
+  payment_method_code TEXT,
+  Product_ID REAL,
+  Order_Quantity TEXT,
+  Other_Item_Details TEXT,
+  Order_Item_ID REAL,
+  FOREIGN KEY (payment_method_code) REFERENCES Ref_Payment_Methods (payment_method_code),
+  FOREIGN KEY (Order_ID) REFERENCES Bookings (Booking_ID),
+  FOREIGN KEY (Order_ID) REFERENCES Customer_Orders (Order_ID)
+);
+
+CREATE TABLE Services (
+  Service_ID INTEGER PRIMARY KEY,
+  Service_Type_Code TEXT,
+  Workshop_Group_ID INTEGER,
+  Product_Description TEXT,
+  Product_Name TEXT,
+  Product_Price REAL,
+  Other_Product_Service_Details TEXT,
+  FOREIGN KEY (Service_Type_Code) REFERENCES Ref_Service_Types (Service_Type_Code),
+  FOREIGN KEY (Workshop_Group_ID) REFERENCES Drama_Workshop_Groups (Workshop_Group_ID)
+);
+
+CREATE TABLE Bookings_Services (
+  Order_ID INTEGER PRIMARY KEY,
+  Product_ID INTEGER,
+  FOREIGN KEY (Product_ID) REFERENCES Services (Service_ID),
+  FOREIGN KEY (Order_ID) REFERENCES Bookings (Booking_ID)
+);
+
+CREATE TABLE Invoice_Items (
+  Invoice_Item_ID INTEGER PRIMARY KEY,
+  Invoice_ID INTEGER,
+  Order_ID INTEGER,
+  Order_Item_ID INTEGER,
+  Product_ID INTEGER,
+  Order_Quantity REAL,
+  Other_Item_Details TEXT,
+  FOREIGN KEY (Order_ID) REFERENCES Bookings_Services (Order_ID),
+  FOREIGN KEY (Product_ID) REFERENCES Bookings_Services (Product_ID),
+  FOREIGN KEY (Invoice_ID) REFERENCES Invoices (Invoice_ID),
+  FOREIGN KEY (Order_Item_ID) REFERENCES Order_Items (Order_Item_ID)
+);
+]
+Q: Return the number of United Airlines flights leaving from AHD Airport.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

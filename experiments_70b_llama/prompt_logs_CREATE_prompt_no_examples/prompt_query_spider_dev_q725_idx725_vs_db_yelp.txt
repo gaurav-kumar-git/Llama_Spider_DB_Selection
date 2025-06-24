@@ -1,0 +1,100 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Task: Can the question be answered using the schema? Respond with 1 (Yes) or 0 (No).
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# Now, evaluate the following:
+
+[Schema:
+CREATE TABLE business (
+  bid INTEGER PRIMARY KEY,
+  business_id TEXT,
+  name TEXT,
+  full_address TEXT,
+  city TEXT,
+  latitude TEXT,
+  longitude TEXT,
+  review_count REAL,
+  is_open REAL,
+  rating REAL,
+  state TEXT
+);
+
+CREATE TABLE category (
+  id INTEGER PRIMARY KEY,
+  business_id TEXT,
+  category_name TEXT,
+  FOREIGN KEY (business_id) REFERENCES business (business_id)
+);
+
+CREATE TABLE user (
+  uid INTEGER PRIMARY KEY,
+  user_id TEXT,
+  name TEXT
+);
+
+CREATE TABLE checkin (
+  cid INTEGER PRIMARY KEY,
+  business_id TEXT,
+  count REAL,
+  day TEXT,
+  FOREIGN KEY (business_id) REFERENCES business (business_id)
+);
+
+CREATE TABLE neighbourhood (
+  id INTEGER PRIMARY KEY,
+  business_id TEXT,
+  neighbourhood_name TEXT,
+  FOREIGN KEY (business_id) REFERENCES business (business_id)
+);
+
+CREATE TABLE review (
+  rid INTEGER PRIMARY KEY,
+  business_id TEXT,
+  user_id TEXT,
+  rating REAL,
+  text TEXT,
+  year REAL,
+  month TEXT,
+  FOREIGN KEY (user_id) REFERENCES user (user_id),
+  FOREIGN KEY (business_id) REFERENCES business (business_id)
+);
+
+CREATE TABLE tip (
+  tip_id INTEGER PRIMARY KEY,
+  business_id TEXT,
+  text TEXT,
+  user_id TEXT,
+  likes REAL,
+  year REAL,
+  month TEXT,
+  FOREIGN KEY (user_id) REFERENCES user (user_id),
+  FOREIGN KEY (business_id) REFERENCES business (business_id)
+);
+]
+Q: What are the final tables made and best finishes for all poker players?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

@@ -1,0 +1,123 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Task: Can the question be answered using the schema? Respond with 1 (Yes) or 0 (No).
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# Now, evaluate the following:
+
+[Schema:
+CREATE TABLE Addresses (
+  address_id INTEGER PRIMARY KEY,
+  line_1_number_building TEXT,
+  town_city TEXT,
+  zip_postcode TEXT,
+  state_province_county TEXT,
+  country TEXT
+);
+
+CREATE TABLE Services (
+  service_id INTEGER PRIMARY KEY,
+  service_type_code TEXT,
+  service_name TEXT,
+  service_descriptio TEXT
+);
+
+CREATE TABLE Forms (
+  form_id INTEGER PRIMARY KEY,
+  form_type_code TEXT,
+  service_id INTEGER,
+  form_number TEXT,
+  form_name TEXT,
+  form_description TEXT,
+  FOREIGN KEY (service_id) REFERENCES Services (service_id)
+);
+
+CREATE TABLE Individuals (
+  individual_id INTEGER PRIMARY KEY,
+  individual_first_name TEXT,
+  individual_middle_name TEXT,
+  inidividual_phone TEXT,
+  individual_email TEXT,
+  individual_address TEXT,
+  individual_last_name TEXT
+);
+
+CREATE TABLE Organizations (
+  organization_id INTEGER PRIMARY KEY,
+  date_formed DATETIME,
+  organization_name TEXT,
+  uk_vat_number TEXT
+);
+
+CREATE TABLE Parties (
+  party_id INTEGER PRIMARY KEY,
+  payment_method_code TEXT,
+  party_phone TEXT,
+  party_email TEXT
+);
+
+CREATE TABLE Organization_Contact_Individuals (
+  individual_id INTEGER PRIMARY KEY,
+  organization_id INTEGER,
+  date_contact_from DATETIME,
+  date_contact_to DATETIME,
+  FOREIGN KEY (individual_id) REFERENCES Individuals (individual_id),
+  FOREIGN KEY (organization_id) REFERENCES Organizations (organization_id)
+);
+
+CREATE TABLE Party_Addresses (
+  party_id INTEGER PRIMARY KEY,
+  address_id INTEGER,
+  date_address_from DATETIME,
+  address_type_code TEXT,
+  date_address_to DATETIME,
+  FOREIGN KEY (party_id) REFERENCES Parties (party_id),
+  FOREIGN KEY (address_id) REFERENCES Addresses (address_id)
+);
+
+CREATE TABLE Party_Forms (
+  party_id INTEGER PRIMARY KEY,
+  form_id INTEGER,
+  date_completion_started DATETIME,
+  form_status_code TEXT,
+  date_fully_completed DATETIME,
+  FOREIGN KEY (form_id) REFERENCES Forms (form_id),
+  FOREIGN KEY (party_id) REFERENCES Parties (party_id)
+);
+
+CREATE TABLE Party_Services (
+  booking_id REAL,
+  customer_id INTEGER,
+  service_id INTEGER,
+  service_datetime DATETIME,
+  booking_made_date DATETIME,
+  FOREIGN KEY (customer_id) REFERENCES Parties (party_id),
+  FOREIGN KEY (service_id) REFERENCES Services (service_id)
+);
+]
+Q: What are the ids of students who both have friends and are liked?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

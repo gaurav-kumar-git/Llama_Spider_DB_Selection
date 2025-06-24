@@ -1,0 +1,82 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Task: Can the question be answered using the schema? Respond with 1 (Yes) or 0 (No).
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# Now, evaluate the following:
+
+[Schema:
+CREATE TABLE Investors (
+  investor_id INTEGER PRIMARY KEY,
+  Investor_details TEXT
+);
+
+CREATE TABLE Lots (
+  lot_id INTEGER PRIMARY KEY,
+  investor_id INTEGER,
+  lot_details TEXT,
+  FOREIGN KEY (investor_id) REFERENCES Investors (investor_id)
+);
+
+CREATE TABLE Ref_Transaction_Types (
+  transaction_type_code TEXT PRIMARY KEY,
+  transaction_type_description TEXT
+);
+
+CREATE TABLE Transactions (
+  transaction_id INTEGER PRIMARY KEY,
+  investor_id INTEGER,
+  transaction_type_code TEXT,
+  date_of_transaction DATETIME,
+  amount_of_transaction REAL,
+  share_count TEXT,
+  other_details TEXT,
+  FOREIGN KEY (transaction_type_code) REFERENCES Ref_Transaction_Types (transaction_type_code),
+  FOREIGN KEY (investor_id) REFERENCES Investors (investor_id)
+);
+
+CREATE TABLE Sales (
+  sales_transaction_id INTEGER PRIMARY KEY,
+  sales_details TEXT,
+  FOREIGN KEY (sales_transaction_id) REFERENCES Transactions (transaction_id)
+);
+
+CREATE TABLE Purchases (
+  purchase_transaction_id INTEGER,
+  purchase_details TEXT,
+  FOREIGN KEY (purchase_transaction_id) REFERENCES Transactions (transaction_id)
+);
+
+CREATE TABLE Transactions_Lots (
+  transaction_id INTEGER,
+  lot_id INTEGER,
+  FOREIGN KEY (transaction_id) REFERENCES Transactions (transaction_id),
+  FOREIGN KEY (lot_id) REFERENCES Lots (lot_id)
+);
+]
+Q: How many available features are there in total?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

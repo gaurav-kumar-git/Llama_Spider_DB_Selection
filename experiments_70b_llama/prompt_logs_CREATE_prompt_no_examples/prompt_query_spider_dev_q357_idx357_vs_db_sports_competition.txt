@@ -1,0 +1,80 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Task: Can the question be answered using the schema? Respond with 1 (Yes) or 0 (No).
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# Now, evaluate the following:
+
+[Schema:
+CREATE TABLE club (
+  Club_ID INTEGER PRIMARY KEY,
+  name TEXT,
+  Region TEXT,
+  Start_year TEXT
+);
+
+CREATE TABLE club_rank (
+  Rank INTEGER PRIMARY KEY,
+  Club_ID INTEGER,
+  Gold REAL,
+  Silver REAL,
+  Bronze REAL,
+  Total REAL,
+  FOREIGN KEY (Club_ID) REFERENCES club (Club_ID)
+);
+
+CREATE TABLE player (
+  Player_ID INTEGER PRIMARY KEY,
+  name TEXT,
+  Position TEXT,
+  Club_ID INTEGER,
+  Apps REAL,
+  Tries REAL,
+  Goals TEXT,
+  Points REAL,
+  FOREIGN KEY (Club_ID) REFERENCES club (Club_ID)
+);
+
+CREATE TABLE competition (
+  Competition_ID INTEGER PRIMARY KEY,
+  Year REAL,
+  Competition_type TEXT,
+  Country TEXT
+);
+
+CREATE TABLE competition_result (
+  Competition_ID INTEGER PRIMARY KEY,
+  Club_ID_1 INTEGER,
+  Club_ID_2 INTEGER,
+  Score TEXT,
+  FOREIGN KEY (Competition_ID) REFERENCES competition (Competition_ID),
+  FOREIGN KEY (Club_ID_2) REFERENCES club (Club_ID),
+  FOREIGN KEY (Club_ID_1) REFERENCES club (Club_ID)
+);
+]
+Q: What is the horsepower of the car with the largest accelerate?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

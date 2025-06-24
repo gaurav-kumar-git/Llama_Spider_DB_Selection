@@ -1,0 +1,95 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Task: Can the question be answered using the schema? Respond with 1 (Yes) or 0 (No).
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# Now, evaluate the following:
+
+[Schema:
+CREATE TABLE Addresses (
+  address_id INTEGER PRIMARY KEY,
+  line_1_number_building TEXT,
+  city TEXT,
+  zip_postcode TEXT,
+  state_province_county TEXT,
+  country TEXT
+);
+
+CREATE TABLE Products (
+  product_id INTEGER PRIMARY KEY,
+  product_type_code TEXT,
+  product_name TEXT,
+  product_price REAL
+);
+
+CREATE TABLE Customers (
+  customer_id INTEGER PRIMARY KEY,
+  payment_method_code TEXT,
+  customer_number TEXT,
+  customer_name TEXT,
+  customer_address TEXT,
+  customer_phone TEXT,
+  customer_email TEXT
+);
+
+CREATE TABLE Contacts (
+  contact_id INTEGER PRIMARY KEY,
+  customer_id REAL,
+  gender TEXT,
+  first_name TEXT,
+  last_name TEXT,
+  contact_phone TEXT
+);
+
+CREATE TABLE Customer_Address_History (
+  customer_id INTEGER,
+  address_id INTEGER,
+  date_from DATETIME,
+  date_to DATETIME,
+  FOREIGN KEY (address_id) REFERENCES Addresses (address_id),
+  FOREIGN KEY (customer_id) REFERENCES Customers (customer_id)
+);
+
+CREATE TABLE Customer_Orders (
+  order_id INTEGER PRIMARY KEY,
+  customer_id INTEGER,
+  order_date DATETIME,
+  order_status_code TEXT,
+  FOREIGN KEY (customer_id) REFERENCES Customers (customer_id)
+);
+
+CREATE TABLE Order_Items (
+  order_item_id REAL,
+  order_id INTEGER,
+  product_id INTEGER,
+  order_quantity TEXT,
+  FOREIGN KEY (order_id) REFERENCES Customer_Orders (order_id),
+  FOREIGN KEY (product_id) REFERENCES Products (product_id)
+);
+]
+Q: Show all document names using templates with template type code BK.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

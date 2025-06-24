@@ -1,0 +1,146 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Task: Can the question be answered using the schema? Respond with 1 (Yes) or 0 (No).
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# Now, evaluate the following:
+
+[Schema:
+CREATE TABLE Player_Attributes (
+  id INTEGER PRIMARY KEY,
+  player_fifa_api_id INTEGER,
+  player_api_id INTEGER,
+  date TEXT,
+  overall_rating REAL,
+  potential REAL,
+  preferred_foot TEXT,
+  attacking_work_rate TEXT,
+  defensive_work_rate TEXT,
+  crossing REAL,
+  finishing REAL,
+  heading_accuracy REAL,
+  short_passing REAL,
+  volleys REAL,
+  dribbling REAL,
+  curve REAL,
+  free_kick_accuracy REAL,
+  long_passing REAL,
+  ball_control REAL,
+  acceleration REAL,
+  sprint_speed REAL,
+  agility REAL,
+  reactions REAL,
+  balance REAL,
+  shot_power REAL,
+  jumping REAL,
+  stamina REAL,
+  strength REAL,
+  long_shots REAL,
+  aggression REAL,
+  interceptions REAL,
+  positioning REAL,
+  vision REAL,
+  penalties REAL,
+  marking REAL,
+  standing_tackle REAL,
+  sliding_tackle REAL,
+  gk_diving REAL,
+  gk_handling REAL,
+  gk_kicking REAL,
+  gk_positioning REAL,
+  gk_reflexes REAL,
+  FOREIGN KEY (player_api_id) REFERENCES Player (player_api_id),
+  FOREIGN KEY (player_fifa_api_id) REFERENCES Player (player_fifa_api_id)
+);
+
+CREATE TABLE sqlite_sequence (
+  name TEXT,
+  seq TEXT
+);
+
+CREATE TABLE Player (
+  id INTEGER PRIMARY KEY,
+  player_api_id REAL,
+  player_name TEXT,
+  player_fifa_api_id REAL,
+  birthday TEXT,
+  height REAL,
+  weight REAL
+);
+
+CREATE TABLE League (
+  id INTEGER PRIMARY KEY,
+  country_id INTEGER,
+  name TEXT,
+  FOREIGN KEY (country_id) REFERENCES Country (id)
+);
+
+CREATE TABLE Country (
+  id INTEGER PRIMARY KEY,
+  name TEXT
+);
+
+CREATE TABLE Team (
+  id INTEGER PRIMARY KEY,
+  team_api_id REAL,
+  team_fifa_api_id REAL,
+  team_long_name TEXT,
+  team_short_name TEXT
+);
+
+CREATE TABLE Team_Attributes (
+  id INTEGER PRIMARY KEY,
+  team_fifa_api_id INTEGER,
+  team_api_id INTEGER,
+  date TEXT,
+  buildUpPlaySpeed REAL,
+  buildUpPlaySpeedClass TEXT,
+  buildUpPlayDribbling REAL,
+  buildUpPlayDribblingClass TEXT,
+  buildUpPlayPassing REAL,
+  buildUpPlayPassingClass TEXT,
+  buildUpPlayPositioningClass TEXT,
+  chanceCreationPassing REAL,
+  chanceCreationPassingClass TEXT,
+  chanceCreationCrossing REAL,
+  chanceCreationCrossingClass TEXT,
+  chanceCreationShooting REAL,
+  chanceCreationShootingClass TEXT,
+  chanceCreationPositioningClass TEXT,
+  defencePressure REAL,
+  defencePressureClass TEXT,
+  defenceAggression REAL,
+  defenceAggressionClass TEXT,
+  defenceTeamWidth REAL,
+  defenceTeamWidthClass TEXT,
+  defenceDefenderLineClass TEXT,
+  FOREIGN KEY (team_api_id) REFERENCES Team (team_api_id),
+  FOREIGN KEY (team_fifa_api_id) REFERENCES Team (team_fifa_api_id)
+);
+]
+Q: How many flights have destination ATO?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

@@ -1,0 +1,184 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Task: Can the question be answered using the schema? Respond with 1 (Yes) or 0 (No).
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# Now, evaluate the following:
+
+[Schema:
+CREATE TABLE circuits (
+  circuitId INTEGER PRIMARY KEY,
+  circuitRef TEXT,
+  name TEXT,
+  location TEXT,
+  country TEXT,
+  lat REAL,
+  lng REAL,
+  alt REAL,
+  url TEXT
+);
+
+CREATE TABLE races (
+  raceId INTEGER PRIMARY KEY,
+  year REAL,
+  round REAL,
+  circuitId INTEGER,
+  name TEXT,
+  date TEXT,
+  time TEXT,
+  url TEXT,
+  FOREIGN KEY (circuitId) REFERENCES circuits (circuitId)
+);
+
+CREATE TABLE drivers (
+  driverId INTEGER PRIMARY KEY,
+  driverRef TEXT,
+  number REAL,
+  code TEXT,
+  forename TEXT,
+  surname TEXT,
+  dob TEXT,
+  nationality TEXT,
+  url TEXT
+);
+
+CREATE TABLE status (
+  statusId INTEGER PRIMARY KEY,
+  status TEXT
+);
+
+CREATE TABLE seasons (
+  year INTEGER PRIMARY KEY,
+  url TEXT
+);
+
+CREATE TABLE constructors (
+  constructorId INTEGER PRIMARY KEY,
+  constructorRef TEXT,
+  name TEXT,
+  nationality TEXT,
+  url TEXT
+);
+
+CREATE TABLE constructorStandings (
+  constructorStandingsId INTEGER PRIMARY KEY,
+  raceId INTEGER,
+  constructorId INTEGER,
+  points REAL,
+  position REAL,
+  positionText TEXT,
+  wins REAL,
+  FOREIGN KEY (raceId) REFERENCES races (raceId),
+  FOREIGN KEY (constructorId) REFERENCES constructors (constructorId)
+);
+
+CREATE TABLE results (
+  resultId INTEGER PRIMARY KEY,
+  raceId INTEGER,
+  driverId INTEGER,
+  constructorId INTEGER,
+  number REAL,
+  grid REAL,
+  position REAL,
+  positionText TEXT,
+  positionOrder REAL,
+  points REAL,
+  laps REAL,
+  time TEXT,
+  milliseconds REAL,
+  fastestLap REAL,
+  rank REAL,
+  fastestLapTime TEXT,
+  fastestLapSpeed TEXT,
+  statusId REAL,
+  FOREIGN KEY (driverId) REFERENCES drivers (driverId),
+  FOREIGN KEY (raceId) REFERENCES races (raceId),
+  FOREIGN KEY (constructorId) REFERENCES constructors (constructorId)
+);
+
+CREATE TABLE driverStandings (
+  driverStandingsId INTEGER PRIMARY KEY,
+  raceId INTEGER,
+  driverId INTEGER,
+  points REAL,
+  position REAL,
+  positionText TEXT,
+  wins REAL,
+  FOREIGN KEY (driverId) REFERENCES drivers (driverId),
+  FOREIGN KEY (raceId) REFERENCES races (raceId)
+);
+
+CREATE TABLE constructorResults (
+  constructorResultsId INTEGER PRIMARY KEY,
+  raceId INTEGER,
+  constructorId INTEGER,
+  points REAL,
+  status REAL,
+  FOREIGN KEY (raceId) REFERENCES races (raceId),
+  FOREIGN KEY (constructorId) REFERENCES constructors (constructorId)
+);
+
+CREATE TABLE qualifying (
+  qualifyId INTEGER PRIMARY KEY,
+  raceId INTEGER,
+  driverId INTEGER,
+  constructorId INTEGER,
+  number REAL,
+  position REAL,
+  q1 TEXT,
+  q2 TEXT,
+  q3 TEXT,
+  FOREIGN KEY (driverId) REFERENCES drivers (driverId),
+  FOREIGN KEY (raceId) REFERENCES races (raceId),
+  FOREIGN KEY (constructorId) REFERENCES constructors (constructorId)
+);
+
+CREATE TABLE pitStops (
+  raceId INTEGER PRIMARY KEY,
+  driverId INTEGER,
+  stop REAL,
+  lap REAL,
+  time TEXT,
+  duration TEXT,
+  milliseconds REAL,
+  FOREIGN KEY (driverId) REFERENCES drivers (driverId),
+  FOREIGN KEY (raceId) REFERENCES races (raceId)
+);
+
+CREATE TABLE lapTimes (
+  raceId INTEGER PRIMARY KEY,
+  driverId INTEGER,
+  lap REAL,
+  position REAL,
+  time TEXT,
+  milliseconds REAL,
+  FOREIGN KEY (driverId) REFERENCES drivers (driverId),
+  FOREIGN KEY (raceId) REFERENCES races (raceId)
+);
+]
+Q: What is the birth date of the poker player with the lowest earnings?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

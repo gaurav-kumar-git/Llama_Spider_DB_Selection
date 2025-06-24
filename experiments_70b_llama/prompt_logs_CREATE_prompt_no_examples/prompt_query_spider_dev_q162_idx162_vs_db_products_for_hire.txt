@@ -1,0 +1,108 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Task: Can the question be answered using the schema? Respond with 1 (Yes) or 0 (No).
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# Now, evaluate the following:
+
+[Schema:
+CREATE TABLE Discount_Coupons (
+  coupon_id INTEGER PRIMARY KEY,
+  date_issued DATETIME,
+  coupon_amount REAL
+);
+
+CREATE TABLE Customers (
+  customer_id INTEGER PRIMARY KEY,
+  coupon_id INTEGER,
+  good_or_bad_customer TEXT,
+  first_name TEXT,
+  last_name TEXT,
+  gender_mf TEXT,
+  date_became_customer DATETIME,
+  date_last_hire DATETIME,
+  FOREIGN KEY (coupon_id) REFERENCES Discount_Coupons (coupon_id)
+);
+
+CREATE TABLE Bookings (
+  booking_id INTEGER PRIMARY KEY,
+  customer_id INTEGER,
+  booking_status_code TEXT,
+  returned_damaged_yn TEXT,
+  booking_start_date DATETIME,
+  booking_end_date DATETIME,
+  count_hired TEXT,
+  amount_payable REAL,
+  amount_of_discount REAL,
+  amount_outstanding REAL,
+  amount_of_refund REAL,
+  FOREIGN KEY (customer_id) REFERENCES Customers (customer_id)
+);
+
+CREATE TABLE Products_for_Hire (
+  product_id INTEGER PRIMARY KEY,
+  product_type_code TEXT,
+  daily_hire_cost REAL,
+  product_name TEXT,
+  product_description TEXT
+);
+
+CREATE TABLE Payments (
+  payment_id INTEGER PRIMARY KEY,
+  booking_id INTEGER,
+  customer_id INTEGER,
+  payment_type_code TEXT,
+  amount_paid_in_full_yn TEXT,
+  payment_date DATETIME,
+  amount_due REAL,
+  amount_paid REAL,
+  FOREIGN KEY (customer_id) REFERENCES Customers (customer_id),
+  FOREIGN KEY (booking_id) REFERENCES Bookings (booking_id)
+);
+
+CREATE TABLE Products_Booked (
+  booking_id INTEGER PRIMARY KEY,
+  product_id INTEGER,
+  returned_yn TEXT,
+  returned_late_yn TEXT,
+  booked_count REAL,
+  booked_amount REAL,
+  FOREIGN KEY (product_id) REFERENCES Products_for_Hire (product_id),
+  FOREIGN KEY (booking_id) REFERENCES Bookings (booking_id)
+);
+
+CREATE TABLE View_Product_Availability (
+  product_id INTEGER,
+  booking_id INTEGER,
+  status_date DATETIME PRIMARY KEY,
+  available_yn TEXT,
+  FOREIGN KEY (product_id) REFERENCES Products_for_Hire (product_id),
+  FOREIGN KEY (booking_id) REFERENCES Bookings (booking_id)
+);
+]
+Q: List the area codes in which voters voted both for the contestant 'Tabatha Gehling' and the contestant 'Kelly Clauss'.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

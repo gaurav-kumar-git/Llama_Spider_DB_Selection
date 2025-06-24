@@ -1,0 +1,123 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Task: Can the question be answered using the schema? Respond with 1 (Yes) or 0 (No).
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# Now, evaluate the following:
+
+[Schema:
+CREATE TABLE Document_Types (
+  document_type_code TEXT PRIMARY KEY,
+  document_description TEXT
+);
+
+CREATE TABLE Documents (
+  document_id INTEGER PRIMARY KEY,
+  document_type_code TEXT,
+  grant_id INTEGER,
+  sent_date DATETIME,
+  response_received_date DATETIME,
+  other_details TEXT,
+  FOREIGN KEY (grant_id) REFERENCES Grants (grant_id),
+  FOREIGN KEY (document_type_code) REFERENCES Document_Types (document_type_code)
+);
+
+CREATE TABLE Grants (
+  grant_id INTEGER PRIMARY KEY,
+  organisation_id INTEGER,
+  grant_amount REAL,
+  grant_start_date DATETIME,
+  grant_end_date DATETIME,
+  other_details TEXT,
+  FOREIGN KEY (organisation_id) REFERENCES Organisations (organisation_id)
+);
+
+CREATE TABLE Organisation_Types (
+  organisation_type TEXT PRIMARY KEY,
+  organisation_type_description TEXT
+);
+
+CREATE TABLE Organisations (
+  organisation_id INTEGER PRIMARY KEY,
+  organisation_type TEXT,
+  organisation_details TEXT,
+  FOREIGN KEY (organisation_type) REFERENCES Organisation_Types (organisation_type)
+);
+
+CREATE TABLE Project_Outcomes (
+  project_id INTEGER,
+  outcome_code TEXT,
+  outcome_details TEXT,
+  FOREIGN KEY (outcome_code) REFERENCES Research_Outcomes (outcome_code),
+  FOREIGN KEY (project_id) REFERENCES Projects (project_id)
+);
+
+CREATE TABLE Project_Staff (
+  staff_id INTEGER PRIMARY KEY,
+  project_id INTEGER,
+  role_code TEXT,
+  date_from DATETIME,
+  date_to DATETIME,
+  other_details TEXT,
+  FOREIGN KEY (role_code) REFERENCES Staff_Roles (role_code),
+  FOREIGN KEY (project_id) REFERENCES Projects (project_id)
+);
+
+CREATE TABLE Projects (
+  project_id INTEGER PRIMARY KEY,
+  organisation_id INTEGER,
+  project_details TEXT,
+  FOREIGN KEY (organisation_id) REFERENCES Organisations (organisation_id)
+);
+
+CREATE TABLE Research_Outcomes (
+  outcome_code TEXT PRIMARY KEY,
+  outcome_description TEXT
+);
+
+CREATE TABLE Research_Staff (
+  staff_id INTEGER PRIMARY KEY,
+  employer_organisation_id INTEGER,
+  staff_details TEXT,
+  FOREIGN KEY (employer_organisation_id) REFERENCES Organisations (organisation_id)
+);
+
+CREATE TABLE Staff_Roles (
+  role_code TEXT PRIMARY KEY,
+  role_description TEXT
+);
+
+CREATE TABLE Tasks (
+  task_id INTEGER PRIMARY KEY,
+  project_id INTEGER,
+  task_details TEXT,
+  "eg Agree Objectives" TEXT,
+  FOREIGN KEY (project_id) REFERENCES Projects (project_id)
+);
+]
+Q: What is average life expectancy in the countries where English is not the official language?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

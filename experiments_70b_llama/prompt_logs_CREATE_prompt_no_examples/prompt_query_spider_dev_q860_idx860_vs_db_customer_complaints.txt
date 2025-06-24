@@ -1,0 +1,80 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Task: Can the question be answered using the schema? Respond with 1 (Yes) or 0 (No).
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# Now, evaluate the following:
+
+[Schema:
+CREATE TABLE Staff (
+  staff_id INTEGER PRIMARY KEY,
+  gender TEXT,
+  first_name TEXT,
+  last_name TEXT,
+  email_address TEXT,
+  phone_number TEXT
+);
+
+CREATE TABLE Customers (
+  customer_id INTEGER PRIMARY KEY,
+  customer_type_code TEXT,
+  address_line_1 TEXT,
+  address_line_2 TEXT,
+  town_city TEXT,
+  state TEXT,
+  email_address TEXT,
+  phone_number TEXT
+);
+
+CREATE TABLE Products (
+  product_id INTEGER PRIMARY KEY,
+  parent_product_id REAL,
+  product_category_code TEXT,
+  date_product_first_available DATETIME,
+  date_product_discontinued DATETIME,
+  product_name TEXT,
+  product_description TEXT,
+  product_price REAL
+);
+
+CREATE TABLE Complaints (
+  complaint_id REAL,
+  product_id INTEGER,
+  customer_id INTEGER,
+  complaint_outcome_code TEXT,
+  complaint_status_code TEXT,
+  complaint_type_code TEXT,
+  date_complaint_raised DATETIME,
+  date_complaint_closed DATETIME,
+  staff_id INTEGER,
+  FOREIGN KEY (customer_id) REFERENCES Customers (customer_id),
+  FOREIGN KEY (product_id) REFERENCES Products (product_id),
+  FOREIGN KEY (staff_id) REFERENCES Staff (staff_id)
+);
+]
+Q: What is the document name and template id for document with description with the letter 'w' in it?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

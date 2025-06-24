@@ -1,0 +1,89 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Task: Can the question be answered using the schema? Respond with 1 (Yes) or 0 (No).
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# Now, evaluate the following:
+
+[Schema:
+CREATE TABLE Apartment_Buildings (
+  building_id INTEGER PRIMARY KEY,
+  building_short_name TEXT,
+  building_full_name TEXT,
+  building_description TEXT,
+  building_address TEXT,
+  building_manager TEXT,
+  building_phone TEXT
+);
+
+CREATE TABLE Apartments (
+  apt_id INTEGER PRIMARY KEY,
+  building_id INTEGER,
+  apt_type_code TEXT,
+  apt_number TEXT,
+  bathroom_count REAL,
+  bedroom_count REAL,
+  room_count TEXT,
+  FOREIGN KEY (building_id) REFERENCES Apartment_Buildings (building_id)
+);
+
+CREATE TABLE Apartment_Facilities (
+  apt_id INTEGER PRIMARY KEY,
+  facility_code TEXT,
+  FOREIGN KEY (apt_id) REFERENCES Apartments (apt_id)
+);
+
+CREATE TABLE Guests (
+  guest_id INTEGER PRIMARY KEY,
+  gender_code TEXT,
+  guest_first_name TEXT,
+  guest_last_name TEXT,
+  date_of_birth DATETIME
+);
+
+CREATE TABLE Apartment_Bookings (
+  apt_booking_id INTEGER PRIMARY KEY,
+  apt_id INTEGER,
+  guest_id INTEGER,
+  booking_status_code TEXT,
+  booking_start_date DATETIME,
+  booking_end_date DATETIME,
+  FOREIGN KEY (guest_id) REFERENCES Guests (guest_id),
+  FOREIGN KEY (apt_id) REFERENCES Apartments (apt_id)
+);
+
+CREATE TABLE View_Unit_Status (
+  apt_id INTEGER,
+  apt_booking_id INTEGER,
+  status_date DATETIME PRIMARY KEY,
+  available_yn TEXT,
+  FOREIGN KEY (apt_booking_id) REFERENCES Apartment_Bookings (apt_booking_id),
+  FOREIGN KEY (apt_id) REFERENCES Apartments (apt_id)
+);
+]
+Q: What are the names and descriptions for all the sections?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

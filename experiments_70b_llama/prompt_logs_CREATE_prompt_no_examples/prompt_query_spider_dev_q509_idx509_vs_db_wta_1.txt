@@ -1,0 +1,89 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Task: Can the question be answered using the schema? Respond with 1 (Yes) or 0 (No).
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# Now, evaluate the following:
+
+[Schema:
+CREATE TABLE players (
+  player_id INTEGER PRIMARY KEY,
+  first_name TEXT,
+  last_name TEXT,
+  hand TEXT,
+  birth_date DATETIME,
+  country_code TEXT
+);
+
+CREATE TABLE matches (
+  best_of REAL,
+  draw_size REAL,
+  loser_age REAL,
+  loser_entry TEXT,
+  loser_hand TEXT,
+  loser_ht REAL,
+  loser_id INTEGER,
+  loser_ioc TEXT,
+  loser_name TEXT,
+  loser_rank REAL,
+  loser_rank_points REAL,
+  loser_seed REAL,
+  match_num REAL,
+  minutes REAL,
+  round TEXT,
+  score TEXT,
+  surface TEXT,
+  tourney_date DATETIME,
+  tourney_id TEXT,
+  tourney_level TEXT,
+  tourney_name TEXT,
+  winner_age REAL,
+  winner_entry TEXT,
+  winner_hand TEXT,
+  winner_ht REAL,
+  winner_id INTEGER,
+  winner_ioc TEXT,
+  winner_name TEXT,
+  winner_rank REAL,
+  winner_rank_points REAL,
+  winner_seed REAL,
+  year REAL,
+  FOREIGN KEY (winner_id) REFERENCES players (player_id),
+  FOREIGN KEY (loser_id) REFERENCES players (player_id)
+);
+
+CREATE TABLE rankings (
+  ranking_date DATETIME,
+  ranking REAL,
+  player_id INTEGER,
+  ranking_points REAL,
+  tours REAL,
+  FOREIGN KEY (player_id) REFERENCES players (player_id)
+);
+]
+Q: What are the names of conductors, ordered by age?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

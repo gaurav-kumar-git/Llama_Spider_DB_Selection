@@ -1,0 +1,133 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Task: Can the question be answered using the schema? Respond with 1 (Yes) or 0 (No).
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# Now, evaluate the following:
+
+[Schema:
+CREATE TABLE classroom (
+  building TEXT PRIMARY KEY,
+  room_number TEXT,
+  capacity REAL
+);
+
+CREATE TABLE department (
+  dept_name TEXT PRIMARY KEY,
+  building TEXT,
+  budget REAL
+);
+
+CREATE TABLE course (
+  course_id TEXT PRIMARY KEY,
+  title TEXT,
+  dept_name TEXT,
+  credits REAL,
+  FOREIGN KEY (dept_name) REFERENCES department (dept_name)
+);
+
+CREATE TABLE instructor (
+  ID TEXT PRIMARY KEY,
+  name TEXT,
+  dept_name TEXT,
+  salary REAL,
+  FOREIGN KEY (dept_name) REFERENCES department (dept_name)
+);
+
+CREATE TABLE section (
+  course_id TEXT PRIMARY KEY,
+  sec_id TEXT,
+  semester TEXT,
+  year REAL,
+  building TEXT,
+  room_number TEXT,
+  time_slot_id TEXT,
+  FOREIGN KEY (building) REFERENCES classroom (building),
+  FOREIGN KEY (room_number) REFERENCES classroom (room_number),
+  FOREIGN KEY (course_id) REFERENCES course (course_id)
+);
+
+CREATE TABLE teaches (
+  ID TEXT PRIMARY KEY,
+  course_id TEXT,
+  sec_id TEXT,
+  semester TEXT,
+  year INTEGER,
+  FOREIGN KEY (ID) REFERENCES instructor (ID),
+  FOREIGN KEY (course_id) REFERENCES section (course_id),
+  FOREIGN KEY (sec_id) REFERENCES section (sec_id),
+  FOREIGN KEY (semester) REFERENCES section (semester),
+  FOREIGN KEY (year) REFERENCES section (year)
+);
+
+CREATE TABLE student (
+  ID TEXT PRIMARY KEY,
+  name TEXT,
+  dept_name TEXT,
+  tot_cred REAL,
+  FOREIGN KEY (dept_name) REFERENCES department (dept_name)
+);
+
+CREATE TABLE takes (
+  ID TEXT PRIMARY KEY,
+  course_id TEXT,
+  sec_id TEXT,
+  semester TEXT,
+  year INTEGER,
+  grade TEXT,
+  FOREIGN KEY (ID) REFERENCES student (ID),
+  FOREIGN KEY (course_id) REFERENCES section (course_id),
+  FOREIGN KEY (sec_id) REFERENCES section (sec_id),
+  FOREIGN KEY (semester) REFERENCES section (semester),
+  FOREIGN KEY (year) REFERENCES section (year)
+);
+
+CREATE TABLE advisor (
+  s_ID TEXT PRIMARY KEY,
+  i_ID TEXT,
+  FOREIGN KEY (s_ID) REFERENCES student (ID),
+  FOREIGN KEY (i_ID) REFERENCES instructor (ID)
+);
+
+CREATE TABLE time_slot (
+  time_slot_id TEXT PRIMARY KEY,
+  day TEXT,
+  start_hr REAL,
+  start_min REAL,
+  end_hr REAL,
+  end_min REAL
+);
+
+CREATE TABLE prereq (
+  course_id TEXT PRIMARY KEY,
+  prereq_id TEXT,
+  FOREIGN KEY (prereq_id) REFERENCES course (course_id),
+  FOREIGN KEY (course_id) REFERENCES course (course_id)
+);
+]
+Q: Count the number of different nationalities of conductors.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

@@ -1,0 +1,134 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Task: Can the question be answered using the schema? Respond with 1 (Yes) or 0 (No).
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# Now, evaluate the following:
+
+[Schema:
+CREATE TABLE Addresses (
+  address_id INTEGER PRIMARY KEY,
+  line_1 TEXT,
+  line_2 TEXT,
+  line_3 TEXT,
+  city TEXT,
+  zip_postcode TEXT,
+  state_province_county TEXT,
+  country TEXT,
+  other_address_details TEXT
+);
+
+CREATE TABLE Courses (
+  course_id INTEGER PRIMARY KEY,
+  course_name TEXT,
+  course_description TEXT,
+  other_details TEXT
+);
+
+CREATE TABLE Departments (
+  department_id INTEGER PRIMARY KEY,
+  department_name TEXT,
+  department_description TEXT,
+  other_details TEXT
+);
+
+CREATE TABLE Degree_Programs (
+  degree_program_id INTEGER PRIMARY KEY,
+  department_id INTEGER,
+  degree_summary_name TEXT,
+  degree_summary_description TEXT,
+  other_details TEXT,
+  FOREIGN KEY (department_id) REFERENCES Departments (department_id)
+);
+
+CREATE TABLE Sections (
+  section_id INTEGER PRIMARY KEY,
+  course_id INTEGER,
+  section_name TEXT,
+  section_description TEXT,
+  other_details TEXT,
+  FOREIGN KEY (course_id) REFERENCES Courses (course_id)
+);
+
+CREATE TABLE Semesters (
+  semester_id INTEGER PRIMARY KEY,
+  semester_name TEXT,
+  semester_description TEXT,
+  other_details TEXT
+);
+
+CREATE TABLE Students (
+  student_id INTEGER PRIMARY KEY,
+  current_address_id INTEGER,
+  permanent_address_id INTEGER,
+  first_name TEXT,
+  middle_name TEXT,
+  last_name TEXT,
+  cell_mobile_number TEXT,
+  email_address TEXT,
+  ssn TEXT,
+  date_first_registered DATETIME,
+  date_left DATETIME,
+  other_student_details TEXT,
+  FOREIGN KEY (permanent_address_id) REFERENCES Addresses (address_id),
+  FOREIGN KEY (current_address_id) REFERENCES Addresses (address_id)
+);
+
+CREATE TABLE Student_Enrolment (
+  student_enrolment_id INTEGER PRIMARY KEY,
+  degree_program_id INTEGER,
+  semester_id INTEGER,
+  student_id INTEGER,
+  other_details TEXT,
+  FOREIGN KEY (student_id) REFERENCES Students (student_id),
+  FOREIGN KEY (semester_id) REFERENCES Semesters (semester_id),
+  FOREIGN KEY (degree_program_id) REFERENCES Degree_Programs (degree_program_id)
+);
+
+CREATE TABLE Student_Enrolment_Courses (
+  student_course_id INTEGER PRIMARY KEY,
+  course_id INTEGER,
+  student_enrolment_id INTEGER,
+  FOREIGN KEY (student_enrolment_id) REFERENCES Student_Enrolment (student_enrolment_id),
+  FOREIGN KEY (course_id) REFERENCES Courses (course_id)
+);
+
+CREATE TABLE Transcripts (
+  transcript_id INTEGER PRIMARY KEY,
+  transcript_date DATETIME,
+  other_details TEXT
+);
+
+CREATE TABLE Transcript_Contents (
+  student_course_id INTEGER,
+  transcript_id INTEGER,
+  FOREIGN KEY (transcript_id) REFERENCES Transcripts (transcript_id),
+  FOREIGN KEY (student_course_id) REFERENCES Student_Enrolment_Courses (student_course_id)
+);
+]
+Q: How many shops are there in each location?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

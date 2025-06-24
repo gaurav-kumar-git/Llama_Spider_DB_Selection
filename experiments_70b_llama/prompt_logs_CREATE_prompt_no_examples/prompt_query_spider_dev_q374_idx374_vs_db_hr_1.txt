@@ -1,0 +1,97 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Task: Can the question be answered using the schema? Respond with 1 (Yes) or 0 (No).
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# Now, evaluate the following:
+
+[Schema:
+CREATE TABLE regions (
+  REGION_ID INTEGER PRIMARY KEY,
+  REGION_NAME TEXT
+);
+
+CREATE TABLE countries (
+  COUNTRY_ID TEXT PRIMARY KEY,
+  COUNTRY_NAME TEXT,
+  REGION_ID INTEGER,
+  FOREIGN KEY (REGION_ID) REFERENCES regions (REGION_ID)
+);
+
+CREATE TABLE departments (
+  DEPARTMENT_ID INTEGER PRIMARY KEY,
+  DEPARTMENT_NAME TEXT,
+  MANAGER_ID REAL,
+  LOCATION_ID REAL
+);
+
+CREATE TABLE jobs (
+  JOB_ID TEXT PRIMARY KEY,
+  JOB_TITLE TEXT,
+  MIN_SALARY REAL,
+  MAX_SALARY REAL
+);
+
+CREATE TABLE employees (
+  EMPLOYEE_ID INTEGER PRIMARY KEY,
+  FIRST_NAME TEXT,
+  LAST_NAME TEXT,
+  EMAIL TEXT,
+  PHONE_NUMBER TEXT,
+  HIRE_DATE DATETIME,
+  JOB_ID TEXT,
+  SALARY REAL,
+  COMMISSION_PCT REAL,
+  MANAGER_ID REAL,
+  DEPARTMENT_ID INTEGER,
+  FOREIGN KEY (JOB_ID) REFERENCES jobs (JOB_ID),
+  FOREIGN KEY (DEPARTMENT_ID) REFERENCES departments (DEPARTMENT_ID)
+);
+
+CREATE TABLE job_history (
+  EMPLOYEE_ID INTEGER PRIMARY KEY,
+  START_DATE DATETIME,
+  END_DATE DATETIME,
+  JOB_ID TEXT,
+  DEPARTMENT_ID INTEGER,
+  FOREIGN KEY (JOB_ID) REFERENCES jobs (JOB_ID),
+  FOREIGN KEY (DEPARTMENT_ID) REFERENCES departments (DEPARTMENT_ID),
+  FOREIGN KEY (EMPLOYEE_ID) REFERENCES employees (EMPLOYEE_ID)
+);
+
+CREATE TABLE locations (
+  LOCATION_ID INTEGER PRIMARY KEY,
+  STREET_ADDRESS TEXT,
+  POSTAL_CODE TEXT,
+  CITY TEXT,
+  STATE_PROVINCE TEXT,
+  COUNTRY_ID TEXT,
+  FOREIGN KEY (COUNTRY_ID) REFERENCES countries (COUNTRY_ID)
+);
+]
+Q: How many states are there?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

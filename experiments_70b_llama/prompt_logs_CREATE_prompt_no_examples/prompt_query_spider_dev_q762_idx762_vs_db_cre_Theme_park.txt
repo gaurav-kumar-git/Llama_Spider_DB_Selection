@@ -1,0 +1,148 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Task: Can the question be answered using the schema? Respond with 1 (Yes) or 0 (No).
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# Now, evaluate the following:
+
+[Schema:
+CREATE TABLE Ref_Hotel_Star_Ratings (
+  star_rating_code TEXT PRIMARY KEY,
+  star_rating_description TEXT
+);
+
+CREATE TABLE Locations (
+  Location_ID INTEGER PRIMARY KEY,
+  Location_Name TEXT,
+  Address TEXT,
+  Other_Details TEXT
+);
+
+CREATE TABLE Ref_Attraction_Types (
+  Attraction_Type_Code TEXT PRIMARY KEY,
+  Attraction_Type_Description TEXT
+);
+
+CREATE TABLE Visitors (
+  Tourist_ID INTEGER PRIMARY KEY,
+  Tourist_Details TEXT
+);
+
+CREATE TABLE Features (
+  Feature_ID INTEGER PRIMARY KEY,
+  Feature_Details TEXT
+);
+
+CREATE TABLE Hotels (
+  hotel_id INTEGER PRIMARY KEY,
+  star_rating_code TEXT,
+  pets_allowed_yn TEXT,
+  price_range REAL,
+  other_hotel_details TEXT,
+  FOREIGN KEY (star_rating_code) REFERENCES Ref_Hotel_Star_Ratings (star_rating_code)
+);
+
+CREATE TABLE Tourist_Attractions (
+  Tourist_Attraction_ID INTEGER PRIMARY KEY,
+  Attraction_Type_Code TEXT,
+  Location_ID INTEGER,
+  How_to_Get_There TEXT,
+  Name TEXT,
+  Description TEXT,
+  Opening_Hours TEXT,
+  Other_Details TEXT,
+  FOREIGN KEY (Attraction_Type_Code) REFERENCES Ref_Attraction_Types (Attraction_Type_Code),
+  FOREIGN KEY (Location_ID) REFERENCES Locations (Location_ID)
+);
+
+CREATE TABLE Street_Markets (
+  Market_ID INTEGER PRIMARY KEY,
+  Market_Details TEXT,
+  FOREIGN KEY (Market_ID) REFERENCES Tourist_Attractions (Tourist_Attraction_ID)
+);
+
+CREATE TABLE Shops (
+  Shop_ID INTEGER PRIMARY KEY,
+  Shop_Details TEXT,
+  FOREIGN KEY (Shop_ID) REFERENCES Tourist_Attractions (Tourist_Attraction_ID)
+);
+
+CREATE TABLE Museums (
+  Museum_ID INTEGER PRIMARY KEY,
+  Museum_Details TEXT,
+  FOREIGN KEY (Museum_ID) REFERENCES Tourist_Attractions (Tourist_Attraction_ID)
+);
+
+CREATE TABLE Royal_Family (
+  Royal_Family_ID INTEGER PRIMARY KEY,
+  Royal_Family_Details TEXT,
+  FOREIGN KEY (Royal_Family_ID) REFERENCES Tourist_Attractions (Tourist_Attraction_ID)
+);
+
+CREATE TABLE Theme_Parks (
+  Theme_Park_ID INTEGER PRIMARY KEY,
+  Theme_Park_Details TEXT,
+  FOREIGN KEY (Theme_Park_ID) REFERENCES Tourist_Attractions (Tourist_Attraction_ID)
+);
+
+CREATE TABLE Visits (
+  Visit_ID INTEGER PRIMARY KEY,
+  Tourist_Attraction_ID INTEGER,
+  Tourist_ID INTEGER,
+  Visit_Date DATETIME,
+  Visit_Details TEXT,
+  FOREIGN KEY (Tourist_ID) REFERENCES Visitors (Tourist_ID),
+  FOREIGN KEY (Tourist_Attraction_ID) REFERENCES Tourist_Attractions (Tourist_Attraction_ID)
+);
+
+CREATE TABLE Photos (
+  Photo_ID INTEGER PRIMARY KEY,
+  Tourist_Attraction_ID INTEGER,
+  Name TEXT,
+  Description TEXT,
+  Filename TEXT,
+  Other_Details TEXT,
+  FOREIGN KEY (Tourist_Attraction_ID) REFERENCES Tourist_Attractions (Tourist_Attraction_ID)
+);
+
+CREATE TABLE Staff (
+  Staff_ID INTEGER PRIMARY KEY,
+  Tourist_Attraction_ID INTEGER,
+  Name TEXT,
+  Other_Details TEXT,
+  FOREIGN KEY (Tourist_Attraction_ID) REFERENCES Tourist_Attractions (Tourist_Attraction_ID)
+);
+
+CREATE TABLE Tourist_Attraction_Features (
+  Tourist_Attraction_ID INTEGER PRIMARY KEY,
+  Feature_ID INTEGER,
+  FOREIGN KEY (Feature_ID) REFERENCES Features (Feature_ID),
+  FOREIGN KEY (Tourist_Attraction_ID) REFERENCES Tourist_Attractions (Tourist_Attraction_ID)
+);
+]
+Q: Return the codes of countries that do not speak English and do not have Republics for governments.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
