@@ -1,0 +1,114 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# You are provided with a database schema.
+[Schema:
+CREATE TABLE CLASS (
+  CLASS_CODE TEXT PRIMARY KEY,
+  CRS_CODE TEXT,
+  CLASS_SECTION TEXT,
+  CLASS_TIME TEXT,
+  CLASS_ROOM TEXT,
+  PROF_NUM INTEGER,
+  FOREIGN KEY (PROF_NUM) REFERENCES EMPLOYEE(EMP_NUM),
+  FOREIGN KEY (CRS_CODE) REFERENCES COURSE(CRS_CODE)
+);
+
+CREATE TABLE COURSE (
+  CRS_CODE TEXT PRIMARY KEY,
+  DEPT_CODE TEXT,
+  CRS_DESCRIPTION TEXT,
+  CRS_CREDIT REAL,
+  FOREIGN KEY (DEPT_CODE) REFERENCES DEPARTMENT(DEPT_CODE)
+);
+
+CREATE TABLE DEPARTMENT (
+  DEPT_CODE TEXT PRIMARY KEY,
+  DEPT_NAME TEXT,
+  SCHOOL_CODE TEXT,
+  EMP_NUM INTEGER,
+  DEPT_ADDRESS TEXT,
+  DEPT_EXTENSION TEXT,
+  FOREIGN KEY (EMP_NUM) REFERENCES EMPLOYEE(EMP_NUM)
+);
+
+CREATE TABLE EMPLOYEE (
+  EMP_NUM INTEGER PRIMARY KEY,
+  EMP_LNAME TEXT,
+  EMP_FNAME TEXT,
+  EMP_INITIAL TEXT,
+  EMP_JOBCODE TEXT,
+  EMP_HIREDATE DATETIME,
+  EMP_DOB DATETIME
+);
+
+CREATE TABLE ENROLL (
+  CLASS_CODE TEXT,
+  STU_NUM INTEGER,
+  ENROLL_GRADE TEXT,
+  FOREIGN KEY (STU_NUM) REFERENCES STUDENT(STU_NUM),
+  FOREIGN KEY (CLASS_CODE) REFERENCES CLASS(CLASS_CODE)
+);
+
+CREATE TABLE PROFESSOR (
+  EMP_NUM INTEGER,
+  DEPT_CODE TEXT,
+  PROF_OFFICE TEXT,
+  PROF_EXTENSION TEXT,
+  PROF_HIGH_DEGREE TEXT,
+  FOREIGN KEY (DEPT_CODE) REFERENCES DEPARTMENT(DEPT_CODE),
+  FOREIGN KEY (EMP_NUM) REFERENCES EMPLOYEE(EMP_NUM)
+);
+
+CREATE TABLE STUDENT (
+  STU_NUM INTEGER PRIMARY KEY,
+  STU_LNAME TEXT,
+  STU_FNAME TEXT,
+  STU_INIT TEXT,
+  STU_DOB DATETIME,
+  STU_HRS REAL,
+  STU_CLASS TEXT,
+  STU_GPA REAL,
+  STU_TRANSFER REAL,
+  DEPT_CODE TEXT,
+  STU_PHONE TEXT,
+  PROF_NUM REAL,
+  FOREIGN KEY (DEPT_CODE) REFERENCES DEPARTMENT(DEPT_CODE)
+);
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--Find the number of professors in accounting department.
+--How many professors are in the accounting dept?
+--How many professors are teaching class with code ACCT-211?
+--How many professors teach a class with the code ACCT-211?
+--What is the first and last name of the professor in biology department?
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: find the pixel aspect ratio and nation of the tv channels that do not use English.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

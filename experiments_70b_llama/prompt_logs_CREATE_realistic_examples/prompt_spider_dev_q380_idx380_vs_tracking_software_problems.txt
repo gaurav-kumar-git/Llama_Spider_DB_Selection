@@ -1,0 +1,94 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# You are provided with a database schema.
+[Schema:
+CREATE TABLE Problem_Category_Codes (
+  problem_category_code TEXT PRIMARY KEY,
+  problem_category_description TEXT
+);
+
+CREATE TABLE Problem_Log (
+  problem_log_id INTEGER PRIMARY KEY,
+  assigned_to_staff_id INTEGER,
+  problem_id INTEGER,
+  problem_category_code TEXT,
+  problem_status_code TEXT,
+  log_entry_date DATETIME,
+  log_entry_description TEXT,
+  log_entry_fix TEXT,
+  other_log_details TEXT,
+  FOREIGN KEY (problem_status_code) REFERENCES Problem_Status_Codes(problem_status_code),
+  FOREIGN KEY (problem_id) REFERENCES Problems(problem_id),
+  FOREIGN KEY (assigned_to_staff_id) REFERENCES Staff(staff_id),
+  FOREIGN KEY (problem_category_code) REFERENCES Problem_Category_Codes(problem_category_code)
+);
+
+CREATE TABLE Problem_Status_Codes (
+  problem_status_code TEXT PRIMARY KEY,
+  problem_status_description TEXT
+);
+
+CREATE TABLE Product (
+  product_id INTEGER PRIMARY KEY,
+  product_name TEXT,
+  product_details TEXT
+);
+
+CREATE TABLE Staff (
+  staff_id INTEGER PRIMARY KEY,
+  staff_first_name TEXT,
+  staff_last_name TEXT,
+  other_staff_details TEXT
+);
+
+CREATE TABLE Problems (
+  problem_id INTEGER PRIMARY KEY,
+  product_id INTEGER,
+  closure_authorised_by_staff_id INTEGER,
+  reported_by_staff_id INTEGER,
+  date_problem_reported DATETIME,
+  date_problem_closed DATETIME,
+  problem_description TEXT,
+  other_problem_details TEXT,
+  FOREIGN KEY (reported_by_staff_id) REFERENCES Staff(staff_id),
+  FOREIGN KEY (product_id) REFERENCES Product(product_id),
+  FOREIGN KEY (closure_authorised_by_staff_id) REFERENCES Staff(staff_id)
+);
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--What is the id of the problem log that is created most recently?
+--Which problem log was created most recently? Give me the log id.
+--What is the oldest log id and its corresponding problem id?
+--Find the oldest log id and its corresponding problem id.
+--Find all the ids and dates of the logs for the problem whose id is 10.
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: Find the minimum grade of students who have no friends.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

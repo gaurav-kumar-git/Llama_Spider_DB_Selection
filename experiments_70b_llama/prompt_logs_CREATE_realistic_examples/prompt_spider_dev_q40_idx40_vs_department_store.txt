@@ -1,0 +1,152 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# You are provided with a database schema.
+[Schema:
+CREATE TABLE Addresses (
+  address_id INTEGER PRIMARY KEY,
+  address_details TEXT
+);
+
+CREATE TABLE Staff (
+  staff_id INTEGER PRIMARY KEY,
+  staff_gender TEXT,
+  staff_name TEXT
+);
+
+CREATE TABLE Suppliers (
+  supplier_id INTEGER PRIMARY KEY,
+  supplier_name TEXT,
+  supplier_phone TEXT
+);
+
+CREATE TABLE Department_Store_Chain (
+  dept_store_chain_id INTEGER PRIMARY KEY,
+  dept_store_chain_name TEXT
+);
+
+CREATE TABLE Customers (
+  customer_id INTEGER PRIMARY KEY,
+  payment_method_code TEXT,
+  customer_code TEXT,
+  customer_name TEXT,
+  customer_address TEXT,
+  customer_phone TEXT,
+  customer_email TEXT
+);
+
+CREATE TABLE Products (
+  product_id INTEGER PRIMARY KEY,
+  product_type_code TEXT,
+  product_name TEXT,
+  product_price REAL
+);
+
+CREATE TABLE Supplier_Addresses (
+  supplier_id INTEGER PRIMARY KEY,
+  address_id INTEGER,
+  date_from DATETIME,
+  date_to DATETIME,
+  FOREIGN KEY (supplier_id) REFERENCES Suppliers(supplier_id),
+  FOREIGN KEY (address_id) REFERENCES Addresses(address_id)
+);
+
+CREATE TABLE Customer_Addresses (
+  customer_id INTEGER PRIMARY KEY,
+  address_id INTEGER,
+  date_from DATETIME,
+  date_to DATETIME,
+  FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),
+  FOREIGN KEY (address_id) REFERENCES Addresses(address_id)
+);
+
+CREATE TABLE Customer_Orders (
+  order_id INTEGER PRIMARY KEY,
+  customer_id INTEGER,
+  order_status_code TEXT,
+  order_date DATETIME,
+  FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
+);
+
+CREATE TABLE Department_Stores (
+  dept_store_id INTEGER PRIMARY KEY,
+  dept_store_chain_id INTEGER,
+  store_name TEXT,
+  store_address TEXT,
+  store_phone TEXT,
+  store_email TEXT,
+  FOREIGN KEY (dept_store_chain_id) REFERENCES Department_Store_Chain(dept_store_chain_id)
+);
+
+CREATE TABLE Departments (
+  department_id INTEGER PRIMARY KEY,
+  dept_store_id INTEGER,
+  department_name TEXT,
+  FOREIGN KEY (dept_store_id) REFERENCES Department_Stores(dept_store_id)
+);
+
+CREATE TABLE Order_Items (
+  order_item_id INTEGER PRIMARY KEY,
+  order_id INTEGER,
+  product_id INTEGER,
+  FOREIGN KEY (product_id) REFERENCES Products(product_id),
+  FOREIGN KEY (order_id) REFERENCES Customer_Orders(order_id)
+);
+
+CREATE TABLE Product_Suppliers (
+  product_id INTEGER PRIMARY KEY,
+  supplier_id INTEGER,
+  date_supplied_from DATETIME,
+  date_supplied_to DATETIME,
+  total_amount_purchased TEXT,
+  total_value_purchased REAL,
+  FOREIGN KEY (product_id) REFERENCES Products(product_id),
+  FOREIGN KEY (supplier_id) REFERENCES Suppliers(supplier_id)
+);
+
+CREATE TABLE Staff_Department_Assignments (
+  staff_id INTEGER PRIMARY KEY,
+  department_id INTEGER,
+  date_assigned_from DATETIME,
+  job_title_code TEXT,
+  date_assigned_to DATETIME,
+  FOREIGN KEY (staff_id) REFERENCES Staff(staff_id),
+  FOREIGN KEY (department_id) REFERENCES Departments(department_id)
+);
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--What are the ids of the top three products that were purchased in the largest amount?
+--Give the ids of the three products purchased in the largest amounts.
+--What are the product id and product type of the cheapest product?
+--Give the id and product type of the product with the lowest price.
+--Find the number of different product types.
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: find the names of museums which have more staff than the minimum staff number of all museums opened after 2010.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

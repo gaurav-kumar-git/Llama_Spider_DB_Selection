@@ -1,0 +1,122 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# You are provided with a database schema.
+[Schema:
+CREATE TABLE Ref_Document_Types (
+  document_type_code TEXT PRIMARY KEY,
+  document_type_description TEXT
+);
+
+CREATE TABLE Roles (
+  role_code TEXT PRIMARY KEY,
+  role_description TEXT
+);
+
+CREATE TABLE Addresses (
+  address_id INTEGER PRIMARY KEY,
+  address_details TEXT
+);
+
+CREATE TABLE Ref_Document_Status (
+  document_status_code TEXT PRIMARY KEY,
+  document_status_description TEXT
+);
+
+CREATE TABLE Ref_Shipping_Agents (
+  shipping_agent_code TEXT PRIMARY KEY,
+  shipping_agent_name TEXT,
+  shipping_agent_description TEXT
+);
+
+CREATE TABLE Documents (
+  document_id INTEGER PRIMARY KEY,
+  document_status_code TEXT,
+  document_type_code TEXT,
+  shipping_agent_code TEXT,
+  receipt_date DATETIME,
+  receipt_number TEXT,
+  other_details TEXT,
+  FOREIGN KEY (shipping_agent_code) REFERENCES Ref_Shipping_Agents(shipping_agent_code),
+  FOREIGN KEY (document_status_code) REFERENCES Ref_Document_Status(document_status_code),
+  FOREIGN KEY (document_type_code) REFERENCES Ref_Document_Types(document_type_code)
+);
+
+CREATE TABLE Employees (
+  employee_id INTEGER PRIMARY KEY,
+  role_code TEXT,
+  employee_name TEXT,
+  other_details TEXT,
+  FOREIGN KEY (role_code) REFERENCES Roles(role_code)
+);
+
+CREATE TABLE Document_Drafts (
+  document_id INTEGER PRIMARY KEY,
+  draft_number REAL,
+  draft_details TEXT,
+  FOREIGN KEY (document_id) REFERENCES Documents(document_id)
+);
+
+CREATE TABLE Draft_Copies (
+  document_id INTEGER PRIMARY KEY,
+  draft_number INTEGER,
+  copy_number REAL,
+  FOREIGN KEY (document_id) REFERENCES Document_Drafts(document_id),
+  FOREIGN KEY (draft_number) REFERENCES Document_Drafts(draft_number)
+);
+
+CREATE TABLE Circulation_History (
+  document_id INTEGER PRIMARY KEY,
+  draft_number INTEGER,
+  copy_number INTEGER,
+  employee_id INTEGER,
+  FOREIGN KEY (employee_id) REFERENCES Employees(employee_id),
+  FOREIGN KEY (document_id) REFERENCES Draft_Copies(document_id),
+  FOREIGN KEY (draft_number) REFERENCES Draft_Copies(draft_number),
+  FOREIGN KEY (copy_number) REFERENCES Draft_Copies(copy_number)
+);
+
+CREATE TABLE Documents_Mailed (
+  document_id INTEGER PRIMARY KEY,
+  mailed_to_address_id INTEGER,
+  mailing_date DATETIME,
+  FOREIGN KEY (mailed_to_address_id) REFERENCES Addresses(address_id),
+  FOREIGN KEY (document_id) REFERENCES Documents(document_id)
+);
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--What document status codes do we have?
+--What is the description of document status code 'working'?
+--What document type codes do we have?
+--What is the description of document type 'Paper'?
+--What are the shipping agent names?
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: List the names of conductors in ascending order of age.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

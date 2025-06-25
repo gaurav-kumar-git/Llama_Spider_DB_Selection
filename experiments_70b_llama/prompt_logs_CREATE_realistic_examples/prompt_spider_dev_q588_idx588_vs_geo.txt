@@ -1,0 +1,97 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# You are provided with a database schema.
+[Schema:
+CREATE TABLE state (
+  state_name TEXT PRIMARY KEY,
+  population REAL,
+  area REAL,
+  country_name TEXT,
+  capital TEXT,
+  density REAL
+);
+
+CREATE TABLE city (
+  city_name TEXT PRIMARY KEY,
+  population REAL,
+  country_name TEXT,
+  state_name TEXT,
+  FOREIGN KEY (state_name) REFERENCES state(state_name)
+);
+
+CREATE TABLE border_info (
+  state_name TEXT,
+  border TEXT PRIMARY KEY,
+  FOREIGN KEY (border) REFERENCES state(state_name),
+  FOREIGN KEY (state_name) REFERENCES state(state_name)
+);
+
+CREATE TABLE highlow (
+  state_name TEXT PRIMARY KEY,
+  highest_elevation TEXT,
+  lowest_point TEXT,
+  highest_point TEXT,
+  lowest_elevation TEXT,
+  FOREIGN KEY (state_name) REFERENCES state(state_name)
+);
+
+CREATE TABLE lake (
+  lake_name TEXT,
+  area REAL,
+  country_name TEXT,
+  state_name TEXT
+);
+
+CREATE TABLE mountain (
+  mountain_name TEXT PRIMARY KEY,
+  mountain_altitude REAL,
+  country_name TEXT,
+  state_name TEXT,
+  FOREIGN KEY (state_name) REFERENCES state(state_name)
+);
+
+CREATE TABLE river (
+  river_name TEXT PRIMARY KEY,
+  length REAL,
+  country_name TEXT,
+  traverse TEXT,
+  FOREIGN KEY (traverse) REFERENCES state(state_name)
+);
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--what is the biggest city in wyoming
+--what wyoming city has the largest population
+--what is the largest city in wyoming
+--where is the most populated area of wyoming
+--which city in wyoming has the largest population
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: How many friends does the high school student Kyle have?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

@@ -1,0 +1,106 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# You are provided with a database schema.
+[Schema:
+CREATE TABLE Roles (
+  role_code TEXT PRIMARY KEY,
+  role_description TEXT
+);
+
+CREATE TABLE Users (
+  user_id INTEGER PRIMARY KEY,
+  role_code TEXT,
+  user_name TEXT,
+  user_login TEXT,
+  password TEXT,
+  FOREIGN KEY (role_code) REFERENCES Roles(role_code)
+);
+
+CREATE TABLE Document_Structures (
+  document_structure_code TEXT PRIMARY KEY,
+  parent_document_structure_code TEXT,
+  document_structure_description TEXT
+);
+
+CREATE TABLE Functional_Areas (
+  functional_area_code TEXT PRIMARY KEY,
+  parent_functional_area_code TEXT,
+  functional_area_description TEXT
+);
+
+CREATE TABLE Images (
+  image_id INTEGER PRIMARY KEY,
+  image_alt_text TEXT,
+  image_name TEXT,
+  image_url TEXT
+);
+
+CREATE TABLE Documents (
+  document_code TEXT PRIMARY KEY,
+  document_structure_code TEXT,
+  document_type_code TEXT,
+  access_count REAL,
+  document_name TEXT,
+  FOREIGN KEY (document_structure_code) REFERENCES Document_Structures(document_structure_code)
+);
+
+CREATE TABLE Document_Functional_Areas (
+  document_code TEXT,
+  functional_area_code TEXT,
+  FOREIGN KEY (functional_area_code) REFERENCES Functional_Areas(functional_area_code),
+  FOREIGN KEY (document_code) REFERENCES Documents(document_code)
+);
+
+CREATE TABLE Document_Sections (
+  section_id INTEGER PRIMARY KEY,
+  document_code TEXT,
+  section_sequence REAL,
+  section_code TEXT,
+  section_title TEXT,
+  FOREIGN KEY (document_code) REFERENCES Documents(document_code)
+);
+
+CREATE TABLE Document_Sections_Images (
+  section_id INTEGER PRIMARY KEY,
+  image_id INTEGER,
+  FOREIGN KEY (image_id) REFERENCES Images(image_id),
+  FOREIGN KEY (section_id) REFERENCES Document_Sections(section_id)
+);
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--Find the name and access counts of all documents, in alphabetic order of the document name.
+--What are the names of all the documents, as well as the access counts of each, ordered alphabetically?
+--Find the name of the document that has been accessed the greatest number of times, as well as the count of how many times it has been accessed?
+--What is the name of the document which has been accessed the most times, as well as the number of times it has been accessed?
+--Find the types of documents with more than 4 documents.
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: Show the date of the transcript which shows the least number of results, also list the id.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

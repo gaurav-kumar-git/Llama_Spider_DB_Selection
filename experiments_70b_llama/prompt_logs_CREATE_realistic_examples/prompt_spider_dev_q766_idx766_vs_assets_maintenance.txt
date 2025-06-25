@@ -1,0 +1,165 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# You are provided with a database schema.
+[Schema:
+CREATE TABLE Third_Party_Companies (
+  company_id INTEGER PRIMARY KEY,
+  company_type TEXT,
+  company_name TEXT,
+  company_address TEXT,
+  other_company_details TEXT
+);
+
+CREATE TABLE Maintenance_Contracts (
+  maintenance_contract_id INTEGER PRIMARY KEY,
+  maintenance_contract_company_id INTEGER,
+  contract_start_date DATETIME,
+  contract_end_date DATETIME,
+  other_contract_details TEXT,
+  FOREIGN KEY (maintenance_contract_company_id) REFERENCES Third_Party_Companies(company_id)
+);
+
+CREATE TABLE Parts (
+  part_id INTEGER PRIMARY KEY,
+  part_name TEXT,
+  chargeable_yn TEXT,
+  chargeable_amount TEXT,
+  other_part_details TEXT
+);
+
+CREATE TABLE Skills (
+  skill_id INTEGER PRIMARY KEY,
+  skill_code TEXT,
+  skill_description TEXT
+);
+
+CREATE TABLE Staff (
+  staff_id INTEGER PRIMARY KEY,
+  staff_name TEXT,
+  gender TEXT,
+  other_staff_details TEXT
+);
+
+CREATE TABLE Assets (
+  asset_id INTEGER PRIMARY KEY,
+  maintenance_contract_id INTEGER,
+  supplier_company_id INTEGER,
+  asset_details TEXT,
+  asset_make TEXT,
+  asset_model TEXT,
+  asset_acquired_date DATETIME,
+  asset_disposed_date DATETIME,
+  other_asset_details TEXT,
+  FOREIGN KEY (supplier_company_id) REFERENCES Third_Party_Companies(company_id),
+  FOREIGN KEY (maintenance_contract_id) REFERENCES Maintenance_Contracts(maintenance_contract_id)
+);
+
+CREATE TABLE Asset_Parts (
+  asset_id INTEGER,
+  part_id INTEGER,
+  FOREIGN KEY (asset_id) REFERENCES Assets(asset_id),
+  FOREIGN KEY (part_id) REFERENCES Parts(part_id)
+);
+
+CREATE TABLE Maintenance_Engineers (
+  engineer_id INTEGER PRIMARY KEY,
+  company_id INTEGER,
+  first_name TEXT,
+  last_name TEXT,
+  other_details TEXT,
+  FOREIGN KEY (company_id) REFERENCES Third_Party_Companies(company_id)
+);
+
+CREATE TABLE Engineer_Skills (
+  engineer_id INTEGER,
+  skill_id INTEGER,
+  FOREIGN KEY (skill_id) REFERENCES Skills(skill_id),
+  FOREIGN KEY (engineer_id) REFERENCES Maintenance_Engineers(engineer_id)
+);
+
+CREATE TABLE Fault_Log (
+  fault_log_entry_id INTEGER PRIMARY KEY,
+  asset_id INTEGER,
+  recorded_by_staff_id INTEGER,
+  fault_log_entry_datetime DATETIME,
+  fault_description TEXT,
+  other_fault_details TEXT,
+  FOREIGN KEY (recorded_by_staff_id) REFERENCES Staff(staff_id),
+  FOREIGN KEY (asset_id) REFERENCES Assets(asset_id)
+);
+
+CREATE TABLE Engineer_Visits (
+  engineer_visit_id INTEGER PRIMARY KEY,
+  contact_staff_id INTEGER,
+  engineer_id INTEGER,
+  fault_log_entry_id INTEGER,
+  fault_status TEXT,
+  visit_start_datetime DATETIME,
+  visit_end_datetime DATETIME,
+  other_visit_details TEXT,
+  FOREIGN KEY (contact_staff_id) REFERENCES Staff(staff_id),
+  FOREIGN KEY (engineer_id) REFERENCES Maintenance_Engineers(engineer_id),
+  FOREIGN KEY (fault_log_entry_id) REFERENCES Fault_Log(fault_log_entry_id)
+);
+
+CREATE TABLE Part_Faults (
+  part_fault_id INTEGER PRIMARY KEY,
+  part_id INTEGER,
+  fault_short_name TEXT,
+  fault_description TEXT,
+  other_fault_details TEXT,
+  FOREIGN KEY (part_id) REFERENCES Parts(part_id)
+);
+
+CREATE TABLE Fault_Log_Parts (
+  fault_log_entry_id INTEGER,
+  part_fault_id INTEGER,
+  fault_status TEXT,
+  FOREIGN KEY (fault_log_entry_id) REFERENCES Fault_Log(fault_log_entry_id),
+  FOREIGN KEY (part_fault_id) REFERENCES Part_Faults(part_fault_id)
+);
+
+CREATE TABLE Skills_Required_To_Fix (
+  part_fault_id INTEGER,
+  skill_id INTEGER,
+  FOREIGN KEY (skill_id) REFERENCES Skills(skill_id),
+  FOREIGN KEY (part_fault_id) REFERENCES Part_Faults(part_fault_id)
+);
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--Which assets have 2 parts and have less than 2 fault logs? List the asset id and detail.
+--How many assets does each maintenance contract contain? List the number and the contract id.
+--How many assets does each third party company supply? List the count and the company id.
+--Which third party companies have at least 2 maintenance engineers or have at least 2 maintenance contracts? List the company id and name.
+--What is the name and id of the staff who recorded the fault log but has not contacted any visiting engineers?
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What is the mobile phone number of the student named Timmothy Ward ?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

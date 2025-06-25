@@ -1,0 +1,58 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# You are provided with a database schema.
+[Schema:
+CREATE TABLE race (
+  Race_ID INTEGER PRIMARY KEY,
+  Name TEXT,
+  Class TEXT,
+  Date TEXT,
+  Track_ID TEXT,
+  FOREIGN KEY (Track_ID) REFERENCES track(Track_ID)
+);
+
+CREATE TABLE track (
+  Track_ID INTEGER PRIMARY KEY,
+  Name TEXT,
+  Location TEXT,
+  Seating REAL,
+  Year_Opened REAL
+);
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--How many tracks do we have?
+--Count the number of tracks.
+--Show the name and location for all tracks.
+--What are the names and locations of all tracks?
+--Show names and seatings, ordered by seating for all tracks opened after 2000.
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: How many car models are produced in the usa?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

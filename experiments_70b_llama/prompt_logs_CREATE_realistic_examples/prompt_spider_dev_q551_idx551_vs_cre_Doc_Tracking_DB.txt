@@ -1,0 +1,110 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# You are provided with a database schema.
+[Schema:
+CREATE TABLE Ref_Document_Types (
+  Document_Type_Code TEXT PRIMARY KEY,
+  Document_Type_Name TEXT,
+  Document_Type_Description TEXT
+);
+
+CREATE TABLE Ref_Calendar (
+  Calendar_Date DATETIME PRIMARY KEY,
+  Day_Number REAL
+);
+
+CREATE TABLE Ref_Locations (
+  Location_Code TEXT PRIMARY KEY,
+  Location_Name TEXT,
+  Location_Description TEXT
+);
+
+CREATE TABLE Roles (
+  Role_Code TEXT PRIMARY KEY,
+  Role_Name TEXT,
+  Role_Description TEXT
+);
+
+CREATE TABLE All_Documents (
+  Document_ID INTEGER PRIMARY KEY,
+  Date_Stored DATETIME,
+  Document_Type_Code TEXT,
+  Document_Name TEXT,
+  Document_Description TEXT,
+  Other_Details TEXT,
+  FOREIGN KEY (Date_Stored) REFERENCES Ref_Calendar(Calendar_Date),
+  FOREIGN KEY (Document_Type_Code) REFERENCES Ref_Document_Types(Document_Type_Code)
+);
+
+CREATE TABLE Employees (
+  Employee_ID INTEGER PRIMARY KEY,
+  Role_Code TEXT,
+  Employee_Name TEXT,
+  Gender_MFU TEXT,
+  Date_of_Birth DATETIME,
+  Other_Details TEXT,
+  FOREIGN KEY (Role_Code) REFERENCES Roles(Role_Code)
+);
+
+CREATE TABLE Document_Locations (
+  Document_ID INTEGER PRIMARY KEY,
+  Location_Code TEXT,
+  Date_in_Location_From DATETIME,
+  Date_in_Locaton_To DATETIME,
+  FOREIGN KEY (Document_ID) REFERENCES All_Documents(Document_ID),
+  FOREIGN KEY (Date_in_Locaton_To) REFERENCES Ref_Calendar(Calendar_Date),
+  FOREIGN KEY (Date_in_Location_From) REFERENCES Ref_Calendar(Calendar_Date),
+  FOREIGN KEY (Location_Code) REFERENCES Ref_Locations(Location_Code)
+);
+
+CREATE TABLE Documents_to_be_Destroyed (
+  Document_ID INTEGER PRIMARY KEY,
+  Destruction_Authorised_by_Employee_ID INTEGER,
+  Destroyed_by_Employee_ID INTEGER,
+  Planned_Destruction_Date DATETIME,
+  Actual_Destruction_Date DATETIME,
+  Other_Details TEXT,
+  FOREIGN KEY (Document_ID) REFERENCES All_Documents(Document_ID),
+  FOREIGN KEY (Actual_Destruction_Date) REFERENCES Ref_Calendar(Calendar_Date),
+  FOREIGN KEY (Planned_Destruction_Date) REFERENCES Ref_Calendar(Calendar_Date),
+  FOREIGN KEY (Destruction_Authorised_by_Employee_ID) REFERENCES Employees(Employee_ID),
+  FOREIGN KEY (Destroyed_by_Employee_ID) REFERENCES Employees(Employee_ID)
+);
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--How many calendar items do we have?
+--Count the number of all the calendar items.
+--Show all calendar dates and day Numbers.
+--What are all the calendar dates and day Numbers?
+--Show the number of document types.
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: For all of the 4 cylinder cars, which model has the most horsepower?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

@@ -1,0 +1,146 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# You are provided with a database schema.
+[Schema:
+CREATE TABLE author (
+  aid INTEGER PRIMARY KEY,
+  homepage TEXT,
+  name TEXT,
+  oid REAL
+);
+
+CREATE TABLE conference (
+  cid INTEGER PRIMARY KEY,
+  homepage TEXT,
+  name TEXT
+);
+
+CREATE TABLE domain (
+  did INTEGER PRIMARY KEY,
+  name TEXT
+);
+
+CREATE TABLE domain_author (
+  aid INTEGER,
+  did INTEGER PRIMARY KEY,
+  FOREIGN KEY (did) REFERENCES domain(did),
+  FOREIGN KEY (aid) REFERENCES author(aid)
+);
+
+CREATE TABLE domain_conference (
+  cid INTEGER,
+  did INTEGER PRIMARY KEY,
+  FOREIGN KEY (did) REFERENCES domain(did),
+  FOREIGN KEY (cid) REFERENCES conference(cid)
+);
+
+CREATE TABLE journal (
+  homepage TEXT,
+  jid INTEGER PRIMARY KEY,
+  name TEXT
+);
+
+CREATE TABLE domain_journal (
+  did INTEGER PRIMARY KEY,
+  jid INTEGER,
+  FOREIGN KEY (did) REFERENCES domain(did),
+  FOREIGN KEY (jid) REFERENCES journal(jid)
+);
+
+CREATE TABLE keyword (
+  keyword TEXT,
+  kid INTEGER PRIMARY KEY
+);
+
+CREATE TABLE domain_keyword (
+  did INTEGER PRIMARY KEY,
+  kid INTEGER,
+  FOREIGN KEY (did) REFERENCES domain(did),
+  FOREIGN KEY (kid) REFERENCES keyword(kid)
+);
+
+CREATE TABLE publication (
+  abstract TEXT,
+  cid TEXT,
+  citation_num REAL,
+  jid INTEGER,
+  pid INTEGER PRIMARY KEY,
+  reference_num REAL,
+  title TEXT,
+  year REAL,
+  FOREIGN KEY (cid) REFERENCES conference(cid),
+  FOREIGN KEY (jid) REFERENCES journal(jid)
+);
+
+CREATE TABLE domain_publication (
+  did INTEGER PRIMARY KEY,
+  pid INTEGER,
+  FOREIGN KEY (did) REFERENCES domain(did),
+  FOREIGN KEY (pid) REFERENCES publication(pid)
+);
+
+CREATE TABLE organization (
+  continent TEXT,
+  homepage TEXT,
+  name TEXT,
+  oid INTEGER PRIMARY KEY
+);
+
+CREATE TABLE publication_keyword (
+  pid INTEGER,
+  kid INTEGER PRIMARY KEY,
+  FOREIGN KEY (kid) REFERENCES keyword(kid),
+  FOREIGN KEY (pid) REFERENCES publication(pid)
+);
+
+CREATE TABLE writes (
+  aid INTEGER PRIMARY KEY,
+  pid INTEGER,
+  FOREIGN KEY (aid) REFERENCES author(aid),
+  FOREIGN KEY (pid) REFERENCES publication(pid)
+);
+
+CREATE TABLE cite (
+  cited INTEGER,
+  citing INTEGER,
+  FOREIGN KEY (citing) REFERENCES publication(pid),
+  FOREIGN KEY (cited) REFERENCES publication(pid)
+);
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--return me the homepage of PVLDB .
+--return me the homepage of " H. V. Jagadish " .
+--return me the abstract of " Making database systems usable " .
+--return me the year of " Making database systems usable "
+--return me the year of " Making database systems usable " .
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: Find the number of cartoons directed by each of the listed directors.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

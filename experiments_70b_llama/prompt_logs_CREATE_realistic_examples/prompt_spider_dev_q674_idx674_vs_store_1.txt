@@ -1,0 +1,154 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# You are provided with a database schema.
+[Schema:
+CREATE TABLE artists (
+  id INTEGER PRIMARY KEY,
+  name TEXT
+);
+
+CREATE TABLE sqlite_sequence (
+  name TEXT,
+  seq TEXT
+);
+
+CREATE TABLE albums (
+  id INTEGER PRIMARY KEY,
+  title TEXT,
+  artist_id INTEGER,
+  FOREIGN KEY (artist_id) REFERENCES artists(id)
+);
+
+CREATE TABLE employees (
+  id INTEGER PRIMARY KEY,
+  last_name TEXT,
+  first_name TEXT,
+  title TEXT,
+  reports_to INTEGER,
+  birth_date DATETIME,
+  hire_date DATETIME,
+  address TEXT,
+  city TEXT,
+  state TEXT,
+  country TEXT,
+  postal_code TEXT,
+  phone TEXT,
+  fax TEXT,
+  email TEXT,
+  FOREIGN KEY (reports_to) REFERENCES employees(id)
+);
+
+CREATE TABLE customers (
+  id INTEGER PRIMARY KEY,
+  first_name TEXT,
+  last_name TEXT,
+  company TEXT,
+  address TEXT,
+  city TEXT,
+  state TEXT,
+  country TEXT,
+  postal_code TEXT,
+  phone TEXT,
+  fax TEXT,
+  email TEXT,
+  support_rep_id INTEGER,
+  FOREIGN KEY (support_rep_id) REFERENCES employees(id)
+);
+
+CREATE TABLE genres (
+  id INTEGER PRIMARY KEY,
+  name TEXT
+);
+
+CREATE TABLE invoices (
+  id INTEGER PRIMARY KEY,
+  customer_id INTEGER,
+  invoice_date DATETIME,
+  billing_address TEXT,
+  billing_city TEXT,
+  billing_state TEXT,
+  billing_country TEXT,
+  billing_postal_code TEXT,
+  total REAL,
+  FOREIGN KEY (customer_id) REFERENCES customers(id)
+);
+
+CREATE TABLE media_types (
+  id INTEGER PRIMARY KEY,
+  name TEXT
+);
+
+CREATE TABLE tracks (
+  id INTEGER PRIMARY KEY,
+  name TEXT,
+  album_id INTEGER,
+  media_type_id INTEGER,
+  genre_id INTEGER,
+  composer TEXT,
+  milliseconds REAL,
+  bytes REAL,
+  unit_price REAL,
+  FOREIGN KEY (media_type_id) REFERENCES media_types(id),
+  FOREIGN KEY (genre_id) REFERENCES genres(id),
+  FOREIGN KEY (album_id) REFERENCES albums(id)
+);
+
+CREATE TABLE invoice_lines (
+  id INTEGER PRIMARY KEY,
+  invoice_id INTEGER,
+  track_id INTEGER,
+  unit_price REAL,
+  quantity REAL,
+  FOREIGN KEY (track_id) REFERENCES tracks(id),
+  FOREIGN KEY (invoice_id) REFERENCES invoices(id)
+);
+
+CREATE TABLE playlists (
+  id INTEGER PRIMARY KEY,
+  name TEXT
+);
+
+CREATE TABLE playlist_tracks (
+  playlist_id INTEGER PRIMARY KEY,
+  track_id INTEGER,
+  FOREIGN KEY (track_id) REFERENCES tracks(id),
+  FOREIGN KEY (playlist_id) REFERENCES playlists(id)
+);
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--A list of the top 5 countries by number of invoices. List country name and number of invoices.
+--What are the top 5 countries by number of invoices and how many do they have?
+--A list of the top 8 countries by gross/total invoice size. List country name and gross invoice size.
+--What are the names of the top 8 countries by total invoice size and what are those sizes?
+--A list of the top 10 countries by average invoice size. List country name and average invoice size.
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: Give the country codes for countries in which people speak langauges that are not English.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

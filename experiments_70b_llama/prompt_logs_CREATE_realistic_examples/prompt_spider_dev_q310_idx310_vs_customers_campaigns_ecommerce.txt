@@ -1,0 +1,114 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# You are provided with a database schema.
+[Schema:
+CREATE TABLE Premises (
+  premise_id INTEGER PRIMARY KEY,
+  premises_type TEXT,
+  premise_details TEXT
+);
+
+CREATE TABLE Products (
+  product_id INTEGER PRIMARY KEY,
+  product_category TEXT,
+  product_name TEXT
+);
+
+CREATE TABLE Customers (
+  customer_id INTEGER PRIMARY KEY,
+  payment_method TEXT,
+  customer_name TEXT,
+  customer_phone TEXT,
+  customer_email TEXT,
+  customer_address TEXT,
+  customer_login TEXT,
+  customer_password TEXT
+);
+
+CREATE TABLE Mailshot_Campaigns (
+  mailshot_id INTEGER PRIMARY KEY,
+  product_category TEXT,
+  mailshot_name TEXT,
+  mailshot_start_date DATETIME,
+  mailshot_end_date DATETIME
+);
+
+CREATE TABLE Customer_Addresses (
+  customer_id INTEGER,
+  premise_id INTEGER,
+  date_address_from DATETIME,
+  address_type_code TEXT,
+  date_address_to DATETIME,
+  FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),
+  FOREIGN KEY (premise_id) REFERENCES Premises(premise_id)
+);
+
+CREATE TABLE Customer_Orders (
+  order_id INTEGER PRIMARY KEY,
+  customer_id INTEGER,
+  order_status_code TEXT,
+  shipping_method_code TEXT,
+  order_placed_datetime DATETIME,
+  order_delivered_datetime DATETIME,
+  order_shipping_charges TEXT,
+  FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
+);
+
+CREATE TABLE Mailshot_Customers (
+  mailshot_id INTEGER,
+  customer_id INTEGER,
+  outcome_code TEXT,
+  mailshot_customer_date DATETIME,
+  FOREIGN KEY (mailshot_id) REFERENCES Mailshot_Campaigns(mailshot_id),
+  FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
+);
+
+CREATE TABLE Order_Items (
+  item_id REAL,
+  order_item_status_code TEXT,
+  order_id INTEGER,
+  product_id INTEGER,
+  item_status_code TEXT,
+  item_delivered_datetime DATETIME,
+  item_order_quantity TEXT,
+  FOREIGN KEY (order_id) REFERENCES Customer_Orders(order_id),
+  FOREIGN KEY (product_id) REFERENCES Products(product_id)
+);
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--How many premises are there?
+--What are all the distinct premise types?
+--Find the types and details for all premises and order by the premise type.
+--Show each premise type and the number of premises in that type.
+--Show all distinct product categories along with the number of mailshots in each category.
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: What is the phone number of the man with the first name Timmothy and the last name Ward?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

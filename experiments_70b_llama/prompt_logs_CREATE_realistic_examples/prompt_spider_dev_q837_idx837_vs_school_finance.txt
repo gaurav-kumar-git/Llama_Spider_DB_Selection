@@ -1,0 +1,71 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# You are provided with a database schema.
+[Schema:
+CREATE TABLE School (
+  School_id TEXT PRIMARY KEY,
+  School_name TEXT,
+  Location TEXT,
+  Mascot TEXT,
+  Enrollment REAL,
+  IHSAA_Class TEXT,
+  IHSAA_Football_Class TEXT,
+  County TEXT
+);
+
+CREATE TABLE budget (
+  School_id INTEGER PRIMARY KEY,
+  Year REAL,
+  Budgeted REAL,
+  total_budget_percent_budgeted REAL,
+  Invested REAL,
+  total_budget_percent_invested REAL,
+  Budget_invested_percent TEXT,
+  FOREIGN KEY (School_id) REFERENCES School(School_id)
+);
+
+CREATE TABLE endowment (
+  endowment_id INTEGER PRIMARY KEY,
+  School_id INTEGER,
+  donator_name TEXT,
+  amount REAL,
+  FOREIGN KEY (School_id) REFERENCES School(School_id)
+);
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--How many schools are there?
+--Count the number of schools.
+--Show all school names in alphabetical order.
+--List the name, location, mascot for all schools.
+--What are the total and average enrollment of all schools?
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: Find the id of the pet owned by student whose last name is ‘Smith’.
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

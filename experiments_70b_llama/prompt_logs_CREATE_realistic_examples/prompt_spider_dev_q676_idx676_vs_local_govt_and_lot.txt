@@ -1,0 +1,137 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# You are provided with a database schema.
+[Schema:
+CREATE TABLE Customers (
+  customer_id INTEGER PRIMARY KEY,
+  customer_details TEXT
+);
+
+CREATE TABLE Properties (
+  property_id INTEGER PRIMARY KEY,
+  property_type_code TEXT,
+  property_address TEXT,
+  other_details TEXT
+);
+
+CREATE TABLE Residents (
+  resident_id INTEGER PRIMARY KEY,
+  property_id INTEGER,
+  date_moved_in DATETIME,
+  date_moved_out DATETIME,
+  other_details TEXT,
+  FOREIGN KEY (property_id) REFERENCES Properties(property_id)
+);
+
+CREATE TABLE Organizations (
+  organization_id INTEGER PRIMARY KEY,
+  parent_organization_id REAL,
+  organization_details TEXT
+);
+
+CREATE TABLE Services (
+  service_id INTEGER PRIMARY KEY,
+  organization_id INTEGER,
+  service_type_code TEXT,
+  service_details TEXT,
+  FOREIGN KEY (organization_id) REFERENCES Organizations(organization_id)
+);
+
+CREATE TABLE Residents_Services (
+  resident_id INTEGER PRIMARY KEY,
+  service_id INTEGER,
+  date_moved_in DATETIME,
+  property_id INTEGER,
+  date_requested DATETIME,
+  date_provided DATETIME,
+  other_details TEXT,
+  FOREIGN KEY (resident_id) REFERENCES Residents(resident_id),
+  FOREIGN KEY (property_id) REFERENCES Residents(property_id),
+  FOREIGN KEY (date_moved_in) REFERENCES Residents(date_moved_in),
+  FOREIGN KEY (service_id) REFERENCES Services(service_id)
+);
+
+CREATE TABLE Things (
+  thing_id INTEGER PRIMARY KEY,
+  organization_id INTEGER,
+  Type_of_Thing_Code TEXT,
+  service_type_code TEXT,
+  service_details TEXT,
+  FOREIGN KEY (organization_id) REFERENCES Organizations(organization_id)
+);
+
+CREATE TABLE Customer_Events (
+  Customer_Event_ID INTEGER PRIMARY KEY,
+  customer_id INTEGER,
+  date_moved_in DATETIME,
+  property_id INTEGER,
+  resident_id INTEGER,
+  thing_id INTEGER,
+  FOREIGN KEY (resident_id) REFERENCES Residents(resident_id),
+  FOREIGN KEY (property_id) REFERENCES Residents(property_id),
+  FOREIGN KEY (date_moved_in) REFERENCES Residents(date_moved_in),
+  FOREIGN KEY (customer_id) REFERENCES Customers(customer_id),
+  FOREIGN KEY (thing_id) REFERENCES Things(thing_id)
+);
+
+CREATE TABLE Customer_Event_Notes (
+  Customer_Event_Note_ID INTEGER PRIMARY KEY,
+  Customer_Event_ID INTEGER,
+  service_type_code TEXT,
+  resident_id REAL,
+  property_id REAL,
+  date_moved_in DATETIME,
+  FOREIGN KEY (Customer_Event_ID) REFERENCES Customer_Events(Customer_Event_ID)
+);
+
+CREATE TABLE Timed_Status_of_Things (
+  thing_id INTEGER PRIMARY KEY,
+  Date_and_Date DATETIME,
+  Status_of_Thing_Code TEXT,
+  FOREIGN KEY (thing_id) REFERENCES Things(thing_id)
+);
+
+CREATE TABLE Timed_Locations_of_Things (
+  thing_id INTEGER PRIMARY KEY,
+  Date_and_Time DATETIME,
+  Location_Code TEXT,
+  FOREIGN KEY (thing_id) REFERENCES Things(thing_id)
+);
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--How many residents does each property have? List property id and resident count.
+--What is the distinct service types that are provided by the organization which has detail 'Denesik and Sons Party'?
+--How many services has each resident requested? List the resident id, details, and the count in descending order of the count.
+--What is the maximum number that a certain service is provided? List the service id, details and number.
+--List the id and type of each thing, and the details of the organization that owns it.
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: How many professionals did not operate any treatment on dogs?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+

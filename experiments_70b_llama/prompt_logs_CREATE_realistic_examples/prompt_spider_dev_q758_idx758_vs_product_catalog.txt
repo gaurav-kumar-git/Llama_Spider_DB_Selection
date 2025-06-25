@@ -1,0 +1,89 @@
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an expert system that determines if a natural language question can be answered using ONLY the provided database schema.
+The schema includes sample values for some columns; treat these as HINTS to understand the column's content, not as a complete list.
+Your task is to respond with a single character: '1' if the question is answerable, or '0' if it is not.
+Do not provide any explanations or other text. Just '1' or '0'.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Few-Shot Examples:
+
+[Schema:
+CREATE TABLE student (student_id INT, student_name TEXT);
+CREATE TABLE course (course_id INT, course_name TEXT);
+CREATE TABLE enrollment (student_id INT, course_id INT);
+]
+Q: List the names of all students enrolled in the 'Math' course.
+A: 1
+
+[Schema:
+CREATE TABLE orders (order_id INT, customer_id INT, amount REAL);
+CREATE TABLE customer (customer_id INT, customer_name TEXT);
+]
+Q: Find the total number of orders placed in 2019.
+A: 0
+
+# You are provided with a database schema.
+[Schema:
+CREATE TABLE Attribute_Definitions (
+  attribute_id INTEGER PRIMARY KEY,
+  attribute_name TEXT,
+  attribute_data_type TEXT
+);
+
+CREATE TABLE Catalogs (
+  catalog_id INTEGER PRIMARY KEY,
+  catalog_name TEXT,
+  catalog_publisher TEXT,
+  date_of_publication DATETIME,
+  date_of_latest_revision DATETIME
+);
+
+CREATE TABLE Catalog_Structure (
+  catalog_level_number INTEGER PRIMARY KEY,
+  catalog_id INTEGER,
+  catalog_level_name TEXT,
+  FOREIGN KEY (catalog_id) REFERENCES Catalogs(catalog_id)
+);
+
+CREATE TABLE Catalog_Contents (
+  catalog_entry_id INTEGER PRIMARY KEY,
+  catalog_level_number INTEGER,
+  parent_entry_id REAL,
+  previous_entry_id REAL,
+  next_entry_id REAL,
+  catalog_entry_name TEXT,
+  product_stock_number TEXT,
+  price_in_dollars REAL,
+  price_in_euros REAL,
+  price_in_pounds REAL,
+  capacity TEXT,
+  length TEXT,
+  height TEXT,
+  width TEXT,
+  FOREIGN KEY (catalog_level_number) REFERENCES Catalog_Structure(catalog_level_number)
+);
+
+CREATE TABLE Catalog_Contents_Additional_Attributes (
+  catalog_entry_id INTEGER,
+  catalog_level_number INTEGER,
+  attribute_id REAL,
+  attribute_value TEXT,
+  FOREIGN KEY (catalog_level_number) REFERENCES Catalog_Structure(catalog_level_number),
+  FOREIGN KEY (catalog_entry_id) REFERENCES Catalog_Contents(catalog_entry_id)
+);
+]
+
+#Here are some example questions that CAN be answered by the schema above:
+--Find the names of all the catalog entries.
+--What are all the catalog entry names?
+--Find the list of attribute data types possessed by more than 3 attribute definitions.
+--What are the attribute data types with more than 3 attribute definitions?
+--What is the attribute data type of the attribute with name "Green"?
+
+# Task: Can the following question be answered using ONLY the schema above? Respond with 1 (Yes) or 0 (No).
+Q: For each stadium, how many concerts play there?
+A:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
